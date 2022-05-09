@@ -1,23 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from "react";
+import "./App.css";
+import { Route, Routes } from "react-router-dom";
+import Home from "./pages/Home";
+import Footer from "./components/Footer";
+
+import SignupPage from "./pages/Auth/Signup";
+import LoginPage from "./pages/Auth/Login";
+import NavBar from "./components/Navbar";
+import Eventslist from "./pages/EventsList";
+import { useAuth } from "./AuthProvider";
+import Inscription from "./pages/Inscription";
 
 function App() {
+  const { connected } = useAuth();
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <NavBar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        {connected && (
+          <Route path="/events" element={<Eventslist />} />
+        )}
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignupPage />} />
+        <Route path="/inscription/:id" element={<Inscription />} />
+      </Routes>
+      <Footer />
     </div>
   );
 }
