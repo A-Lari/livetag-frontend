@@ -15,6 +15,23 @@ const services = {
     // email, password, confirmPassword
     return base.post("/auth/signup", body);
   },
+
+  addEvents(body) {
+    const token = localStorage.getItem("jwt");
+    // code, event_name, start_date, end_date, place, description
+    return base.post("/events", body, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+  },
+
+  getEventFromDB() {
+    const token = localStorage.getItem("jwt");
+    return base
+      .get("/events", {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => res.data);
+  },
 };
 
 export default services;
