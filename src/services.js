@@ -100,6 +100,24 @@ const services = {
       })
       .then((res) => res.data);
   },
+
+  getActivities() {
+    const token = localStorage.getItem("jwt");
+    return base
+      .get("/activities", {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => res.data);
+  },
+
+  getActivitiesById(idActivity) {
+    const token = localStorage.getItem("jwt");
+    return base
+      .get(`/activities/${idActivity}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => res.data);
+  },
 };
 
 export default services;
