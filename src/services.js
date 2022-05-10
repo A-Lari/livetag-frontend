@@ -28,6 +28,12 @@ const services = {
     return base.get(`/participants`).then((res) => res.data);
   },
 
+  deleteParticipant(idParticipant) {
+    return base
+      .delete(`/participants/${idParticipant}`)
+      .then((res) => res.data);
+  },
+
   /**
    * SERVICES EVENEMENTS
    */
