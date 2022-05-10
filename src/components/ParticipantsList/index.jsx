@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import services from "../../services";
 
-import { Table } from "react-bootstrap";
+import { Table, Button } from "react-bootstrap";
 
 function ParticipantsList({ listParticipants, setListParticipants }) {
   function fecthAndSetListParticipant() {
@@ -30,6 +30,7 @@ function ParticipantsList({ listParticipants, setListParticipants }) {
           <th>Téléphone</th>
           <th>Rôle</th>
           <th>Evénement</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -41,6 +42,10 @@ function ParticipantsList({ listParticipants, setListParticipants }) {
             <td>{participant.telephone}</td>
             <td>{participant.role.role_name}</td>
             <td>{participant.event.event_name}</td>
+            <td>
+              <Button variant="outline-warning">modifier</Button>{" "}
+              <Button variant="outline-danger">supprimer</Button>
+            </td>
           </tr>
         ))}
         <tr></tr>
