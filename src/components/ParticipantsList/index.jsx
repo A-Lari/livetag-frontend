@@ -15,6 +15,18 @@ function ParticipantsList({ listParticipants, setListParticipants }) {
         alert("La liste des participants ne peut être affichée");
       });
   }
+  function deleteParticipant(participant) {
+    services
+      .deleteParticipant(participant._id)
+      .then(() => {
+        fecthAndSetListParticipant();
+        alert("Participant supprimé");
+      })
+      .catch((error) => {
+        console.log("Error delete participant", error);
+        alert("La liste des participants ne peut être affichée");
+      });
+  }
 
   useEffect(() => {
     fecthAndSetListParticipant();
