@@ -15,6 +15,14 @@ const services = {
     // email, password, confirmPassword
     return base.post("/auth/signup", body);
   },
+
+  /**
+   * SERVICES PARTICIPANTS
+   */
+  getAllParticipants() {
+    const token = localStorage.getItem("jwt");
+    return base.get(`/participants`).then((res) => res.data);
+  },
 };
 
 export default services;
