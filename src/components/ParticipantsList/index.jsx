@@ -56,7 +56,12 @@ function ParticipantsList({ listParticipants, setListParticipants }) {
             <td>{participant.event.event_name}</td>
             <td>
               <Button variant="outline-warning">modifier</Button>{" "}
-              <Button variant="outline-danger">supprimer</Button>
+              <Button
+                variant="outline-danger"
+                onClick={() => deleteParticipant(participant)}
+              >
+                supprimer
+              </Button>
             </td>
           </tr>
         ))}
