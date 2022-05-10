@@ -6,6 +6,10 @@ const baseURL = process.env.REACT_APP_API_URL;
 const base = axios.create({ baseURL });
 
 const services = {
+  /**
+   * SERVICES USERS
+   */
+
   login(body) {
     // email, password
     return base.post("/auth/login", body).then((res) => res.data);
@@ -16,6 +20,17 @@ const services = {
     return base.post("/auth/signup", body);
   },
 
+  /**
+   * SERVICES PARTICIPANTS
+   */
+  getAllParticipants() {
+    const token = localStorage.getItem("jwt");
+    return base.get(`/participants`).then((res) => res.data);
+  },
+
+  /**
+   * SERVICES EVENEMENTS
+   */
   addEvents(body) {
     const token = localStorage.getItem("jwt");
     // code, event_name, start_date, end_date, place, description
