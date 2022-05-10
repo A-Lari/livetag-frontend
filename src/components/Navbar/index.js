@@ -36,6 +36,12 @@ export default function NavBar() {
             S'inscrire
           </Link>
         )}
+
+        {connected === true && (
+          <Link className="project-link" to="/activities">
+            Activities
+          </Link>
+        )}
       </div>
     </div>
   );
