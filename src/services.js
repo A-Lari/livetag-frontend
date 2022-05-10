@@ -47,6 +47,53 @@ const services = {
       })
       .then((res) => res.data);
   },
+
+  getRoles() {
+    const token = localStorage.getItem("jwt");
+    console.log("getRoles");
+    return base
+      .get("/roles", {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => res.data);
+  },
+
+  getRole(id) {
+    const token = localStorage.getItem("jwt");
+    console.log("getRoles");
+    return base
+      .get(`/roles/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => res.data);
+  },
+
+  createRole(body) {
+    const token = localStorage.getItem("jwt");
+    return base
+      .post("/roles", body, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => res.data);
+  },
+
+  deleteRole(idRole) {
+    const token = localStorage.getItem("jwt");
+    return base
+      .delete(`/roles/${idRole}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => res.data);
+  },
+
+  updateRole(idRole, body) {
+    const token = localStorage.getItem("jwt");
+    return base
+      .post(`/roles/${idRole}`, body, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => res.data);
+  },
 };
 
 export default services;

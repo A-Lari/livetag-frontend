@@ -14,6 +14,10 @@ import Inscription from "./pages/Inscription";
 import EventsAdd from "./pages/EventsAdd";
 import Events from "./pages/EventsList";
 
+import Roleslist from "./pages/RolesList";
+import EditRole from "./pages/EditRole";
+import CreateRole from "./pages/CreateRole";
+
 function App() {
   const { connected } = useAuth();
 
@@ -30,6 +34,16 @@ function App() {
           <Route path="/events/add-events" element={<EventsAdd />} />
         )}
 
+        {connected && (
+          <Route path="/roles" element={<Roleslist />} />
+        )}
+        {connected && (
+          <Route path="/roles/:idRole" element={<EditRole />} />
+        )}
+        {connected && (
+          <Route path="/roles/create" element={<CreateRole />} />
+        )}
+        
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/inscription/:id" element={<Inscription />} />
