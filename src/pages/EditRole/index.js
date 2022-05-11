@@ -99,7 +99,7 @@ export default function EditRole() {
        return activity;
     })
     console.log(newActivities);
-    setBody({ ...body, activities: newActivities});
+    setBody({ ...body, activities: newActivities, role_name: dbRole.role_name});
     console.log(body);
 
     }).catch(reason => {
