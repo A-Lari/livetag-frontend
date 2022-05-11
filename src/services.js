@@ -39,6 +39,11 @@ const services = {
       .delete(`/participants/${idParticipant}`)
       .then((res) => res.data);
   },
+
+  createParticipant() {
+    return base.post(`/participants`).then((res) => res.data);
+  },
+
   // #endregion
 
   /**
