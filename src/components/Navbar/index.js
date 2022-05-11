@@ -29,6 +29,11 @@ export default function NavBar() {
           </Link>
         )}
         {connected === true && (
+          <Link className="project-link" to="/roles">
+            Roles
+          </Link>
+        )}
+        {connected === true && (
           <a className="project-link" href="#" onClick={disconnect}>
             Se déconnecter
           </a>

@@ -33,11 +33,11 @@ export default function Role(role) {
           </ul>          
           <Button variant="primary">
             <Link className="bouton" to={`/roles/${role._id}`}>
-              EDITER
+              Editer
             </Link>
           </Button>
           <Button onClick={() => deleteRole(role._id)} variant="success">
-            SUPPRIMER
+            Supprimer
           </Button>   
         </Card.Body>
       </Card>
