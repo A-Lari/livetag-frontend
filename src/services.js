@@ -9,7 +9,7 @@ const services = {
   /**
    * SERVICES USERS
    */
-
+  // #region
   login(body) {
     // email, password
     return base.post("/auth/login", body).then((res) => res.data);
@@ -19,13 +19,19 @@ const services = {
     // email, password, confirmPassword
     return base.post("/auth/signup", body);
   },
+  // #endregion
 
   /**
    * SERVICES PARTICIPANTS
    */
+  // #region
   getAllParticipants() {
     const token = localStorage.getItem("jwt");
     return base.get(`/participants`).then((res) => res.data);
+  },
+
+  getParticipantById(idParticipant) {
+    return base.get(`participants/${idParticipant}`).then((res) => res.data);
   },
 
   deleteParticipant(idParticipant) {
@@ -33,10 +39,12 @@ const services = {
       .delete(`/participants/${idParticipant}`)
       .then((res) => res.data);
   },
+  // #endregion
 
   /**
    * SERVICES EVENEMENTS
    */
+  // #region
   addEvents(body) {
     const token = localStorage.getItem("jwt");
     // code, event_name, start_date, end_date, place, description
@@ -53,7 +61,12 @@ const services = {
       })
       .then((res) => res.data);
   },
+  // #endregion
 
+  /**
+   * SERVICES ROLES
+   */
+  // #region
   getRoles() {
     const token = localStorage.getItem("jwt");
     console.log("getRoles");
@@ -100,7 +113,12 @@ const services = {
       })
       .then((res) => res.data);
   },
+  // #endregion
 
+  /**
+   * SERVICES ACTIVITIES
+   */
+  // #region
   getActivities() {
     const token = localStorage.getItem("jwt");
     return base
@@ -118,6 +136,7 @@ const services = {
       })
       .then((res) => res.data);
   },
+  // #endregion
 };
 
 export default services;

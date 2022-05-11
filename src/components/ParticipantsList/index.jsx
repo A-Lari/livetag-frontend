@@ -1,7 +1,9 @@
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
+
 import services from "../../services";
 
-import { Table, Button } from "react-bootstrap";
+import { Table, Button, Nav, Badge } from "react-bootstrap";
 
 function ParticipantsList({ listParticipants, setListParticipants }) {
   function fecthAndSetListParticipant() {
@@ -55,12 +57,25 @@ function ParticipantsList({ listParticipants, setListParticipants }) {
             <td>{participant.role.role_name}</td>
             <td>{participant.event.event_name}</td>
             <td>
-              <Button variant="outline-warning">modifier</Button>{" "}
+              <Nav>
+                <Nav.Item>
+                  <Button variant="outline-warning">
+                    <Nav.Link href={`/participants/${participant._id}`}>
+                      {" "}
+                      <Badge bg="warning" text="dark">
+                        détails
+                      </Badge>{" "}
+                    </Nav.Link>
+                  </Button>
+                </Nav.Item>
+              </Nav>
               <Button
                 variant="outline-danger"
                 onClick={() => deleteParticipant(participant)}
               >
-                supprimer
+                <Badge bg="danger" text="white">
+                  supprimer
+                </Badge>{" "}
               </Button>
             </td>
           </tr>
