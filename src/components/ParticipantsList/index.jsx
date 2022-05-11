@@ -1,7 +1,9 @@
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
+
 import services from "../../services";
 
-import { Table, Button } from "react-bootstrap";
+import { Table, Button, Nav, Badge } from "react-bootstrap";
 
 function ParticipantsList({ listParticipants, setListParticipants }) {
   function fecthAndSetListParticipant() {
@@ -12,6 +14,18 @@ function ParticipantsList({ listParticipants, setListParticipants }) {
       })
       .catch((error) => {
         console.log("Error list participants", error);
+        alert("La liste des participants ne peut être affichée");
+      });
+  }
+  function deleteParticipant(participant) {
+    services
+      .deleteParticipant(participant._id)
+      .then(() => {
+        fecthAndSetListParticipant();
+        alert("Participant supprimé");
+      })
+      .catch((error) => {
+        console.log("Error delete participant", error);
         alert("La liste des participants ne peut être affichée");
       });
   }
@@ -43,8 +57,27 @@ function ParticipantsList({ listParticipants, setListParticipants }) {
             <td>{participant.role.role_name}</td>
             <td>{participant.event.event_name}</td>
             <td>
-              <Button variant="outline-warning">modifier</Button>{" "}
-              <Button variant="outline-danger">supprimer</Button>
+              <Nav>
+                <Nav.Item>
+                  <Button variant="outline-warning">
+                    <Nav.Link href={`/participants/${participant._id}`}>
+                      <Badge bg="warning" text="dark">
+                        détails
+                      </Badge>
+                    </Nav.Link>
+                  </Button>
+                </Nav.Item>
+                <Nav.Item>
+                  <Button
+                    variant="outline-danger"
+                    onClick={() => deleteParticipant(participant)}
+                  >
+                    <Badge bg="danger" text="white">
+                      supprimer
+                    </Badge>
+                  </Button>
+                </Nav.Item>
+              </Nav>
             </td>
           </tr>
         ))}
