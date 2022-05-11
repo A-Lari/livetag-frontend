@@ -6,6 +6,7 @@ import "./EditRole.css";
 export default function EditRole() {
     const [body, setBody] = useState({
       role_name: "",
+      activities: [],
       event: "627900a483fb6b651f2ea81e"
     });
     const [role, setRole] = useState({});
@@ -16,77 +17,110 @@ export default function EditRole() {
     let { idRole } = useParams();
    
     function updateBody(key, value) {
-        // Il faut toujours faire une copie du state qu'on veut modifier si c'est un objet
-        // objet = {  } ou [ ]
         setBody({ ...body, [key]: value });
     }
     
     function handleFormChange(event) {
         console.log(event);
-        const name = event.target.name; // title
-        const value = event.target.value; // toto@toto.com
+        const name = event.target.name;
+        const value = event.target.value;
         if (!name.startsWith('activity')) {
           updateBody(name, value);
         } else {
           console.log(event.target.checked);
-          if (event.target.checked) {
-            const newActivities = [...activities].concat(value);
-            setActivities(newActivities);
-            setBody({ ...body, activities: newActivities });
-          } else {
-            const newActivities = [...activities];
-            var myIndex = newActivities.indexOf(value);
-            if (myIndex !== -1) {
-              newActivities.splice(myIndex, 1);
+
+          const newActivities = body.activities.map((activity, index) => {
+            console.log(activity._id);
+            if (activity._id === value) {
+              activity.checked = !activity.checked
             }
-            setActivities(newActivities);
-            setBody({ ...body, activities: newActivities });
-          }
+            return activity;
+          })
+          console.log(newActivities);
+          setBody({ ...body, activities: newActivities });
+
           console.log(activities);
         }
-
-        //TODO Voir pour récupérer l'id de l'event  
     }
-    
+
     function handleSubmitSignup(event) {
         event.preventDefault();
         console.log(body);
 
+        //Traitement pour la mise à jour du role
+        const {activities} = body;
+        console.log(activities);
+        const updatedActivities = activities.map((activity) => {
+            if(activity.checked === true) return activity._id;
+        }).filter((element) => { return element != undefined });
+
+        console.log(updatedActivities);
+        const updatedRole = {
+          role_name: body.role_name,
+          activities: updatedActivities,
+          event: body.event
+        }
+        console.log(updatedRole);
+        
         services
-          .updateRole(idRole, body)
+          .updateRole(idRole, updatedRole)
           .then(() => navigate("/roles"))
           .catch(() => alert("Une erreur pendant la mise à jour d'un role"));
     }
 
-    useEffect(() => {
-        services
-          .getRole(idRole)
-          .then((response) => {
-            console.log(response);
-            setRole(response);
-          })
-          .catch(console.log);
-    }, []);
+  /* Effet de bord au premier rendu du composant */
+  useEffect(() => {
+    Promise.all([services.getActivities(), services.getRole(idRole)]).then(values => {
+      console.log(values);
+      const dbActivities = values[0];
+      const dbRole = values[1];      
+      setCheckActivities(dbActivities);
+      setRole(dbRole);
+      setBody(dbRole);
+
+    // Ajout checked dans l'objet
+    // Parcourir les activités et vérifier que l'id est dans le tableau d'activité du role
+    // Ajouter un nouveau champ checked à true ou false pour l'utiliser dans la vue
+    const tabActivitiesForCheck = [];
+    dbRole.activities.forEach(element => {
+      tabActivitiesForCheck.push(element._id)
+    });
+    console.log(tabActivitiesForCheck);
+
+    const newActivities = dbActivities.map((activity, index) => {
+       console.log(activity._id);
+       const trouve = tabActivitiesForCheck.indexOf(activity._id);
+       console.log(trouve);
+       if (trouve !== -1) {
+        activity.checked = true
+       } else {
+         activity.checked = false
+       }
+       return activity;
+    })
+    console.log(newActivities);
+    setBody({ ...body, activities: newActivities, role_name: dbRole.role_name});
+    console.log(body);
+
+    }).catch(reason => {
+      console.log(reason)
+    });    
+  }, []);
+
 
   return (
     <Container>
         <Form onSubmit={handleSubmitSignup} onChange={handleFormChange} >
             <Form.Group className="mb-3" controlId="role_name">
-            <Form.Label>Nom de l'activité</Form.Label>
-            <Form.Control type="text" placeholder="Nom du role" name="role_name" required/>
+            <Form.Label>Nom du role</Form.Label>
+            <Form.Control type="text" placeholder="Nom du role" name="role_name" value={body.role_name} required/>
             </Form.Group>
 
-            {/*<Form.Group className="mb-3" controlId="activities">
-              <Form.Label>Activités utilisées</Form.Label>
-              {checkActivities.map((activity) => (
-                <Form.Check type="checkbox" id={activity._id} value={activity._id} name={`activity${activity._id}`} label={activity.label} />
-              ))}
-              </Form.Group>*/}
-
             <Form.Group className="mb-3" controlId="activities">
-              <Form.Label>Activités</Form.Label>
-              <Form.Check type="checkbox" id="activity1" value="627901fd83fb6b651f2ea837" name="activity1" label="First Trust Dorsey Wright Dynamic Focus 5 ETF" />
-              <Form.Check type="checkbox" id="activity2" value="627901fd83fb6b651f2ea835" name="activity2" label="Milacron Holdings Corp." />
+              <Form.Label>Activités utilisées</Form.Label>
+              {body.activities.map((activity) => (
+                <Form.Check type="checkbox" id={activity._id} value={activity._id} checked={activity.checked} name={`activity${activity._id}`} label={activity.activity_name} />
+              ))}
             </Form.Group>
 
             <Button variant="primary" type="submit">Enregistrer</Button>

@@ -77,11 +77,11 @@ const services = {
       .then((res) => res.data);
   },
 
-  getRoles() {
+  getRoles(idEvent) {
     const token = localStorage.getItem("jwt");
     console.log("getRoles");
     return base
-      .get("/roles", {
+      .get(`/roles?idEvent=${idEvent}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => res.data);
