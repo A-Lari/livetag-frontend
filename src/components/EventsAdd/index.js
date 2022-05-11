@@ -115,16 +115,6 @@ function EventsAdd({ idEvent, isCreate = false }) {
             />
           </Form.Group>
 
-          <Form.Group className="mb-3" controlId="code">
-            <Form.Label>Code</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Votre code"
-              name="code"
-              defaultValue={body.code}
-              required
-            />
-          </Form.Group>
           {isCreate && (
             <Button
               variant="primary"
