@@ -13,7 +13,6 @@ import Roleslist from "./pages/RolesList";
 import EditRole from "./pages/EditRole";
 import CreateRole from "./pages/CreateRole";
 import ActivitiesList from "./pages/ActivitiesList";
-import ActivityById from "./pages/ActivityById";
 import Events from "./pages/Events";
 import EventEdit from "./components/EventEdit";
 import ActivityEdit from "./pages/ActivityEdit";
