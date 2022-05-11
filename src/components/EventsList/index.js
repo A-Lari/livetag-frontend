@@ -1,15 +1,18 @@
 import "./EventsList.css";
 import services from "../../services";
 import { useEffect } from "react";
-import { Table, Button } from "react-bootstrap";
+import { Table, Button, NavItem, Nav } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
 
 function Eventslist({ events, setEvents }) {
+  const navigate = useNavigate();
+
   function fetchEventData() {
     services
       .getEventFromDB()
       .then((list) => {
-        console.log(list);
+        console.log("list", list);
         setEvents(list);
       })
       .catch((error) => {
@@ -22,6 +25,16 @@ function Eventslist({ events, setEvents }) {
     fetchEventData();
   }, []);
 
+  function deleteEvent(id) {
+    services
+      .deleteEventByID(id)
+      .then((response) => {
+        console.log(response);
+        navigate(0);
+      })
+      .catch(console.log);
+  }
+
   return (
     <Table striped bordered hover responsive>
       <thead>
@@ -31,6 +44,7 @@ function Eventslist({ events, setEvents }) {
           <th>Lieu</th>
           <th>Date de début</th>
           <th>Date de fin</th>
+          <th>Code</th>
           <th>Etat</th>
         </tr>
       </thead>
@@ -42,9 +56,21 @@ function Eventslist({ events, setEvents }) {
             <td>{event.place}</td>
             <td>{dayjs(event.start_date).format("DD/MM/YY")}</td>
             <td>{dayjs(event.end_date).format("DD/MM/YY")}</td>
+            <td>{event.code}</td>
             <td>
-              <Button variant="outline-warning">Modifier</Button>
-              <Button variant="outline-danger">Supprimer</Button>
+              <Nav>
+                <Nav.Item>
+                  <Nav.Link href={`/events/${event._id}`}>
+                    <Button variant="outline-warning">Modifier</Button>
+                  </Nav.Link>
+                </Nav.Item>
+              </Nav>
+              <Button
+                variant="outline-danger"
+                onClick={() => deleteEvent(event._id)}
+              >
+                Supprimer
+              </Button>
             </td>
           </tr>
         ))}

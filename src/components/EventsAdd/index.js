@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button, Container, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import services from "../../services";
+import dayjs from "dayjs";
 
-function EventsAdd() {
+function EventsAdd({ idEvent, isCreate = false }) {
   const [body, setBody] = useState({
     event_name: "",
     start_date: "",
@@ -14,6 +15,20 @@ function EventsAdd() {
   });
 
   const navigate = useNavigate();
+
+  console.log("idEvent", idEvent);
+
+  useEffect(() => {
+    if (!isCreate) {
+      services
+        .getEventById(idEvent)
+        .then((response) => {
+          console.log("Yep", response);
+          setBody(response);
+        })
+        .catch(console.log);
+    }
+  }, []);
 
   function updateBody(key, value) {
     // Il faut toujours faire une copie du state qu'on veut modifier si c'est un objet
@@ -29,36 +44,53 @@ function EventsAdd() {
 
   function handleSubmitAddEvent(event) {
     event.preventDefault();
-    console.log(body);
     services
       .addEvents(body)
-      .then(() => navigate("/"))
+      .then(() => navigate(0))
       .catch(() => alert("Une erreur a eu lieu pendant l'ajout"));
+  }
+
+  function handleSubmitUpdateEvent(event) {
+    event.preventDefault();
+    services
+      .updateEvent(idEvent, body)
+      .then(() => navigate("/events"))
+      .catch(() => alert("Une erreur a eu lieu pendant la modification"));
   }
 
   return (
     <div>
-      <h1>Ajouter un évènnement</h1>
       <Container>
-        <Form onSubmit={handleSubmitAddEvent} onChange={handleFormChange}>
+        <Form onChange={handleFormChange}>
           <Form.Group className="mb-3" controlId="event_name">
             <Form.Label>Nom</Form.Label>
             <Form.Control
               type="text"
               placeholder="Nom de l'évènnement"
               name="event_name"
+              defaultValue={body.event_name}
               required
             />
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="start_date">
             <Form.Label>Date de début</Form.Label>
-            <Form.Control type="date" name="start_date" required />
+            <Form.Control
+              type="date"
+              name="start_date"
+              value={dayjs(body.start_date).format("YYYY-MM-DD")}
+              required
+            />
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="end_date">
             <Form.Label>Date de fin</Form.Label>
-            <Form.Control type="date" name="end_date" required />
+            <Form.Control
+              type="date"
+              name="end_date"
+              value={dayjs(body.end_date).format("YYYY-MM-DD")}
+              required
+            />
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="place">
@@ -67,6 +99,7 @@ function EventsAdd() {
               type="text"
               placeholder="Lieu de l'évènnement"
               name="place"
+              defaultValue={body.place}
               required
             />
           </Form.Group>
@@ -77,6 +110,7 @@ function EventsAdd() {
               type="text"
               placeholder="Description"
               name="description"
+              defaultValue={body.description}
               required
             />
           </Form.Group>
@@ -87,13 +121,28 @@ function EventsAdd() {
               type="text"
               placeholder="Votre code"
               name="code"
+              defaultValue={body.code}
               required
             />
           </Form.Group>
-
-          <Button variant="primary" type="submit">
-            Ajouter
-          </Button>
+          {isCreate && (
+            <Button
+              variant="primary"
+              type="submit"
+              onClick={handleSubmitAddEvent}
+            >
+              Ajouter
+            </Button>
+          )}
+          {!isCreate && (
+            <Button
+              variant="outline-warning"
+              type="submit"
+              onClick={handleSubmitUpdateEvent}
+            >
+              Modifier
+            </Button>
+          )}
         </Form>
       </Container>
     </div>

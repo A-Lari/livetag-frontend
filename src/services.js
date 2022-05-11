@@ -48,6 +48,35 @@ const services = {
       .then((res) => res.data);
   },
 
+  deleteEventByID(id) {
+    console.log(id);
+    const token = localStorage.getItem("jwt");
+    return base
+      .delete(`/events/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => res.data);
+  },
+
+  getEventById(idEvent) {
+    console.log("Yo", idEvent);
+    const token = localStorage.getItem("jwt");
+    return base
+      .get(`/events/${idEvent}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => res.data);
+  },
+
+  updateEvent(id, body) {
+    const token = localStorage.getItem("jwt");
+    return base
+      .post(`/events/${id}`, body, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => res.data);
+  },
+
   getRoles() {
     const token = localStorage.getItem("jwt");
     console.log("getRoles");
