@@ -1,9 +1,9 @@
 import { useState } from "react";
 
-import ParticipantCreate from "../../components/ParticipantCreate";
+import ParticipantEdit from "../../components/ParticipantEdit";
 import ParticipantsList from "../../components/ParticipantsList";
 
-import { Container, Row, Col, Card, Button } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import "./Participants.css";
 
 const Participants = () => {
@@ -13,7 +13,7 @@ const Participants = () => {
     <Container>
       <Row className="justify-content-center mt-3">
         <Col sm>
-          <ParticipantCreate />
+          <ParticipantEdit isCreate={true} title="Ajoute d'un participant" />
         </Col>
       </Row>
       <Row className="justify-content-center">
