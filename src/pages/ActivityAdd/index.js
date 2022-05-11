@@ -9,6 +9,7 @@ function ActivityAdd() {
     activity_date: "",
     description: "",
     price: "",
+    event: "627900a483fb6b651f2ea81e",
   });
 
   const navigate = useNavigate();

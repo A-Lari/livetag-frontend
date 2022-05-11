@@ -124,10 +124,11 @@ const services = {
       .then((res) => res.data);
   },
 
-  getActivities() {
+  getActivities(idEvent) {
+    console.log("get activities", idEvent);
     const token = localStorage.getItem("jwt");
     return base
-      .get("/activities", {
+      .get(`/activities?idEvent=${idEvent}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => res.data);
