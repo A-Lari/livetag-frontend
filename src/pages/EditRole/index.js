@@ -75,7 +75,7 @@ export default function EditRole() {
   /* Effet de bord au premier rendu du composant */
   useEffect(() => {
     Promise.all([
-      services.getActivitiesid("627900a483fb6b651f2ea81e"),
+      services.getActivities("627900a483fb6b651f2ea81e"),
       services.getRole(idRole),
     ])
       .then((values) => {
