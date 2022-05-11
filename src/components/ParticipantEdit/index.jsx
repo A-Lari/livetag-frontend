@@ -20,7 +20,7 @@ function ParticipantEdit({ idParticipant, title, isCreate = false }) {
   const [eventList, setEventList] = useState([]);
   const [roleList, setRoleList] = useState([]);
 
-  const [selectRole, setSelectRole] = useState(false);
+  const [selectRole, setSelectRole] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -65,7 +65,8 @@ function ParticipantEdit({ idParticipant, title, isCreate = false }) {
 
   function handleCreate(event) {
     event.preventDefault();
-    services.createParticipant().then(() => navigate(0));
+    console.log(body);
+    services.createParticipant(body).then(() => navigate(0));
     console.log("Create participant :", body);
   }
 
