@@ -15,13 +15,12 @@ function ParticipantEdit({ idParticipant, title, isCreate = false }) {
     telephone: "",
     event: null,
     role: null,
-    optional_activities: null,
+    optional_activities: [],
   });
   const [eventList, setEventList] = useState([]);
-  const [eventSelect, setEventListSelect] = useState();
   const [roleList, setRoleList] = useState([]);
-
   const [selectRole, setSelectRole] = useState(false);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -30,7 +29,13 @@ function ParticipantEdit({ idParticipant, title, isCreate = false }) {
         .getParticipantById(idParticipant)
         .then((reponse) => {
           setOneParticipant(reponse);
-          setBody(reponse);
+          setBody({
+            ...reponse,
+            event: reponse.event._id,
+            role: reponse.role._id,
+            optional_activities: reponse.optional_activities,
+          });
+          console.log("Body to be modify", body);
           fecthAndSetListRoles(reponse.event._id);
           setSelectRole(true);
         })
@@ -77,12 +82,14 @@ function ParticipantEdit({ idParticipant, title, isCreate = false }) {
   function handleCreate(event) {
     event.preventDefault();
     services.createParticipant(body).then(() => navigate(0));
-    console.log("Create participant :", body);
   }
 
   function handleUpdate(event) {
     event.preventDefault();
-    console.log("Modify participant :", body);
+    services.updateParticipant(idParticipant, body).then(() => {
+      navigate("/participants");
+      alert("Participant modifié");
+    });
   }
 
   return (

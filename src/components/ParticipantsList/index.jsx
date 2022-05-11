@@ -61,22 +61,23 @@ function ParticipantsList({ listParticipants, setListParticipants }) {
                 <Nav.Item>
                   <Button variant="outline-warning">
                     <Nav.Link href={`/participants/${participant._id}`}>
-                      {" "}
                       <Badge bg="warning" text="dark">
                         détails
-                      </Badge>{" "}
+                      </Badge>
                     </Nav.Link>
                   </Button>
                 </Nav.Item>
+                <Nav.Item>
+                  <Button
+                    variant="outline-danger"
+                    onClick={() => deleteParticipant(participant)}
+                  >
+                    <Badge bg="danger" text="white">
+                      supprimer
+                    </Badge>
+                  </Button>
+                </Nav.Item>
               </Nav>
-              <Button
-                variant="outline-danger"
-                onClick={() => deleteParticipant(participant)}
-              >
-                <Badge bg="danger" text="white">
-                  supprimer
-                </Badge>{" "}
-              </Button>
             </td>
           </tr>
         ))}

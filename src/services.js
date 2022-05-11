@@ -44,6 +44,12 @@ const services = {
     return base.post(`/participants`).then((res) => res.data);
   },
 
+  updateParticipant(idParticipant, body) {
+    return base
+      .put(`/participants/${idParticipant}`, body)
+      .then((res) => res.data);
+  },
+
   // #endregion
 
   /**
