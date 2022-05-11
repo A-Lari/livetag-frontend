@@ -16,6 +16,7 @@ import ActivitiesList from "./pages/ActivitiesList";
 import ActivityById from "./pages/ActivityById";
 import Events from "./pages/Events";
 import EventEdit from "./components/EventEdit";
+import ActivityEdit from "./pages/ActivityEdit";
 
 function App() {
   const { connected } = useAuth();
@@ -41,7 +42,7 @@ function App() {
 
         {connected && <Route path="/activities" element={<ActivitiesList />} />}
         {connected && (
-          <Route path="/activities/:idActivity" element={<ActivityById />} />
+          <Route path="/activities/:idActivity" element={<ActivityEdit />} />
         )}
       </Routes>
       <Footer />

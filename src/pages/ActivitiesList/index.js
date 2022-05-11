@@ -1,17 +1,22 @@
 import { Container, Row } from "react-bootstrap";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { Button, Card, Col } from "react-bootstrap";
+import moment from "moment";
+import { Link, useNavigate } from "react-router-dom";
+import { Button, Card } from "react-bootstrap";
 import services from "../../services";
+import ActivityAdd from "../ActivityAdd";
 import "./ActivitiesList.css";
 
 export default function ActivitiesList() {
   const [activities, setActivities] = useState([]);
-  const [inputValue, setInputValue] = useState("");
+  const [inputTitle, setInputTitle] = useState("");
 
-  const search = (searchActivities) => {
+  const navigate = useNavigate();
+
+  //liste des activités via dB
+  const search = (searchTitle) => {
     services
-      .getActivities(searchActivities)
+      .getActivities(searchTitle)
       .then((result) => {
         console.log(result);
         setActivities(result);
@@ -21,8 +26,9 @@ export default function ActivitiesList() {
       });
   };
 
+  //chercher une activité dans la liste
   const handleSearchChange = (e) => {
-    setInputValue(e.target.value);
+    setInputTitle(e.target.value);
     if (e.target.value === "") {
       search("");
     }
@@ -30,16 +36,23 @@ export default function ActivitiesList() {
 
   const handleSubmitSearch = (e) => {
     e.preventDefault();
-    search(inputValue);
+    search(inputTitle);
   };
 
   useEffect(() => {
     search("");
   }, []);
 
+  //supprimer l'activité et refresh la page
+  function deleteActivityAndRefresh(idActivity) {
+    services.deleteActivity(idActivity).then(() => {
+      navigate(0);
+    });
+  }
+
   return (
     <Container>
-      <h2>Les Activités</h2>
+      <h1>Les Activités</h1>
 
       <nav className="navbar navbar-light bg-light">
         <div className="container-fluid">
@@ -48,7 +61,7 @@ export default function ActivitiesList() {
               className="form-control me-2"
               type="search"
               onChange={handleSearchChange}
-              value={inputValue}
+              value={inputTitle}
               placeholder="Activités..."
               aria-label="Search"
             />
@@ -61,12 +74,16 @@ export default function ActivitiesList() {
       </nav>
 
       <Row>
+        <h3>Liste des Activités</h3>
+
         {activities.map((activity) => (
-          <Card className="itemActivities">
+          <Card className="itemActivities" key={activity._id}>
             <Card.Body>
               <Card.Title>{activity.activity_name}</Card.Title>
               <div>
-                <p>Date : {activity.activity_date}</p>
+                <p>
+                  Date : {moment(activity.activity_date).format("MMMM Do YYYY")}
+                </p>
               </div>
 
               <Card.Text>Description : {activity.description}</Card.Text>
@@ -75,12 +92,21 @@ export default function ActivitiesList() {
             </Card.Body>
             <Button variant="primary" style={{ width: "20%" }}>
               <Link className="boutonvoir" to={`/activities/${activity._id}`}>
-                VOIR L'ACTIVITE
+                MODIFIER L'ACTIVITE
               </Link>
+            </Button>
+            <Button
+              variant="primary"
+              style={{ width: "20%" }}
+              onClick={() => deleteActivityAndRefresh(activity._id)}
+            >
+              SUPPRIMER L'ACTIVITE
             </Button>
           </Card>
         ))}
       </Row>
+
+      <ActivityAdd />
     </Container>
   );
 }
