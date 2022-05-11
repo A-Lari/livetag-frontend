@@ -66,6 +66,35 @@ const services = {
       })
       .then((res) => res.data);
   },
+
+  deleteEventByID(id) {
+    console.log(id);
+    const token = localStorage.getItem("jwt");
+    return base
+      .delete(`/events/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => res.data);
+  },
+
+  getEventById(idEvent) {
+    console.log("Yo", idEvent);
+    const token = localStorage.getItem("jwt");
+    return base
+      .get(`/events/${idEvent}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => res.data);
+  },
+
+  updateEvent(id, body) {
+    const token = localStorage.getItem("jwt");
+    return base
+      .post(`/events/${id}`, body, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => res.data);
+  },
   // #endregion
 
   /**
@@ -141,6 +170,33 @@ const services = {
       })
       .then((res) => res.data);
   },
+
+  deleteActivity(idActivity) {
+    const token = localStorage.getItem("jwt");
+    return base
+      .delete(`/activities/${idActivity}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => res.data);
+  },
+
+  addActivity(body) {
+    const token = localStorage.getItem("jwt");
+    // code, event_name, start_date, end_date, place, description
+    return base.post("/activities", body, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+  },
+
+  updateActivity(idActivity, body) {
+    const token = localStorage.getItem("jwt");
+    return base
+      .post(`/activities/${idActivity}`, body, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => res.data);
+  },
+
   // #endregion
 };
 
