@@ -14,9 +14,9 @@ export default function ActivitiesList() {
   const navigate = useNavigate();
 
   //liste des activités via dB
-  const search = (searchTitle) => {
+  const search = (idEvent) => {
     services
-      .getActivities(searchTitle)
+      .getActivities(idEvent)
       .then((result) => {
         console.log(result);
         setActivities(result);
@@ -40,7 +40,7 @@ export default function ActivitiesList() {
   };
 
   useEffect(() => {
-    search("");
+    search("627900a483fb6b651f2ea81e");
   }, []);
 
   //supprimer l'activité et refresh la page
