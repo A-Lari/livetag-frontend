@@ -40,8 +40,8 @@ const services = {
       .then((res) => res.data);
   },
 
-  createParticipant() {
-    return base.post(`/participants`).then((res) => res.data);
+  createParticipant(body) {
+    return base.post(`/participants`, body).then((res) => res.data);
   },
 
   updateParticipant(idParticipant, body) {
