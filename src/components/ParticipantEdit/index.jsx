@@ -18,9 +18,10 @@ function ParticipantEdit({ idParticipant, title, isCreate = false }) {
     optional_activities: null,
   });
   const [eventList, setEventList] = useState([]);
+  const [eventSelect, setEventListSelect] = useState();
   const [roleList, setRoleList] = useState([]);
 
-  const [selectRole, setSelectRole] = useState(true);
+  const [selectRole, setSelectRole] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -30,6 +31,8 @@ function ParticipantEdit({ idParticipant, title, isCreate = false }) {
         .then((reponse) => {
           setOneParticipant(reponse);
           setBody(reponse);
+          fecthAndSetListRoles(reponse.event._id);
+          setSelectRole(true);
         })
         .catch(console.log);
     }
@@ -44,15 +47,14 @@ function ParticipantEdit({ idParticipant, title, isCreate = false }) {
       .catch(console.log);
   }, []);
 
-  useEffect(() => {
+  function fecthAndSetListRoles(idEvent) {
     services
-      .getRoles()
+      .getRoles(idEvent)
       .then((reponse) => {
         setRoleList(reponse);
-        setSelectRole(true);
       })
       .catch(console.log);
-  }, []);
+  }
 
   function updateBody(key, value) {
     setBody({ ...body, [key]: value });
@@ -63,9 +65,17 @@ function ParticipantEdit({ idParticipant, title, isCreate = false }) {
     updateBody(name, value);
   }
 
+  function handleSelectEvent(event) {
+    if (event.target.value === "Evénements") {
+      setSelectRole(false);
+    } else {
+      fecthAndSetListRoles(event.target.value);
+      setSelectRole(true);
+    }
+  }
+
   function handleCreate(event) {
     event.preventDefault();
-    console.log(body);
     services.createParticipant(body).then(() => navigate(0));
     console.log("Create participant :", body);
   }
@@ -127,7 +137,11 @@ function ParticipantEdit({ idParticipant, title, isCreate = false }) {
             </Row>
             <Row>
               <Col sm>
-                <Form.Select aria-label="formEvent" name="event">
+                <Form.Select
+                  aria-label="formEvent"
+                  name="event"
+                  onChange={handleSelectEvent}
+                >
                   <option>Evénements</option>
                   {eventList.map((event) => (
                     <option
