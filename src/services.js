@@ -50,6 +50,16 @@ const services = {
       .then((res) => res.data);
   },
 
+  countParticipantsByRole(id) {
+    const token = localStorage.getItem("jwt");
+    console.log("getRoles");
+    return base
+      .get(`/participants/roles/${id}/count`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => res.data);
+  },
+
   // #endregion
 
   /**
