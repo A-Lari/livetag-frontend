@@ -35,7 +35,7 @@ export default function NavBar() {
           </Link>
         )}
         {connected === true && (
-          <a className="project-link" href="#" onClick={disconnect}>
+          <a className="project-link" href="/" onClick={disconnect}>
             Se déconnecter
           </a>
         )}

@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 
 import services from "../../services";
 
-import { Table, Button, Nav } from "react-bootstrap";
 import dayjs from "dayjs";
 
 import BootstrapTable from "react-bootstrap-table-next";

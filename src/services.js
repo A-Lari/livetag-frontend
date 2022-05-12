@@ -26,7 +26,6 @@ const services = {
    */
   // #region
   getAllParticipants() {
-    const token = localStorage.getItem("jwt");
     return base.get(`/participants`).then((res) => res.data);
   },
 
