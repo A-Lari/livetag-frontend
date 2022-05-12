@@ -105,6 +105,7 @@ function ParticipantEdit({ idParticipant, title, isCreate = false }) {
             <Row>
               <Col sm>
                 <Form.Group className="mb-2" controlId="formFirstname">
+                  <Form.Label>Prénom</Form.Label>
                   <Form.Control
                     type="text"
                     placeholder="Prénom"
@@ -115,6 +116,7 @@ function ParticipantEdit({ idParticipant, title, isCreate = false }) {
               </Col>
               <Col sm>
                 <Form.Group className="mb-2" controlId="formLastname">
+                  <Form.Label>Nom</Form.Label>
                   <Form.Control
                     type="text"
                     placeholder="Nom"
@@ -127,6 +129,7 @@ function ParticipantEdit({ idParticipant, title, isCreate = false }) {
             <Row>
               <Col sm>
                 <Form.Group className="mb-3" controlId="formEmail">
+                  <Form.Label>Email</Form.Label>
                   <Form.Control
                     type="email"
                     placeholder="Email"
@@ -137,6 +140,7 @@ function ParticipantEdit({ idParticipant, title, isCreate = false }) {
               </Col>
               <Col sm>
                 <Form.Group className="mb-3" controlId="formTelephone">
+                  <Form.Label>Téléphone</Form.Label>
                   <Form.Control
                     type="text"
                     placeholder="Téléphone"
@@ -148,43 +152,49 @@ function ParticipantEdit({ idParticipant, title, isCreate = false }) {
             </Row>
             <Row>
               <Col sm>
-                <Form.Control
-                  as="select"
-                  name="event"
-                  onChange={handleSelectEvent}
-                >
-                  <option>Evénements</option>
-                  {eventList.map((event) => (
-                    <option
-                      key={event._id}
-                      selected={event._id === oneParticipant.event._id}
-                      value={event._id}
-                    >
-                      {event.event_name}
-                    </option>
-                  ))}
-                </Form.Control>
-              </Col>
-              <Col sm>
-                {selectRole && (
-                  <Form.Control as="select" name="role">
-                    <option>Rôle</option>
-                    {roleList.map((role) => (
+                <Form.Group className="mb-3" controlId="formEvenemt">
+                  <Form.Label>Evénement</Form.Label>
+                  <Form.Control
+                    as="select"
+                    name="event"
+                    onChange={handleSelectEvent}
+                  >
+                    <option>Evénements</option>
+                    {eventList.map((event) => (
                       <option
-                        key={role._id}
-                        selected={role._id === oneParticipant.role._id}
-                        value={role._id}
+                        key={event._id}
+                        selected={event._id === oneParticipant.event._id}
+                        value={event._id}
                       >
-                        {role.role_name}
+                        {event.event_name}
                       </option>
                     ))}
                   </Form.Control>
-                )}
-                {!selectRole && (
-                  <Form.Control as="select" name="role" disabled>
-                    <option>Rôle</option>
-                  </Form.Control>
-                )}
+                </Form.Group>
+              </Col>
+              <Col sm>
+                <Form.Group className="mb-3" controlId="formEvenemt">
+                  <Form.Label>Rôle</Form.Label>
+                  {selectRole && (
+                    <Form.Control as="select" name="role">
+                      <option>Rôle</option>
+                      {roleList.map((role) => (
+                        <option
+                          key={role._id}
+                          selected={role._id === oneParticipant.role._id}
+                          value={role._id}
+                        >
+                          {role.role_name}
+                        </option>
+                      ))}
+                    </Form.Control>
+                  )}
+                  {!selectRole && (
+                    <Form.Control as="select" name="role" disabled>
+                      <option>Rôle</option>
+                    </Form.Control>
+                  )}
+                </Form.Group>
               </Col>
             </Row>
 

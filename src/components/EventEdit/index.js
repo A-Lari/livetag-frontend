@@ -67,77 +67,113 @@ function EventEdit({ idEvent, title, isCreate = false }) {
       </Card.Header>
       <Card.Body>
         <Form onChange={handleFormChange}>
-          <Form.Group className="mb-3" controlId="event_name">
-            <Form.Label>Nom</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Nom de l'évènnement"
-              name="event_name"
-              defaultValue={body.event_name}
-              required
-            />
-          </Form.Group>
+          <Container>
+            <Row>
+              <Col sm>
+                <Form.Group className="mb-3" controlId="event_name">
+                  <Form.Label>Nom</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Nom de l'évènnement"
+                    name="event_name"
+                    defaultValue={body.event_name}
+                    required
+                  />
+                </Form.Group>
+              </Col>
+              <Col>
+                <Form.Group className="mb-3" controlId="place">
+                  <Form.Label>Lieu</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Lieu de l'évènnement"
+                    name="place"
+                    defaultValue={body.place}
+                    required
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col sm>
+                <Form.Group className="mb-3" controlId="start_date">
+                  <Form.Label>Date de début</Form.Label>
+                  <Form.Control
+                    type="date"
+                    name="start_date"
+                    value={dayjs(body.start_date).format("YYYY-MM-DD")}
+                    required
+                  />
+                </Form.Group>
+              </Col>
+              <Col>
+                <Form.Group className="mb-3" controlId="end_date">
+                  <Form.Label>Date de fin</Form.Label>
+                  <Form.Control
+                    type="date"
+                    name="end_date"
+                    value={dayjs(body.end_date).format("YYYY-MM-DD")}
+                    required
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col sm>
+                <Form.Group className="mb-3" controlId="description">
+                  <Form.Label>Description</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Description"
+                    name="description"
+                    defaultValue={body.description}
+                    required
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
 
-          <Form.Group className="mb-3" controlId="start_date">
-            <Form.Label>Date de début</Form.Label>
-            <Form.Control
-              type="date"
-              name="start_date"
-              value={dayjs(body.start_date).format("YYYY-MM-DD")}
-              required
-            />
-          </Form.Group>
-
-          <Form.Group className="mb-3" controlId="end_date">
-            <Form.Label>Date de fin</Form.Label>
-            <Form.Control
-              type="date"
-              name="end_date"
-              value={dayjs(body.end_date).format("YYYY-MM-DD")}
-              required
-            />
-          </Form.Group>
-
-          <Form.Group className="mb-3" controlId="place">
-            <Form.Label>Lieu</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Lieu de l'évènnement"
-              name="place"
-              defaultValue={body.place}
-              required
-            />
-          </Form.Group>
-
-          <Form.Group className="mb-3" controlId="description">
-            <Form.Label>Description</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Description"
-              name="description"
-              defaultValue={body.description}
-              required
-            />
-          </Form.Group>
-
-          {isCreate && (
-            <Button
-              variant="primary"
-              type="submit"
-              onClick={handleSubmitAddEvent}
-            >
-              Ajouter
-            </Button>
-          )}
-          {!isCreate && (
-            <Button
-              variant="outline-warning"
-              type="submit"
-              onClick={handleSubmitUpdateEvent}
-            >
-              Modifier
-            </Button>
-          )}
+            {isCreate && (
+              <Row>
+                <Col sm>
+                  <Button
+                    variant="success"
+                    type="submit"
+                    onClick={handleSubmitAddEvent}
+                  >
+                    Ajouter
+                  </Button>
+                </Col>
+              </Row>
+            )}
+            {!isCreate && (
+              <Container>
+                <Row>
+                  <Col>
+                    <Button
+                      variant="warning"
+                      type="submit"
+                      onClick={handleSubmitUpdateEvent}
+                    >
+                      Modifier
+                    </Button>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>
+                    <Button
+                      variant="dark"
+                      type="submit"
+                      className="mt-3"
+                      onClick={() => navigate(`/events`)}
+                    >
+                      retour
+                    </Button>
+                  </Col>
+                </Row>
+              </Container>
+            )}
+          </Container>
         </Form>
       </Card.Body>
     </Card>
