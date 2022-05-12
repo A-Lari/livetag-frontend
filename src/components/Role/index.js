@@ -7,7 +7,6 @@ import services from "../../services";
 import("./Role.css");
 
 export default function Role(role) {
-  console.log(role);
   const navigate = useNavigate();
 
   const deleteRole = (idRole) => {

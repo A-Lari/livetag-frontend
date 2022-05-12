@@ -9,9 +9,6 @@ export default function EditRole() {
     activities: [],
     event: "627900a483fb6b651f2ea81e",
   });
-  const [role, setRole] = useState({});
-  const [activities, setActivities] = useState([]);
-  const [checkActivities, setCheckActivities] = useState([]);
 
   const navigate = useNavigate();
   let { idRole } = useParams();
@@ -21,16 +18,13 @@ export default function EditRole() {
   }
 
   function handleFormChange(event) {
-    console.log(event);
     const name = event.target.name;
     const value = event.target.value;
+
     if (!name.startsWith("activity")) {
       updateBody(name, value);
     } else {
-      console.log(event.target.checked);
-
-      const newActivities = body.activities.map((activity, index) => {
-        console.log(activity._id);
+      const newActivities = body.activities.map((activity) => {
         if (activity._id === value) {
           activity.checked = !activity.checked;
         }
@@ -38,8 +32,6 @@ export default function EditRole() {
       });
       console.log(newActivities);
       setBody({ ...body, activities: newActivities });
-
-      console.log(activities);
     }
   }
 
@@ -47,18 +39,12 @@ export default function EditRole() {
     event.preventDefault();
     console.log(body);
 
-    //Traitement pour la mise à jour du role
     const { activities } = body;
-    console.log(activities);
-    const updatedActivities = activities
-      .map((activity) => {
-        if (activity.checked === true) return activity._id;
-      })
-      .filter((element) => {
-        return element != undefined;
-      });
 
-    console.log(updatedActivities);
+    const updatedActivities = activities
+      .filter(activity => activity.checked)    
+      .map(activity=> activity._id);
+
     const updatedRole = {
       role_name: body.role_name,
       activities: updatedActivities,
@@ -79,27 +65,17 @@ export default function EditRole() {
       services.getRole(idRole),
     ])
       .then((values) => {
-        console.log(values);
         const dbActivities = values[0];
         const dbRole = values[1];
-        setCheckActivities(dbActivities);
-        setRole(dbRole);
-        setBody(dbRole);
 
-        // Ajout checked dans l'objet
-        // Parcourir les activités et vérifier que l'id est dans le tableau d'activité du role
-        // Ajouter un nouveau champ checked à true ou false pour l'utiliser dans la vue
-        const tabActivitiesForCheck = [];
-        dbRole.activities.forEach((element) => {
-          tabActivitiesForCheck.push(element._id);
-        });
+        // Traitement pour initialiser le body avec le role récupéré en base
+        const tabActivitiesForCheck = dbRole.activities
+        .map(activity=> activity._id);        
         console.log(tabActivitiesForCheck);
 
-        const newActivities = dbActivities.map((activity, index) => {
-          console.log(activity._id);
-          const trouve = tabActivitiesForCheck.indexOf(activity._id);
-          console.log(trouve);
-          if (trouve !== -1) {
+        const newActivities = dbActivities.map((activity) => {
+          const foundIndex = tabActivitiesForCheck.indexOf(activity._id);
+          if (foundIndex !== -1) {
             activity.checked = true;
           } else {
             activity.checked = false;
@@ -111,8 +87,8 @@ export default function EditRole() {
           ...body,
           activities: newActivities,
           role_name: dbRole.role_name,
+          event: dbRole.event,
         });
-        console.log(body);
       })
       .catch((reason) => {
         console.log(reason);

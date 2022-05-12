@@ -4,9 +4,9 @@ import { Button, Container, Form } from "react-bootstrap";
 import services from "../../services";
 import "./CreateRole.css";
 export default function CreateRole() {
-  //TODO Voir pour récupérer l'id de l'event
   const [body, setBody] = useState({
     role_name: "",
+    activities: [],
     event: "627900a483fb6b651f2ea81e",
   });
   const [activities, setActivities] = useState([]);
@@ -19,9 +19,9 @@ export default function CreateRole() {
   }
 
   function handleFormChange(event) {
-    console.log(event);
     const name = event.target.name;
     const value = event.target.value;
+
     if (!name.startsWith("activity")) {
       updateBody(name, value);
     } else {
@@ -39,7 +39,6 @@ export default function CreateRole() {
         setActivities(newActivities);
         setBody({ ...body, activities: newActivities });
       }
-      console.log(activities);
     }
   }
 
@@ -53,6 +52,7 @@ export default function CreateRole() {
       .catch(() => alert("Une erreur pendant la création d'un role"));
   }
 
+  /* Effet de bord au premier rendu du composant */
   useEffect(() => {
     services
       .getActivities("627900a483fb6b651f2ea81e")
