@@ -24,13 +24,14 @@ export default function NavBar() {
         )}
 
         {connected === true && (
-          <Link className="project-link" to="/participants">
-            Participants
-          </Link>
-        )}
-        {connected === true && (
           <Link className="project-link" to="/roles">
             Roles
+          </Link>
+        )}
+
+        {connected === true && (
+          <Link className="project-link" to="/participants">
+            Participants
           </Link>
         )}
         {connected === true && (
@@ -48,7 +49,6 @@ export default function NavBar() {
             S'inscrire
           </Link>
         )}
-
       </div>
     </div>
   );

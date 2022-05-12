@@ -11,7 +11,7 @@ import paginationFactory from "react-bootstrap-table2-paginator";
 import { Col, Container, Row } from "react-bootstrap";
 
 function ParticipantsList({ listParticipants, setListParticipants }) {
-  let navigate = useNavigate();
+  const navigate = useNavigate();
 
   const { SearchBar } = Search;
 
@@ -119,7 +119,7 @@ function ParticipantsList({ listParticipants, setListParticipants }) {
     },
   ];
   // #endregion
-
+  // OPTION DU TABLEAU
   const defaultSorted = [
     {
       dataField: "event.event_name",
@@ -127,6 +127,7 @@ function ParticipantsList({ listParticipants, setListParticipants }) {
     },
   ];
 
+  // RECUPERATION DES DONNEES
   function fecthAndSetListParticipant() {
     services
       .getAllParticipants()

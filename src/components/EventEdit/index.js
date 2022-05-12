@@ -62,7 +62,7 @@ function EventEdit({ idEvent, title, isCreate = false }) {
 
   return (
     <Card className="m-1 mb-2">
-      <Card.Header as="h5" className="card-bg-color">
+      <Card.Header as="h5" className="card-bg-color text-center">
         {title}
       </Card.Header>
       <Card.Body>
@@ -135,7 +135,7 @@ function EventEdit({ idEvent, title, isCreate = false }) {
 
             {isCreate && (
               <Row>
-                <Col sm>
+                <Col sm className="text-center">
                   <Button
                     variant="success"
                     type="submit"
@@ -149,7 +149,7 @@ function EventEdit({ idEvent, title, isCreate = false }) {
             {!isCreate && (
               <Container>
                 <Row>
-                  <Col>
+                  <Col className="text-center">
                     <Button
                       variant="warning"
                       type="submit"
@@ -160,7 +160,7 @@ function EventEdit({ idEvent, title, isCreate = false }) {
                   </Col>
                 </Row>
                 <Row>
-                  <Col>
+                  <Col className="text-center">
                     <Button
                       variant="dark"
                       type="submit"

@@ -200,7 +200,7 @@ function ParticipantEdit({ idParticipant, title, isCreate = false }) {
 
             {isCreate && (
               <Row>
-                <Col sm>
+                <Col sm className="text-center">
                   <Button
                     variant="success"
                     type="submit"
@@ -215,7 +215,7 @@ function ParticipantEdit({ idParticipant, title, isCreate = false }) {
             {!isCreate && (
               <Container>
                 <Row>
-                  <Col>
+                  <Col className="text-center">
                     <Button
                       variant="warning"
                       type="submit"
@@ -227,7 +227,7 @@ function ParticipantEdit({ idParticipant, title, isCreate = false }) {
                   </Col>
                 </Row>
                 <Row>
-                  <Col>
+                  <Col className="text-center">
                     <Button
                       variant="dark"
                       type="submit"

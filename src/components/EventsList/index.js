@@ -1,12 +1,113 @@
-import "./EventsList.css";
-import services from "../../services";
 import { useEffect } from "react";
-import { Table, Button, NavItem, Nav } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+
+import services from "../../services";
+
+import { Table, Button, Nav } from "react-bootstrap";
 import dayjs from "dayjs";
+
+import BootstrapTable from "react-bootstrap-table-next";
+import ToolkitProvider, {
+  Search,
+} from "react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit";
+import paginationFactory from "react-bootstrap-table2-paginator";
+import { Col, Container, Row } from "react-bootstrap";
 
 function Eventslist({ events, setEvents }) {
   const navigate = useNavigate();
+
+  const { SearchBar } = Search;
+  // DESCRIPTION DES COLONNES
+  // #region
+  const columns = [
+    {
+      dataField: "_id",
+      isKey: true,
+      hidden: true,
+    },
+    {
+      dataField: "code",
+      text: "Code *",
+      sort: true,
+
+      style: { verticalAlign: "middle" },
+    },
+    {
+      dataField: "event_name",
+      text: "Nom *",
+      sort: true,
+      align: "left",
+      style: { verticalAlign: "middle" },
+    },
+    {
+      dataField: "description",
+      text: "Description",
+      align: "left",
+      style: { verticalAlign: "middle" },
+    },
+    {
+      dataField: "place",
+      text: "Lieu *",
+      sort: true,
+      style: { verticalAlign: "middle" },
+    },
+    {
+      dataField: "start_date",
+      text: "Date de début *",
+      formatter: (cellContent, row) => {
+        return dayjs(row.start_date).format("DD/MM/YY");
+      },
+      sort: true,
+      style: { verticalAlign: "middle" },
+    },
+    {
+      dataField: "end_date",
+      text: "Date de fin *",
+      formatter: (cellContent, row) => {
+        return dayjs(row.end_date).format("DD/MM/YY");
+      },
+      sort: true,
+      style: { verticalAlign: "middle" },
+    },
+    {
+      dataField: "details",
+      text: "",
+      formatter: (cellContent, row) => {
+        return (
+          <button
+            className="btn btn-outline-warning btn-xs btn-block"
+            onClick={() => navigate(`/events/${row._id}`)}
+          >
+            Détails
+          </button>
+        );
+      },
+    },
+    {
+      dataField: "remove",
+      text: "",
+      formatter: (cellContent, row) => {
+        return (
+          <button
+            className="btn btn-outline-danger btn-xs"
+            onClick={() => deleteEvent(row._id)}
+          >
+            Supprimer
+          </button>
+        );
+      },
+    },
+  ];
+  // #endregion
+  // OPTION DU TABLEAU
+  const defaultSorted = [
+    {
+      dataField: "event_name",
+      order: "asc", // desc or asc
+    },
+  ];
+
+  // RECUPERATION DES DONNEES
 
   function fetchEventData() {
     services
@@ -21,61 +122,57 @@ function Eventslist({ events, setEvents }) {
       });
   }
 
-  useEffect(() => {
-    fetchEventData();
-  }, []);
-
   function deleteEvent(id) {
     services
       .deleteEventByID(id)
       .then((response) => {
-        console.log(response);
         navigate(0);
       })
       .catch(console.log);
   }
 
+  useEffect(() => {
+    fetchEventData();
+  }, []);
+
   return (
-    <Table striped bordered hover responsive>
-      <thead>
-        <tr>
-          <th>Nom</th>
-          <th>Description</th>
-          <th>Lieu</th>
-          <th>Date de début</th>
-          <th>Date de fin</th>
-          <th>Code</th>
-          <th>Etat</th>
-        </tr>
-      </thead>
-      <tbody>
-        {events.map((event) => (
-          <tr key={event._id}>
-            <td>{event.event_name}</td>
-            <td>{event.description}</td>
-            <td>{event.place}</td>
-            <td>{dayjs(event.start_date).format("DD/MM/YY")}</td>
-            <td>{dayjs(event.end_date).format("DD/MM/YY")}</td>
-            <td>{event.code}</td>
-            <td>
-              <Nav>
-                <Nav.Item>
-                  <Nav.Link href={`/events/${event._id}`}>
-                    <Button variant="outline-warning">Modifier</Button>
-                  </Nav.Link>
-                </Nav.Item>
-              </Nav>
-              <Button
-                variant="outline-danger"
-                onClick={() => deleteEvent(event._id)}
-              >
-                Supprimer
-              </Button>
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </Table>
+    <ToolkitProvider
+      keyField="events"
+      data={events}
+      columns={columns}
+      search
+      bootstrap4={true}
+    >
+      {(props) => (
+        <Container>
+          <Row>
+            <Col>
+              <SearchBar {...props.searchProps} />
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <BootstrapTable
+                {...props.baseProps}
+                keyField="events"
+                striped
+                hover
+                responsive
+                bordered={false}
+                data={events}
+                columns={columns}
+                defaultSorted={defaultSorted}
+                noDataIndication="Aucune donnée dans la liste"
+                pagination={paginationFactory()}
+              ></BootstrapTable>
+            </Col>
+          </Row>
+          <Row>
+            <Col className="h6 mb-4">* tri possible sur colonne</Col>
+          </Row>
+        </Container>
+      )}
+    </ToolkitProvider>
   );
 }
 

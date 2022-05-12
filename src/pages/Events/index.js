@@ -18,7 +18,7 @@ const Events = () => {
         <Col sm className="m-4">
           <h3>LISTE DES EVENEMENTS</h3>
         </Col>
-        <Col sm className="m-4">
+        <Col sm className="m-4 text-center">
           <Button onClick={handleAddButton} class="button-bg-color">
             Ajouter
           </Button>
@@ -33,7 +33,7 @@ const Events = () => {
       )}
       <hr />
       <Row className="justify-content-center">
-        <Col sm>
+        <Col>
           <Eventslist events={events} setEvents={setEvents} />
         </Col>
       </Row>
