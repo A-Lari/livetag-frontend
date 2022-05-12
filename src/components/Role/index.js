@@ -27,7 +27,13 @@ export default function Role(role) {
           <Card.Title>{role.role_name}</Card.Title>
           <ul class="list-group">
             {role.activities.map((activity) => (
-              <li key={activity._id} class="list-group-item">{activity.activity_name}</li>
+              <li key={activity._id} class="list-group-item">
+                <Badge bg="secondary">
+                  <Link className="bouton" to={`/activities/${activity._id}`}>
+                    {activity.activity_name}
+                  </Link>
+                </Badge>
+              </li>
             ))}
           </ul>          
           <Button variant="primary">
