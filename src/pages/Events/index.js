@@ -1,23 +1,39 @@
 import "./Events.css";
-import { useState, useEffect } from "react";
-import { Container, Row, Col, Card, Button } from "react-bootstrap";
+import { useState } from "react";
+import { Container, Row, Col, Button } from "react-bootstrap";
 import Eventslist from "../../components/EventsList";
-import EventsAdd from "../../components/EventsAdd";
+import EventEdit from "../../components/EventEdit";
 
 const Events = () => {
   const [events, setEvents] = useState([]);
+  const [showAddEvent, setShowAddEvent] = useState(false);
+
+  function handleAddButton() {
+    setShowAddEvent((currentState) => !currentState);
+  }
 
   return (
-    <Container>
+    <Container className="mt-3">
       <Row className="justify-content-center">
-        <Col sm>
-          <p className="h5 m-4">Ajouter un évènnement</p>
-          <EventsAdd isCreate={true} />
+        <Col sm className="m-4">
+          <h3>LISTE DES EVENEMENTS</h3>
+        </Col>
+        <Col sm className="m-4">
+          <Button onClick={handleAddButton} class="button-bg-color">
+            Ajouter
+          </Button>
         </Col>
       </Row>
+      {showAddEvent && (
+        <Row className="justify-content-center">
+          <Col sm>
+            <EventEdit isCreate={true} title="Ajout d'un événement" />
+          </Col>
+        </Row>
+      )}
+      <hr />
       <Row className="justify-content-center">
         <Col sm>
-          <p className="h5 m-4">Liste des évènnement</p>
           <Eventslist events={events} setEvents={setEvents} />
         </Col>
       </Row>

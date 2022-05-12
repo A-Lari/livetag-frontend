@@ -16,7 +16,7 @@ import EditRole from "./pages/EditRole";
 import CreateRole from "./pages/CreateRole";
 import ActivitiesList from "./pages/ActivitiesList";
 import Events from "./pages/Events";
-import EventEdit from "./components/EventEdit";
+import Event from "./pages/Event";
 import ActivityEdit from "./pages/ActivityEdit";
 
 function App() {
@@ -37,7 +37,7 @@ function App() {
         )}
 
         {connected && <Route path="/events" element={<Events />} />}
-        {connected && <Route path="/events/:idEvent" element={<EventEdit />} />}
+        {connected && <Route path="/events/:idEvent" element={<Event />} />}
 
         {connected && <Route path="/roles" element={<Roleslist />} />}
         {connected && <Route path="/roles/:idRole" element={<EditRole />} />}
