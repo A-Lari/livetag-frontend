@@ -160,6 +160,7 @@ function ParticipantsList({ listParticipants, setListParticipants }) {
       data={listParticipants}
       columns={columns}
       search
+      bootstrap4={true}
     >
       {(props) => (
         <div>
