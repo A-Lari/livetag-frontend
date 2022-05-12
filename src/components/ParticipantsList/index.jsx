@@ -8,6 +8,7 @@ import ToolkitProvider, {
   Search,
 } from "react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit";
 import paginationFactory from "react-bootstrap-table2-paginator";
+import { Col, Container, Row } from "react-bootstrap";
 
 function ParticipantsList({ listParticipants, setListParticipants }) {
   let navigate = useNavigate();
@@ -34,14 +35,14 @@ function ParticipantsList({ listParticipants, setListParticipants }) {
     },
     {
       dataField: "firstname",
-      text: "Prénom",
+      text: "Prénom *",
       sort: true,
       align: "left",
       style: { verticalAlign: "middle" },
     },
     {
       dataField: "lastname",
-      text: "Nom",
+      text: "Nom *",
       sort: true,
       align: "left",
       style: { verticalAlign: "middle" },
@@ -58,7 +59,7 @@ function ParticipantsList({ listParticipants, setListParticipants }) {
     },
     {
       dataField: "role.role_name",
-      text: "Rôle",
+      text: "Rôle *",
       formatter: (cellContent, row) => {
         return (
           <button
@@ -74,7 +75,7 @@ function ParticipantsList({ listParticipants, setListParticipants }) {
     },
     {
       dataField: "event.event_name",
-      text: "Evénement",
+      text: "Evénement *",
       formatter: (cellContent, row) => {
         return (
           <button
@@ -163,23 +164,30 @@ function ParticipantsList({ listParticipants, setListParticipants }) {
       bootstrap4={true}
     >
       {(props) => (
-        <div>
-          <SearchBar {...props.searchProps} delay={1000} />
+        <Container>
+          <Row>
+            <Col>
+              <SearchBar {...props.searchProps} />
 
-          <BootstrapTable
-            {...props.baseProps}
-            keyField="listParticipant"
-            striped
-            hover
-            responsive
-            bordered={false}
-            data={listParticipants}
-            columns={columns}
-            defaultSorted={defaultSorted}
-            noDataIndication="Aucune donnée dans la liste"
-            pagination={paginationFactory()}
-          ></BootstrapTable>
-        </div>
+              <BootstrapTable
+                {...props.baseProps}
+                keyField="listParticipant"
+                striped
+                hover
+                responsive
+                bordered={false}
+                data={listParticipants}
+                columns={columns}
+                defaultSorted={defaultSorted}
+                noDataIndication="Aucune donnée dans la liste"
+                pagination={paginationFactory()}
+              ></BootstrapTable>
+            </Col>
+          </Row>
+          <Row>
+            <Col className="h6 mb-4">* tri possible sur colonne</Col>
+          </Row>
+        </Container>
       )}
     </ToolkitProvider>
   );

@@ -2,8 +2,10 @@ import { useState, useEffect } from "react";
 import { Container, Row, Col, Card, Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import services from "../../services";
+import "./ParticipantEdit.css";
 
 function ParticipantEdit({ idParticipant, title, isCreate = false }) {
+  // #region
   const [oneParticipant, setOneParticipant] = useState({
     event: { _id: 0, event_name: "" },
     role: { _id: 0, role_name: "" },
@@ -91,10 +93,12 @@ function ParticipantEdit({ idParticipant, title, isCreate = false }) {
       alert("Participant modifié");
     });
   }
-
+  // #endregion
   return (
-    <Card className="m-3">
-      <Card.Header as="h5">{title}</Card.Header>
+    <Card className="m-1 mb-2">
+      <Card.Header as="h5" className="card-bg-color">
+        {title}
+      </Card.Header>
       <Card.Body>
         <Form onChange={handleFormChange}>
           <Container>
@@ -144,8 +148,8 @@ function ParticipantEdit({ idParticipant, title, isCreate = false }) {
             </Row>
             <Row>
               <Col sm>
-                <Form.Select
-                  aria-label="formEvent"
+                <Form.Control
+                  as="select"
                   name="event"
                   onChange={handleSelectEvent}
                 >
@@ -159,11 +163,11 @@ function ParticipantEdit({ idParticipant, title, isCreate = false }) {
                       {event.event_name}
                     </option>
                   ))}
-                </Form.Select>
+                </Form.Control>
               </Col>
               <Col sm>
                 {selectRole && (
-                  <Form.Select aria-label="formRole" name="role">
+                  <Form.Control as="select" name="role">
                     <option>Rôle</option>
                     {roleList.map((role) => (
                       <option
@@ -174,39 +178,58 @@ function ParticipantEdit({ idParticipant, title, isCreate = false }) {
                         {role.role_name}
                       </option>
                     ))}
-                  </Form.Select>
+                  </Form.Control>
                 )}
                 {!selectRole && (
-                  <Form.Select aria-label="formRole" name="role" disabled>
+                  <Form.Control as="select" name="role" disabled>
                     <option>Rôle</option>
-                  </Form.Select>
+                  </Form.Control>
                 )}
               </Col>
             </Row>
-            <Row>
-              <Col sm>
-                {isCreate && (
+
+            {isCreate && (
+              <Row>
+                <Col sm>
                   <Button
-                    variant="primary"
+                    variant="success"
                     type="submit"
                     className="mt-3"
                     onClick={handleCreate}
                   >
                     Enregistrer
                   </Button>
-                )}
-                {!isCreate && (
-                  <Button
-                    variant="warning"
-                    type="submit"
-                    className="mt-3"
-                    onClick={handleUpdate}
-                  >
-                    Modifier
-                  </Button>
-                )}
-              </Col>
-            </Row>
+                </Col>
+              </Row>
+            )}
+            {!isCreate && (
+              <Container>
+                <Row>
+                  <Col>
+                    <Button
+                      variant="warning"
+                      type="submit"
+                      className="mt-3"
+                      onClick={handleUpdate}
+                    >
+                      MODIFIER
+                    </Button>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>
+                    <Button
+                      variant="dark"
+                      type="submit"
+                      className="mt-3"
+                      onClick={() => navigate(`/participants`)}
+                    >
+                      retour
+                    </Button>
+                  </Col>
+                </Row>
+              </Container>
+            )}
           </Container>
         </Form>
       </Card.Body>
