@@ -2,8 +2,10 @@ import { useState, useEffect } from "react";
 import { Container, Row, Col, Card, Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import services from "../../services";
+import "./ParticipantEdit.css";
 
 function ParticipantEdit({ idParticipant, title, isCreate = false }) {
+  // #region
   const [oneParticipant, setOneParticipant] = useState({
     event: { _id: 0, event_name: "" },
     role: { _id: 0, role_name: "" },
@@ -91,16 +93,19 @@ function ParticipantEdit({ idParticipant, title, isCreate = false }) {
       alert("Participant modifié");
     });
   }
-
+  // #endregion
   return (
-    <Card className="m-3">
-      <Card.Header as="h5">{title}</Card.Header>
+    <Card className="m-1 mb-2">
+      <Card.Header as="h5" className="card-bg-color">
+        {title}
+      </Card.Header>
       <Card.Body>
         <Form onChange={handleFormChange}>
           <Container>
             <Row>
               <Col sm>
                 <Form.Group className="mb-2" controlId="formFirstname">
+                  <Form.Label>Prénom</Form.Label>
                   <Form.Control
                     type="text"
                     placeholder="Prénom"
@@ -111,6 +116,7 @@ function ParticipantEdit({ idParticipant, title, isCreate = false }) {
               </Col>
               <Col sm>
                 <Form.Group className="mb-2" controlId="formLastname">
+                  <Form.Label>Nom</Form.Label>
                   <Form.Control
                     type="text"
                     placeholder="Nom"
@@ -123,6 +129,7 @@ function ParticipantEdit({ idParticipant, title, isCreate = false }) {
             <Row>
               <Col sm>
                 <Form.Group className="mb-3" controlId="formEmail">
+                  <Form.Label>Email</Form.Label>
                   <Form.Control
                     type="email"
                     placeholder="Email"
@@ -133,6 +140,7 @@ function ParticipantEdit({ idParticipant, title, isCreate = false }) {
               </Col>
               <Col sm>
                 <Form.Group className="mb-3" controlId="formTelephone">
+                  <Form.Label>Téléphone</Form.Label>
                   <Form.Control
                     type="text"
                     placeholder="Téléphone"
@@ -144,69 +152,94 @@ function ParticipantEdit({ idParticipant, title, isCreate = false }) {
             </Row>
             <Row>
               <Col sm>
-                <Form.Select
-                  aria-label="formEvent"
-                  name="event"
-                  onChange={handleSelectEvent}
-                >
-                  <option>Evénements</option>
-                  {eventList.map((event) => (
-                    <option
-                      key={event._id}
-                      selected={event._id === oneParticipant.event._id}
-                      value={event._id}
-                    >
-                      {event.event_name}
-                    </option>
-                  ))}
-                </Form.Select>
-              </Col>
-              <Col sm>
-                {selectRole && (
-                  <Form.Select aria-label="formRole" name="role">
-                    <option>Rôle</option>
-                    {roleList.map((role) => (
+                <Form.Group className="mb-3" controlId="formEvenemt">
+                  <Form.Label>Evénement</Form.Label>
+                  <Form.Control
+                    as="select"
+                    name="event"
+                    onChange={handleSelectEvent}
+                  >
+                    <option>Evénements</option>
+                    {eventList.map((event) => (
                       <option
-                        key={role._id}
-                        selected={role._id === oneParticipant.role._id}
-                        value={role._id}
+                        key={event._id}
+                        selected={event._id === oneParticipant.event._id}
+                        value={event._id}
                       >
-                        {role.role_name}
+                        {event.event_name}
                       </option>
                     ))}
-                  </Form.Select>
-                )}
-                {!selectRole && (
-                  <Form.Select aria-label="formRole" name="role" disabled>
-                    <option>Rôle</option>
-                  </Form.Select>
-                )}
+                  </Form.Control>
+                </Form.Group>
+              </Col>
+              <Col sm>
+                <Form.Group className="mb-3" controlId="formEvenemt">
+                  <Form.Label>Rôle</Form.Label>
+                  {selectRole && (
+                    <Form.Control as="select" name="role">
+                      <option>Rôle</option>
+                      {roleList.map((role) => (
+                        <option
+                          key={role._id}
+                          selected={role._id === oneParticipant.role._id}
+                          value={role._id}
+                        >
+                          {role.role_name}
+                        </option>
+                      ))}
+                    </Form.Control>
+                  )}
+                  {!selectRole && (
+                    <Form.Control as="select" name="role" disabled>
+                      <option>Rôle</option>
+                    </Form.Control>
+                  )}
+                </Form.Group>
               </Col>
             </Row>
-            <Row>
-              <Col sm>
-                {isCreate && (
+
+            {isCreate && (
+              <Row>
+                <Col sm className="text-center">
                   <Button
-                    variant="primary"
+                    variant="success"
                     type="submit"
                     className="mt-3"
                     onClick={handleCreate}
                   >
                     Enregistrer
                   </Button>
-                )}
-                {!isCreate && (
-                  <Button
-                    variant="warning"
-                    type="submit"
-                    className="mt-3"
-                    onClick={handleUpdate}
-                  >
-                    Modifier
-                  </Button>
-                )}
-              </Col>
-            </Row>
+                </Col>
+              </Row>
+            )}
+            {!isCreate && (
+              <Container>
+                <Row>
+                  <Col className="text-center">
+                    <Button
+                      variant="warning"
+                      type="submit"
+                      className="mt-3"
+                      onClick={handleUpdate}
+                    >
+                      MODIFIER
+                    </Button>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col className="text-center">
+                    <Button
+                      variant="dark"
+                      type="submit"
+                      className="mt-3"
+                      onClick={() => navigate(`/participants`)}
+                    >
+                      retour
+                    </Button>
+                  </Col>
+                </Row>
+              </Container>
+            )}
           </Container>
         </Form>
       </Card.Body>

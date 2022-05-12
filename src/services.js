@@ -26,7 +26,6 @@ const services = {
    */
   // #region
   getAllParticipants() {
-    const token = localStorage.getItem("jwt");
     return base.get(`/participants`).then((res) => res.data);
   },
 
@@ -47,6 +46,16 @@ const services = {
   updateParticipant(idParticipant, body) {
     return base
       .put(`/participants/${idParticipant}`, body)
+      .then((res) => res.data);
+  },
+
+  countParticipantsByRole(id) {
+    const token = localStorage.getItem("jwt");
+    console.log("getRoles");
+    return base
+      .get(`/participants/roles/${id}/count`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
       .then((res) => res.data);
   },
 

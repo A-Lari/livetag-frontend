@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { Container, Row, Button, Accordion } from "react-bootstrap";
 import services from "../../services";
 import Role from "../../components/Role";
@@ -20,12 +19,12 @@ const Roleslist = () => {
       .catch((err) => {
         console.log(err);
       });
-  }
+  };
 
   useEffect(() => {
     search("627900a483fb6b651f2ea81e");
   }, []);
-  
+
   /*return (
     <div className="roles">
       <p>ROLES LIST PAGE</p>
@@ -39,12 +38,14 @@ const Roleslist = () => {
       <Row>
         <Accordion defaultActiveKey="0">
           <Accordion.Item eventKey="0">
-            <Accordion.Header><Button variant="primary">Ajouter un nouveau role</Button></Accordion.Header>
+            <Accordion.Header>
+              <Button variant="primary">Ajouter un nouveau role</Button>
+            </Accordion.Header>
             <Accordion.Body>
-              <CreateRole/>
+              <CreateRole />
             </Accordion.Body>
           </Accordion.Item>
-        </Accordion>      
+        </Accordion>
       </Row>
       <Row>
         {roles.map((role) => (
@@ -52,7 +53,7 @@ const Roleslist = () => {
         ))}
       </Row>
     </Container>
-  );  
+  );
 };
 
 export default Roleslist;

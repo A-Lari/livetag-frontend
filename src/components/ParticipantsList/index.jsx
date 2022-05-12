@@ -1,11 +1,133 @@
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import services from "../../services";
 
-import { Table, Button, Nav, Badge } from "react-bootstrap";
+import BootstrapTable from "react-bootstrap-table-next";
+import ToolkitProvider, {
+  Search,
+} from "react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit";
+import paginationFactory from "react-bootstrap-table2-paginator";
+import { Col, Container, Row } from "react-bootstrap";
 
 function ParticipantsList({ listParticipants, setListParticipants }) {
+  const navigate = useNavigate();
+
+  const { SearchBar } = Search;
+
+  // DESCRIPTION DES COLONNES
+  // #region
+  const columns = [
+    {
+      dataField: "_id",
+      isKey: true,
+      hidden: true,
+    },
+    {
+      dataField: "event._id",
+      isKey: true,
+      hidden: true,
+    },
+    {
+      dataField: "role._id",
+      isKey: true,
+      hidden: true,
+    },
+    {
+      dataField: "firstname",
+      text: "Prénom *",
+      sort: true,
+      align: "left",
+      style: { verticalAlign: "middle" },
+    },
+    {
+      dataField: "lastname",
+      text: "Nom *",
+      sort: true,
+      align: "left",
+      style: { verticalAlign: "middle" },
+    },
+    {
+      dataField: "email",
+      text: "Email",
+      style: { verticalAlign: "middle" },
+    },
+    {
+      dataField: "telephone",
+      text: "Téléphone",
+      style: { verticalAlign: "middle" },
+    },
+    {
+      dataField: "role.role_name",
+      text: "Rôle *",
+      formatter: (cellContent, row) => {
+        return (
+          <button
+            className="btn btn-link btn-xs btn-block"
+            onClick={() => navigate(`/roles/${row.role._id}`)}
+          >
+            {row.role.role_name}
+          </button>
+        );
+      },
+      sort: true,
+      style: { verticalAlign: "middle" },
+    },
+    {
+      dataField: "event.event_name",
+      text: "Evénement *",
+      formatter: (cellContent, row) => {
+        return (
+          <button
+            className="btn btn-link btn-xs btn-block"
+            onClick={() => navigate(`/events/${row.event._id}`)}
+          >
+            {row.event.event_name}
+          </button>
+        );
+      },
+      sort: true,
+      style: { verticalAlign: "middle" },
+    },
+    {
+      dataField: "details",
+      text: "",
+      formatter: (cellContent, row) => {
+        return (
+          <button
+            className="btn btn-outline-warning btn-xs btn-block"
+            onClick={() => navigate(`/participants/${row._id}`)}
+          >
+            Détails
+          </button>
+        );
+      },
+    },
+    {
+      dataField: "remove",
+      text: "",
+      formatter: (cellContent, row) => {
+        return (
+          <button
+            className="btn btn-outline-danger btn-xs"
+            onClick={() => deleteParticipant(row._id)}
+          >
+            Supprimer
+          </button>
+        );
+      },
+    },
+  ];
+  // #endregion
+  // OPTION DU TABLEAU
+  const defaultSorted = [
+    {
+      dataField: "event.event_name",
+      order: "asc", // desc or asc
+    },
+  ];
+
+  // RECUPERATION DES DONNEES
   function fecthAndSetListParticipant() {
     services
       .getAllParticipants()
@@ -17,9 +139,9 @@ function ParticipantsList({ listParticipants, setListParticipants }) {
         alert("La liste des participants ne peut être affichée");
       });
   }
-  function deleteParticipant(participant) {
+  function deleteParticipant(idParticipant) {
     services
-      .deleteParticipant(participant._id)
+      .deleteParticipant(idParticipant)
       .then(() => {
         fecthAndSetListParticipant();
         alert("Participant supprimé");
@@ -35,55 +157,40 @@ function ParticipantsList({ listParticipants, setListParticipants }) {
   }, []);
 
   return (
-    <Table striped bordered hover responsive>
-      <thead>
-        <tr>
-          <th>Prénom</th>
-          <th>Nom</th>
-          <th>Email</th>
-          <th>Téléphone</th>
-          <th>Rôle</th>
-          <th>Evénement</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        {listParticipants.map((participant) => (
-          <tr key={participant._id}>
-            <td>{participant.firstname}</td>
-            <td>{participant.lastname}</td>
-            <td>{participant.email}</td>
-            <td>{participant.telephone}</td>
-            <td>{participant.role.role_name}</td>
-            <td>{participant.event.event_name}</td>
-            <td>
-              <Nav>
-                <Nav.Item>
-                  <Button variant="outline-warning">
-                    <Nav.Link href={`/participants/${participant._id}`}>
-                      <Badge bg="warning" text="dark">
-                        détails
-                      </Badge>
-                    </Nav.Link>
-                  </Button>
-                </Nav.Item>
-                <Nav.Item>
-                  <Button
-                    variant="outline-danger"
-                    onClick={() => deleteParticipant(participant)}
-                  >
-                    <Badge bg="danger" text="white">
-                      supprimer
-                    </Badge>
-                  </Button>
-                </Nav.Item>
-              </Nav>
-            </td>
-          </tr>
-        ))}
-        <tr></tr>
-      </tbody>
-    </Table>
+    <ToolkitProvider
+      keyField="listParticipant"
+      data={listParticipants}
+      columns={columns}
+      search
+      bootstrap4={true}
+    >
+      {(props) => (
+        <Container>
+          <Row>
+            <Col>
+              <SearchBar {...props.searchProps} />
+
+              <BootstrapTable
+                {...props.baseProps}
+                keyField="listParticipant"
+                striped
+                hover
+                responsive
+                bordered={false}
+                data={listParticipants}
+                columns={columns}
+                defaultSorted={defaultSorted}
+                noDataIndication="Aucune donnée dans la liste"
+                pagination={paginationFactory()}
+              ></BootstrapTable>
+            </Col>
+          </Row>
+          <Row>
+            <Col className="h6 mb-4">* tri possible sur colonne</Col>
+          </Row>
+        </Container>
+      )}
+    </ToolkitProvider>
   );
 }
 
