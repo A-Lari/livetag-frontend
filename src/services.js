@@ -211,7 +211,6 @@ const services = {
 
   countActivityByRole(id) {
     const token = localStorage.getItem("jwt");
-    console.log("getActivities");
     return base
       .get(`/roles/activities/${id}/count`, {
         headers: { Authorization: `Bearer ${token}` },

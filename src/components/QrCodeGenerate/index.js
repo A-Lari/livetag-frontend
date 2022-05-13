@@ -1,21 +1,24 @@
 import { useState, useEffect } from "react";
-import QRCodeNode from "qrcode";
+import QRCode from "qrcode";
 import { Card, Container, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import services from "../../services";
 import dayjs from "dayjs";
+import { useRef } from 'react';
+import ReactToPrint from 'react-to-print';
 
 export default function QrCodegenerate({idQrcode}) {
     const [participant, setParticipant] = useState({
         event: {},
         role: {},
     });
-    const navigate = useNavigate();
-
     const [url, setUrl] = useState("");
 
+    const navigate = useNavigate();
+    const componentRef = useRef(null);
+
     function generateQRCode(id) {
-        QRCodeNode.toDataURL(JSON.stringify(id), {width: 300, errorCorrectionLevel: "H"})
+        QRCode.toDataURL(JSON.stringify(id), {width: 300, errorCorrectionLevel: "H"})
         .then((url) => {
           setUrl(url);
         })
@@ -37,7 +40,7 @@ export default function QrCodegenerate({idQrcode}) {
 
   return (
     <Card style={{ width: '200rem' }}>
-        <Card.Body>
+        <Card.Body ref={componentRef}>
             <Card.Title>
                 {participant.event.event_name} à {participant.event.place} du {dayjs(participant.event.start_date).format('DD/MM/YYYY')} au {dayjs(participant.event.end_date).format('DD/MM/YYYY')}
             </Card.Title>
@@ -49,8 +52,10 @@ export default function QrCodegenerate({idQrcode}) {
             </Card.Text>
         </Card.Body>
         <Card.Body>
-            <Button variant="outline-info">Imprimer</Button>
-            <Button variant="outline-info">Envoi Mail</Button>
+            <ReactToPrint
+            trigger={() => <Button variant="outline-info">Imprimer</Button>}
+            content={() => componentRef.current}
+            />
         </Card.Body>
         <Card.Body>
             <Button onClick={() => navigate(`/participants`)} variant="outline-dark">Retour</Button>
