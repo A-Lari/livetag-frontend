@@ -97,13 +97,15 @@ function ParticipantsList({ listParticipants, setListParticipants }) {
     {
       dataField: "qrcode",
       text: "",
+      align: "center",
+      style: { verticalAlign: "middle", width: "8%" },
       formatter: (cellContent, row) => {
         return (
           <button
-            className="btn btn-outline-info btn-xs btn-block"
+            className="btn btn-info btn-xs btn-block"
             onClick={() => navigate(`/qrcode/${row._id}`)}
           >
-          QRCode
+            QRCode
           </button>
         );
       },
