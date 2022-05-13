@@ -21,7 +21,6 @@ function Eventslist({ events, setEvents }) {
   const columns = [
     {
       dataField: "_id",
-      isKey: true,
       hidden: true,
     },
     {

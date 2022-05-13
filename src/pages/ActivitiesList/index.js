@@ -25,7 +25,6 @@ export default function ActivitiesList() {
   const columns = [
     {
       dataField: "_id",
-      isKey: true,
       hidden: true,
     },
     {

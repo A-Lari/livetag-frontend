@@ -8,7 +8,7 @@ import ToolkitProvider, {
   Search,
 } from "react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit";
 import paginationFactory from "react-bootstrap-table2-paginator";
-import { Col, Container, Row } from "react-bootstrap";
+import { Col, Container, Row, Button } from "react-bootstrap";
 
 function ParticipantsList({ listParticipants, setListParticipants }) {
   const navigate = useNavigate();
@@ -20,17 +20,14 @@ function ParticipantsList({ listParticipants, setListParticipants }) {
   const columns = [
     {
       dataField: "_id",
-      isKey: true,
       hidden: true,
     },
     {
       dataField: "event._id",
-      isKey: true,
       hidden: true,
     },
     {
       dataField: "role._id",
-      isKey: true,
       hidden: true,
     },
     {
@@ -60,14 +57,15 @@ function ParticipantsList({ listParticipants, setListParticipants }) {
     {
       dataField: "role.role_name",
       text: "Rôle *",
+      align: "center",
       formatter: (cellContent, row) => {
         return (
-          <button
-            className="btn btn-link btn-xs btn-block"
+          <Button
+            className="btn btn-light"
             onClick={() => navigate(`/roles/${row.role._id}`)}
           >
             {row.role.role_name}
-          </button>
+          </Button>
         );
       },
       sort: true,
@@ -78,12 +76,12 @@ function ParticipantsList({ listParticipants, setListParticipants }) {
       text: "Evénement *",
       formatter: (cellContent, row) => {
         return (
-          <button
-            className="btn btn-link btn-xs btn-block"
+          <Button
+            className="btn btn-light btn-xs btn-block"
             onClick={() => navigate(`/events/${row.event._id}`)}
           >
             {row.event.event_name}
-          </button>
+          </Button>
         );
       },
       sort: true,
