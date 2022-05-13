@@ -131,7 +131,7 @@ export default function ActivitiesList() {
           })
           .catch(console.log);
       } else {
-        alert("Activités associées à un rôle, vous ne pouvez pas la supprimer");
+        alert("Activitée associée à un rôle, vous ne pouvez pas la supprimer");
       }
     });
   }

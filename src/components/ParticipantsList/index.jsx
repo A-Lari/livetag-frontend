@@ -103,7 +103,7 @@ function ParticipantsList({ listParticipants, setListParticipants }) {
       },
     },
     {
-      dataField: "details",
+      dataField: "qrcode",
       text: "",
       formatter: (cellContent, row) => {
         return (
