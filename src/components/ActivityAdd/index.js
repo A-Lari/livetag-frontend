@@ -28,7 +28,6 @@ function ActivityAdd() {
 
   function handleSubmitAddActivity(event) {
     event.preventDefault();
-    console.log(body);
     services
       .addActivity(body)
       .then(() => navigate(0))

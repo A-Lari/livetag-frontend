@@ -98,7 +98,7 @@ function EventEdit({ idEvent, title, isCreate = false }) {
                   <Form.Control
                     type="date"
                     name="start_date"
-                    defaultValue={dayjs(body.start_date).format("YYYY-MM-DD")}
+                    value={dayjs(body.start_date).format("YYYY-MM-DD")}
                     required
                   />
                 </Form.Group>
@@ -109,7 +109,7 @@ function EventEdit({ idEvent, title, isCreate = false }) {
                   <Form.Control
                     type="date"
                     name="end_date"
-                    defaultValue={dayjs(body.end_date).format("YYYY-MM-DD")}
+                    value={dayjs(body.end_date).format("YYYY-MM-DD")}
                     required
                   />
                 </Form.Group>

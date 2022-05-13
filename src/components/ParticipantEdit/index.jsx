@@ -96,7 +96,7 @@ function ParticipantEdit({ idParticipant, title, isCreate = false }) {
   // #endregion
   return (
     <Card className="m-1 mb-2">
-      <Card.Header as="h5" className="card-bg-color">
+      <Card.Header as="h5" className="card-bg-color text-center">
         {title}
       </Card.Header>
       <Card.Body>
