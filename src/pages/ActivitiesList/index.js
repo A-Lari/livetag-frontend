@@ -45,8 +45,19 @@ export default function ActivitiesList() {
 
   //supprimer l'activité et refresh la page
   function deleteActivityAndRefresh(idActivity) {
-    services.deleteActivity(idActivity).then(() => {
-      navigate(0);
+    services.countActivityByRole(idActivity).then((count) => {
+      console.log(count);
+      //On supprime aucune activité utilisant un role
+      if (count === 0) {
+        services
+          .deleteActivity(idActivity)
+          .then(() => {
+            navigate(0);
+          })
+          .catch(console.log);
+      } else {
+        alert("Activités associées à un rôle, vous ne pouvez pas la supprimer");
+      }
     });
   }
 
