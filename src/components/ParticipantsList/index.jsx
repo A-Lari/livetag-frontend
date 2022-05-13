@@ -158,7 +158,7 @@ function ParticipantsList({ listParticipants, setListParticipants }) {
 
   return (
     <ToolkitProvider
-      keyField="listParticipant"
+      keyField="_id"
       data={listParticipants}
       columns={columns}
       search
@@ -172,7 +172,7 @@ function ParticipantsList({ listParticipants, setListParticipants }) {
 
               <BootstrapTable
                 {...props.baseProps}
-                keyField="listParticipant"
+                keyField="_id"
                 striped
                 hover
                 responsive

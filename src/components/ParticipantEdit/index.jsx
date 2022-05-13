@@ -37,7 +37,6 @@ function ParticipantEdit({ idParticipant, title, isCreate = false }) {
             role: reponse.role._id,
             optional_activities: reponse.optional_activities,
           });
-          console.log("Body to be modify", body);
           fecthAndSetListRoles(reponse.event._id);
           setSelectRole(true);
         })
@@ -146,6 +145,7 @@ function ParticipantEdit({ idParticipant, title, isCreate = false }) {
                     placeholder="Téléphone"
                     name="telephone"
                     defaultValue={oneParticipant.telephone}
+                    value={oneParticipant.telephone}
                   />
                 </Form.Group>
               </Col>
@@ -164,6 +164,7 @@ function ParticipantEdit({ idParticipant, title, isCreate = false }) {
                       <option
                         key={event._id}
                         selected={event._id === oneParticipant.event._id}
+                        dafaultValue={event._id}
                         value={event._id}
                       >
                         {event.event_name}
@@ -182,7 +183,7 @@ function ParticipantEdit({ idParticipant, title, isCreate = false }) {
                         <option
                           key={role._id}
                           selected={role._id === oneParticipant.role._id}
-                          value={role._id}
+                          defaultValue={role._id}
                         >
                           {role.role_name}
                         </option>

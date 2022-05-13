@@ -135,7 +135,7 @@ function Eventslist({ events, setEvents }) {
 
   return (
     <ToolkitProvider
-      keyField="events"
+      keyField="_id"
       data={events}
       columns={columns}
       search
@@ -152,7 +152,7 @@ function Eventslist({ events, setEvents }) {
             <Col>
               <BootstrapTable
                 {...props.baseProps}
-                keyField="events"
+                keyField="_id"
                 striped
                 hover
                 responsive
