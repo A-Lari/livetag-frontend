@@ -103,6 +103,20 @@ function ParticipantsList({ listParticipants, setListParticipants }) {
       },
     },
     {
+      dataField: "details",
+      text: "",
+      formatter: (cellContent, row) => {
+        return (
+          <button
+            className="btn btn-outline-info btn-xs btn-block"
+            onClick={() => navigate(`/qrcode/${row._id}`)}
+          >
+          QRCode
+          </button>
+        );
+      },
+    },
+    {
       dataField: "remove",
       text: "",
       formatter: (cellContent, row) => {
