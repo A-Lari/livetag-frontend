@@ -209,6 +209,16 @@ const services = {
       .then((res) => res.data);
   },
 
+  countActivityByRole(id) {
+    const token = localStorage.getItem("jwt");
+    console.log("getActivities");
+    return base
+      .get(`/roles/activities/${id}/count`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => res.data);
+  },
+
   // #endregion
 };
 
