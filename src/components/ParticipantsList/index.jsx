@@ -9,9 +9,11 @@ import ToolkitProvider, {
 } from "react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit";
 import paginationFactory from "react-bootstrap-table2-paginator";
 import { Col, Container, Row, Button } from "react-bootstrap";
+import { useEvent } from "../../EventInUse";
 
 function ParticipantsList({ listParticipants, setListParticipants }) {
   const navigate = useNavigate();
+  const { event } = useEvent();
 
   const { SearchBar } = Search;
 
@@ -30,54 +32,43 @@ function ParticipantsList({ listParticipants, setListParticipants }) {
       dataField: "role._id",
       hidden: true,
     },
-    {
-      dataField: "event.event_name",
-      text: "Evénement *",
-      formatter: (cellContent, row) => {
-        return (
-          <Button
-            className="btn btn-light btn-xs btn-block"
-            onClick={() => navigate(`/events/${row.event._id}`)}
-          >
-            {row.event.event_name}
-          </Button>
-        );
-      },
-      sort: true,
-      style: { verticalAlign: "middle" },
-    },
+
     {
       dataField: "firstname",
       text: "Prénom *",
       sort: true,
-      align: "left",
-      style: { verticalAlign: "middle" },
+      style: { verticalAlign: "middle", fontWeight: "bold" },
     },
     {
       dataField: "lastname",
       text: "Nom *",
       sort: true,
-      align: "left",
-      style: { verticalAlign: "middle" },
+      style: { verticalAlign: "middle", fontWeight: "bold" },
     },
     {
       dataField: "email",
       text: "Email",
+      align: "center",
+      headerAlign: "center",
       style: { verticalAlign: "middle" },
     },
     {
       dataField: "telephone",
       text: "Téléphone",
+      align: "center",
+      headerAlign: "center",
       style: { verticalAlign: "middle" },
     },
     {
       dataField: "role.role_name",
       text: "Rôle *",
       align: "center",
+      headerAlign: "center",
+      style: { verticalAlign: "middle" },
       formatter: (cellContent, row) => {
         return (
           <Button
-            className="btn btn-light"
+            className="btn btn-secondary"
             onClick={() => navigate(`/roles/${row.role._id}`)}
           >
             {row.role.role_name}
@@ -85,16 +76,17 @@ function ParticipantsList({ listParticipants, setListParticipants }) {
         );
       },
       sort: true,
-      style: { verticalAlign: "middle" },
     },
 
     {
       dataField: "details",
       text: "",
+      align: "center",
+      style: { verticalAlign: "middle", width: "8%" },
       formatter: (cellContent, row) => {
         return (
           <button
-            className="btn btn-outline-warning btn-xs btn-block"
+            className="btn btn-warning btn-xs btn-block"
             onClick={() => navigate(`/participants/${row._id}`)}
           >
             Détails
@@ -105,13 +97,15 @@ function ParticipantsList({ listParticipants, setListParticipants }) {
     {
       dataField: "qrcode",
       text: "",
+      align: "center",
+      style: { verticalAlign: "middle", width: "8%" },
       formatter: (cellContent, row) => {
         return (
           <button
-            className="btn btn-outline-info btn-xs btn-block"
+            className="btn btn-info btn-xs btn-block"
             onClick={() => navigate(`/qrcode/${row._id}`)}
           >
-          QRCode
+            QRCode
           </button>
         );
       },
@@ -119,6 +113,8 @@ function ParticipantsList({ listParticipants, setListParticipants }) {
     {
       dataField: "remove",
       text: "",
+      align: "center",
+      style: { verticalAlign: "middle", width: "8%" },
       formatter: (cellContent, row) => {
         return (
           <button
@@ -141,6 +137,7 @@ function ParticipantsList({ listParticipants, setListParticipants }) {
   ];
 
   // RECUPERATION DES DONNEES
+  // #region
   function fecthAndSetListParticipant() {
     services
       .getAllParticipants()
@@ -168,6 +165,7 @@ function ParticipantsList({ listParticipants, setListParticipants }) {
   useEffect(() => {
     fecthAndSetListParticipant();
   }, []);
+  // #endregion
 
   return (
     <ToolkitProvider
@@ -178,7 +176,7 @@ function ParticipantsList({ listParticipants, setListParticipants }) {
       bootstrap4={true}
     >
       {(props) => (
-        <Container>
+        <Container fluid="xl">
           <Row>
             <Col>
               <SearchBar {...props.searchProps} />
@@ -189,6 +187,7 @@ function ParticipantsList({ listParticipants, setListParticipants }) {
                 striped
                 hover
                 responsive
+                condensed
                 bordered={false}
                 data={listParticipants}
                 columns={columns}

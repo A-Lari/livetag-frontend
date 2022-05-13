@@ -1,29 +1,31 @@
 .navbar-perso {
-  display: flex;
-  justify-content: start;
   background-color: rgb(19, 181, 230);
-  font-family: fantasy;
-  padding: 5px;
+  /* font-family: fantasy; */
 }
 
 .navbar-perso > * {
+  width: 100%;
+}
+
+.navbar-perso-second > * {
   width: 60%;
 }
 
 .nav-links {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  font-size: 24px;
+  font-size: 20px;
 }
 
 .home-link,
 .project-link {
   color: black;
   text-decoration: none;
-  margin: 3;
 }
 
+.project-link-second {
+  font-size: 18px;
+  color: rgb(73, 72, 72);
+  text-decoration: none;
+}
 .nav-links a:hover {
   color: rgb(255, 255, 255);
 }
@@ -39,6 +41,6 @@
 }
 
 .logo-img {
-  height: 50px;
-  width: 50px;
+  height: 40px;
+  width: 40px;
 }

@@ -13,23 +13,25 @@ const Events = () => {
   }
 
   return (
-    <Container className="mt-3">
+    <Container className="m-5" fluid="xl">
       <Row className="justify-content-center">
-        <Col sm className="m-4">
+        <Col sm>
           <h3>LISTE DES EVENEMENTS</h3>
         </Col>
-        <Col sm className="m-4 text-right">
+        <Col sm className=" text-right">
           <Button onClick={handleAddButton} class="button-bg-color">
             Ajouter
           </Button>
         </Col>
       </Row>
       {showAddEvent && (
-        <Row className="justify-content-center">
-          <Col sm>
-            <EventEdit isCreate={true} title="Ajout d'un événement" />
-          </Col>
-        </Row>
+        <Container>
+          <Row className="justify-content-center">
+            <Col sm>
+              <EventEdit isCreate={true} title="Ajout d'un événement" />
+            </Col>
+          </Row>
+        </Container>
       )}
       <hr />
       <Row className="justify-content-center">

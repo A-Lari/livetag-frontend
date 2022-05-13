@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import { Container, Row, Col, Card, Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { useEvent } from "../../EventInUse";
 import services from "../../services";
 import "./ParticipantEdit.css";
 
 function ParticipantEdit({ idParticipant, title, isCreate = false }) {
   // #region
+  const { event } = useEvent();
   const [oneParticipant, setOneParticipant] = useState({
     event: { _id: 0, event_name: "" },
     role: { _id: 0, role_name: "" },
@@ -19,11 +21,16 @@ function ParticipantEdit({ idParticipant, title, isCreate = false }) {
     role: null,
     optional_activities: [],
   });
-  const [eventList, setEventList] = useState([]);
   const [roleList, setRoleList] = useState([]);
-  const [selectRole, setSelectRole] = useState(false);
 
   const navigate = useNavigate();
+
+  function fecthAndSetListRoles(eventId) {
+    console.log(eventId);
+    services.getRoles(eventId).then((reponse) => {
+      setRoleList(reponse);
+    });
+  }
 
   useEffect(() => {
     if (!isCreate) {
@@ -37,30 +44,11 @@ function ParticipantEdit({ idParticipant, title, isCreate = false }) {
             role: reponse.role._id,
             optional_activities: reponse.optional_activities,
           });
-          fecthAndSetListRoles(reponse.event._id);
-          setSelectRole(true);
         })
         .catch(console.log);
     }
+    fecthAndSetListRoles(event._id);
   }, []);
-
-  useEffect(() => {
-    services
-      .getEventFromDB()
-      .then((reponse) => {
-        setEventList(reponse);
-      })
-      .catch(console.log);
-  }, []);
-
-  function fecthAndSetListRoles(idEvent) {
-    services
-      .getRoles(idEvent)
-      .then((reponse) => {
-        setRoleList(reponse);
-      })
-      .catch(console.log);
-  }
 
   function updateBody(key, value) {
     setBody({ ...body, [key]: value });
@@ -69,15 +57,6 @@ function ParticipantEdit({ idParticipant, title, isCreate = false }) {
     const name = event.target.name;
     const value = event.target.value;
     updateBody(name, value);
-  }
-
-  function handleSelectEvent(event) {
-    if (event.target.value === "Evénements") {
-      setSelectRole(false);
-    } else {
-      fecthAndSetListRoles(event.target.value);
-      setSelectRole(true);
-    }
   }
 
   function handleCreate(event) {
@@ -153,48 +132,19 @@ function ParticipantEdit({ idParticipant, title, isCreate = false }) {
             <Row>
               <Col sm>
                 <Form.Group className="mb-3" controlId="formEvenemt">
-                  <Form.Label>Evénement</Form.Label>
-                  <Form.Control
-                    as="select"
-                    name="event"
-                    onChange={handleSelectEvent}
-                  >
-                    <option>Evénements</option>
-                    {eventList.map((event) => (
+                  <Form.Label>Rôle</Form.Label>
+                  <Form.Control as="select" name="role">
+                    <option>Rôle</option>
+                    {roleList.map((role) => (
                       <option
-                        key={event._id}
-                        selected={event._id === oneParticipant.event._id}
-                        dafaultValue={event._id}
-                        value={event._id}
+                        key={role._id}
+                        selected={role._id === oneParticipant.role._id}
+                        defaultValue={role._id}
                       >
-                        {event.event_name}
+                        {role.role_name}
                       </option>
                     ))}
                   </Form.Control>
-                </Form.Group>
-              </Col>
-              <Col sm>
-                <Form.Group className="mb-3" controlId="formEvenemt">
-                  <Form.Label>Rôle</Form.Label>
-                  {selectRole && (
-                    <Form.Control as="select" name="role">
-                      <option>Rôle</option>
-                      {roleList.map((role) => (
-                        <option
-                          key={role._id}
-                          selected={role._id === oneParticipant.role._id}
-                          defaultValue={role._id}
-                        >
-                          {role.role_name}
-                        </option>
-                      ))}
-                    </Form.Control>
-                  )}
-                  {!selectRole && (
-                    <Form.Control as="select" name="role" disabled>
-                      <option>Rôle</option>
-                    </Form.Control>
-                  )}
                 </Form.Group>
               </Col>
             </Row>

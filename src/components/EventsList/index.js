@@ -1,5 +1,7 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+
+import { useEvent } from "../../EventInUse";
 
 import services from "../../services";
 
@@ -14,6 +16,7 @@ import { Col, Container, Row } from "react-bootstrap";
 
 function Eventslist({ events, setEvents }) {
   const navigate = useNavigate();
+  const { setEventChoice, setEvent } = useEvent();
 
   const { SearchBar } = Search;
   // DESCRIPTION DES COLONNES
@@ -24,18 +27,38 @@ function Eventslist({ events, setEvents }) {
       hidden: true,
     },
     {
+      dataField: "useEvent",
+      text: "",
+      align: "center",
+      style: { verticalAlign: "middle", width: "10%" },
+      formatter: (cellContent, row) => {
+        return (
+          <button
+            className="btn btn-info btn-xs"
+            onClick={() => selectEvent(row._id)}
+          >
+            selectionner
+          </button>
+        );
+      },
+    },
+    {
       dataField: "code",
       text: "Code *",
       sort: true,
-
-      style: { verticalAlign: "middle" },
+      align: "center",
+      headerAlign: "center",
+      style: {
+        verticalAlign: "middle",
+        fontStyle: "italic",
+        fontSize: "12px",
+      },
     },
     {
       dataField: "event_name",
       text: "Nom *",
       sort: true,
-      align: "left",
-      style: { verticalAlign: "middle" },
+      style: { verticalAlign: "middle", width: "12%", fontWeight: "bold" },
     },
     {
       dataField: "description",
@@ -47,11 +70,15 @@ function Eventslist({ events, setEvents }) {
       dataField: "place",
       text: "Lieu *",
       sort: true,
-      style: { verticalAlign: "middle" },
+      align: "center",
+      headerAlign: "center",
+      style: { verticalAlign: "middle", width: "15%" },
     },
     {
       dataField: "start_date",
-      text: "Date de début *",
+      text: "Début *",
+      align: "center",
+      headerAlign: "center",
       formatter: (cellContent, row) => {
         return dayjs(row.start_date).format("DD/MM/YY");
       },
@@ -60,7 +87,9 @@ function Eventslist({ events, setEvents }) {
     },
     {
       dataField: "end_date",
-      text: "Date de fin *",
+      text: "Fin *",
+      align: "center",
+      headerAlign: "center",
       formatter: (cellContent, row) => {
         return dayjs(row.end_date).format("DD/MM/YY");
       },
@@ -70,13 +99,15 @@ function Eventslist({ events, setEvents }) {
     {
       dataField: "details",
       text: "",
+      align: "center",
+      style: { verticalAlign: "middle", width: "8%" },
       formatter: (cellContent, row) => {
         return (
           <button
-            className="btn btn-outline-warning btn-xs btn-block"
+            className="btn btn-warning btn-xs"
             onClick={() => navigate(`/events/${row._id}`)}
           >
-            Détails
+            Modifier
           </button>
         );
       },
@@ -84,6 +115,8 @@ function Eventslist({ events, setEvents }) {
     {
       dataField: "remove",
       text: "",
+      align: "center",
+      style: { verticalAlign: "middle", width: "8%" },
       formatter: (cellContent, row) => {
         return (
           <button
@@ -106,7 +139,7 @@ function Eventslist({ events, setEvents }) {
   ];
 
   // RECUPERATION DES DONNEES
-
+  // #region
   function fetchEventData() {
     services
       .getEventFromDB()
@@ -128,9 +161,23 @@ function Eventslist({ events, setEvents }) {
       .catch(console.log);
   }
 
+  function selectEvent(id) {
+    services
+      .getEventById(id)
+      .then((event) => {
+        setEvent(event);
+        setEventChoice(true);
+      })
+      .catch((error) => {
+        console.log("Error select events", error);
+        alert("La liste des events ne peut être à affichée");
+      });
+  }
+
   useEffect(() => {
     fetchEventData();
   }, []);
+  // #endregion
 
   return (
     <ToolkitProvider
@@ -141,7 +188,7 @@ function Eventslist({ events, setEvents }) {
       bootstrap4={true}
     >
       {(props) => (
-        <Container>
+        <Container fluid="xl">
           <Row>
             <Col>
               <SearchBar {...props.searchProps} />
@@ -155,6 +202,7 @@ function Eventslist({ events, setEvents }) {
                 striped
                 hover
                 responsive
+                condensed
                 bordered={false}
                 data={events}
                 columns={columns}
