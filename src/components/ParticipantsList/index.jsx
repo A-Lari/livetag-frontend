@@ -31,6 +31,22 @@ function ParticipantsList({ listParticipants, setListParticipants }) {
       hidden: true,
     },
     {
+      dataField: "event.event_name",
+      text: "Evénement *",
+      formatter: (cellContent, row) => {
+        return (
+          <Button
+            className="btn btn-light btn-xs btn-block"
+            onClick={() => navigate(`/events/${row.event._id}`)}
+          >
+            {row.event.event_name}
+          </Button>
+        );
+      },
+      sort: true,
+      style: { verticalAlign: "middle" },
+    },
+    {
       dataField: "firstname",
       text: "Prénom *",
       sort: true,
@@ -71,22 +87,7 @@ function ParticipantsList({ listParticipants, setListParticipants }) {
       sort: true,
       style: { verticalAlign: "middle" },
     },
-    {
-      dataField: "event.event_name",
-      text: "Evénement *",
-      formatter: (cellContent, row) => {
-        return (
-          <Button
-            className="btn btn-light btn-xs btn-block"
-            onClick={() => navigate(`/events/${row.event._id}`)}
-          >
-            {row.event.event_name}
-          </Button>
-        );
-      },
-      sort: true,
-      style: { verticalAlign: "middle" },
-    },
+
     {
       dataField: "details",
       text: "",
