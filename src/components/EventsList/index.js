@@ -1,5 +1,7 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+
+import { useEvent } from "../../EventInUse";
 
 import services from "../../services";
 
@@ -14,6 +16,7 @@ import { Col, Container, Row } from "react-bootstrap";
 
 function Eventslist({ events, setEvents }) {
   const navigate = useNavigate();
+  const { eventChoice, setEventChoice, event, setEvent } = useEvent();
 
   const { SearchBar } = Search;
   // DESCRIPTION DES COLONNES
@@ -22,6 +25,20 @@ function Eventslist({ events, setEvents }) {
     {
       dataField: "_id",
       hidden: true,
+    },
+    {
+      dataField: "useEvent",
+      text: "",
+      formatter: (cellContent, row) => {
+        return (
+          <button
+            className="btn btn-info btn-xs btn-block"
+            onClick={() => selectEvent(row._id)}
+          >
+            selectionner
+          </button>
+        );
+      },
     },
     {
       dataField: "code",
@@ -126,6 +143,19 @@ function Eventslist({ events, setEvents }) {
         navigate(0);
       })
       .catch(console.log);
+  }
+
+  function selectEvent(id) {
+    services
+      .getEventById(id)
+      .then((event) => {
+        setEvent(event);
+        setEventChoice(true);
+      })
+      .catch((error) => {
+        console.log("Error select events", error);
+        alert("La liste des events ne peut être à affichée");
+      });
   }
 
   useEffect(() => {

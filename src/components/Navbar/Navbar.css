@@ -1,8 +1,8 @@
 .navbar-perso {
   display: flex;
-  justify-content: start;
+  justify-content: space-around;
   background-color: rgb(19, 181, 230);
-  font-family: fantasy;
+  /* font-family: fantasy; */
   padding: 5px;
 }
 
@@ -23,7 +23,12 @@
   text-decoration: none;
   margin: 3;
 }
-
+.project-link-second {
+  font-size: 18px;
+  color: rgb(73, 72, 72);
+  text-decoration: none;
+  margin: 2;
+}
 .nav-links a:hover {
   color: rgb(255, 255, 255);
 }

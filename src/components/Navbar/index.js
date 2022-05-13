@@ -1,37 +1,41 @@
 import { Link } from "react-router-dom";
 import { useAuth } from "../../AuthProvider";
+import { useEvent } from "../../EventInUse";
 import "./Navbar.css";
 
 export default function NavBar() {
   const { connected, disconnect } = useAuth();
+  const { eventChoice, event } = useEvent();
 
   return (
     <div className="navbar-perso">
       <img src="../../logo192.png" className=" logo logo-img" />
       <div className="nav-links">
         <Link className="home-link" to="/">
-          Home
+          Accueil
         </Link>
-        {connected === true && (
+        {connected && (
           <Link className="project-link" to="/events">
-            Events
+            Evénements
+          </Link>
+        )}
+        {connected && eventChoice && (
+          <span class="badge badge-secondary"> : {event.event_name} </span>
+        )}
+        {connected && eventChoice && (
+          <Link className="project-link-second" to="/activities">
+            Activités
           </Link>
         )}
 
-        {connected === true && (
-          <Link className="project-link" to="/activities">
-            Activities
+        {connected && eventChoice && (
+          <Link className="project-link-second" to="/roles">
+            Rôles
           </Link>
         )}
 
-        {connected === true && (
-          <Link className="project-link" to="/roles">
-            Roles
-          </Link>
-        )}
-
-        {connected === true && (
-          <Link className="project-link" to="/participants">
+        {connected && eventChoice && (
+          <Link className="project-link-second" to="/participants">
             Participants
           </Link>
         )}
