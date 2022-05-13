@@ -21,7 +21,6 @@ function Eventslist({ events, setEvents }) {
   const columns = [
     {
       dataField: "_id",
-      isKey: true,
       hidden: true,
     },
     {
@@ -112,12 +111,11 @@ function Eventslist({ events, setEvents }) {
     services
       .getEventFromDB()
       .then((list) => {
-        console.log("list", list);
         setEvents(list);
       })
       .catch((error) => {
         console.log("Error list events", error);
-        alert("La liste des events ne peut êtrea affichée");
+        alert("La liste des events ne peut être à affichée");
       });
   }
 
@@ -136,7 +134,7 @@ function Eventslist({ events, setEvents }) {
 
   return (
     <ToolkitProvider
-      keyField="events"
+      keyField="_id"
       data={events}
       columns={columns}
       search
@@ -153,7 +151,7 @@ function Eventslist({ events, setEvents }) {
             <Col>
               <BootstrapTable
                 {...props.baseProps}
-                keyField="events"
+                keyField="_id"
                 striped
                 hover
                 responsive

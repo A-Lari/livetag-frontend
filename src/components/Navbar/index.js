@@ -7,6 +7,7 @@ export default function NavBar() {
 
   return (
     <div className="navbar-perso">
+      <img src="../../logo192.png" className=" logo logo-img" />
       <div className="nav-links">
         <Link className="home-link" to="/">
           Home

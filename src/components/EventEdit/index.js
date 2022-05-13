@@ -18,17 +18,14 @@ function EventEdit({ idEvent, title, isCreate = false }) {
 
   const navigate = useNavigate();
 
-  console.log("idEvent", idEvent);
-
   useEffect(() => {
     if (!isCreate) {
       services
         .getEventById(idEvent)
         .then((response) => {
-          console.log("Yep", response);
           setBody(response);
         })
-        .catch(console.log);
+        .catch((error) => console.log(error));
     }
   }, []);
 

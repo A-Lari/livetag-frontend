@@ -1,15 +1,104 @@
-import { Container, Row } from "react-bootstrap";
 import { useEffect, useState } from "react";
-import moment from "moment";
 import { Link, useNavigate } from "react-router-dom";
-import { Button, Card } from "react-bootstrap";
+
 import services from "../../services";
-import ActivityAdd from "../ActivityAdd";
+
+import dayjs from "dayjs";
+import BootstrapTable from "react-bootstrap-table-next";
+import ToolkitProvider, {
+  Search,
+} from "react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit";
+import paginationFactory from "react-bootstrap-table2-paginator";
+import { Container, Row, Col, Button, Card } from "react-bootstrap";
+
+import ActivityAdd from "../../components/ActivityAdd";
 import "./ActivitiesList.css";
 
 export default function ActivitiesList() {
   const [activities, setActivities] = useState([]);
   const [inputTitle, setInputTitle] = useState("");
+  const [showAddActivite, setShowAddActivite] = useState(false);
+
+  const { SearchBar } = Search;
+  // DESCRIPTION DES COLONNES
+  // #region
+  const columns = [
+    {
+      dataField: "_id",
+      hidden: true,
+    },
+    {
+      dataField: "activity_name",
+      text: "Nom *",
+      sort: true,
+      align: "left",
+      style: { verticalAlign: "middle" },
+    },
+    {
+      dataField: "activity_date",
+      text: "Date *",
+      formatter: (cellContent, row) => {
+        return dayjs(row.start_date).format("DD/MM/YY");
+      },
+      sort: true,
+      style: { verticalAlign: "middle" },
+    },
+    {
+      dataField: "description",
+      text: "Description",
+      align: "left",
+      style: { verticalAlign: "middle" },
+    },
+
+    {
+      dataField: "price",
+      text: "Tarif (€)*",
+      sort: true,
+      align: "right",
+      style: { verticalAlign: "middle" },
+    },
+    {
+      dataField: "details",
+      text: "",
+      formatter: (cellContent, row) => {
+        return (
+          <button
+            className="btn btn-outline-warning btn-xs btn-block"
+            onClick={() => navigate(`/activities/${row._id}`)}
+          >
+            Détails
+          </button>
+        );
+      },
+    },
+    {
+      dataField: "remove",
+      text: "",
+      formatter: (cellContent, row) => {
+        return (
+          <button
+            className="btn btn-outline-danger btn-xs"
+            onClick={() => deleteActivityAndRefresh(row._id)}
+          >
+            Supprimer
+          </button>
+        );
+      },
+    },
+  ];
+  // #endregion
+  // OPTION DU TABLEAU
+  const defaultSorted = [
+    {
+      dataField: "event_name",
+      order: "asc", // desc or asc
+    },
+  ];
+
+  // RECUPERATION DES DONNEES
+  function handleAddButton() {
+    setShowAddActivite((currentState) => !currentState);
+  }
 
   const navigate = useNavigate();
 
@@ -18,25 +107,11 @@ export default function ActivitiesList() {
     services
       .getActivities(idEvent)
       .then((result) => {
-        console.log(result);
         setActivities(result);
       })
       .catch((err) => {
         console.log(err);
       });
-  };
-
-  //chercher une activité dans la liste
-  const handleSearchChange = (e) => {
-    setInputTitle(e.target.value);
-    if (e.target.value === "") {
-      search("");
-    }
-  };
-
-  const handleSubmitSearch = (e) => {
-    e.preventDefault();
-    search(inputTitle);
   };
 
   useEffect(() => {
@@ -62,62 +137,66 @@ export default function ActivitiesList() {
   }
 
   return (
-    <Container>
-      <h1>Les Activités</h1>
-
-      <nav className="navbar navbar-light bg-light">
-        <div className="container-fluid">
-          <form className="d-flex" onSubmit={handleSubmitSearch}>
-            <input
-              className="form-control me-2"
-              type="search"
-              onChange={handleSearchChange}
-              value={inputTitle}
-              placeholder="Activités..."
-              aria-label="Search"
-            />
-            <button className="btn btn-outline-success" type="submit">
-              {" "}
-              Rechercher une activité
-            </button>
-          </form>
-        </div>
-      </nav>
-
-      <Row>
-        <h3>Liste des Activités</h3>
-
-        {activities.map((activity) => (
-          <Card className="itemActivities" key={activity._id}>
-            <Card.Body>
-              <Card.Title>{activity.activity_name}</Card.Title>
-              <div>
-                <p>
-                  Date : {moment(activity.activity_date).format("MMMM Do YYYY")}
-                </p>
-              </div>
-
-              <Card.Text>Description : {activity.description}</Card.Text>
-
-              <Card.Text>Prix : {activity.price}</Card.Text>
-            </Card.Body>
-            <Button variant="primary" style={{ width: "20%" }}>
-              <Link className="boutonvoir" to={`/activities/${activity._id}`}>
-                MODIFIER L'ACTIVITE
-              </Link>
-            </Button>
-            <Button
-              variant="primary"
-              style={{ width: "20%" }}
-              onClick={() => deleteActivityAndRefresh(activity._id)}
-            >
-              SUPPRIMER L'ACTIVITE
-            </Button>
-          </Card>
-        ))}
+    <Container className="mt-3">
+      <Row className="justify-content-center">
+        <Col sm className="m-4">
+          <h3>LISTE DES ACTIVITES</h3>
+        </Col>
+        <Col sm className="m-4 text-right">
+          <Button onClick={handleAddButton} class="button-bg-color">
+            Ajouter
+          </Button>
+        </Col>
       </Row>
-
-      <ActivityAdd />
+      {showAddActivite && (
+        <Row className="justify-content-center">
+          <Col sm>
+            <ActivityAdd />
+          </Col>
+        </Row>
+      )}
+      <hr />
+      <Row>
+        <Col>
+          <ToolkitProvider
+            keyField="_id"
+            data={activities}
+            columns={columns}
+            search
+            bootstrap4={true}
+          >
+            {(props) => (
+              <Container>
+                <Row>
+                  <Col>
+                    <SearchBar {...props.searchProps} />
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>
+                    <BootstrapTable
+                      {...props.baseProps}
+                      keyField="_id"
+                      striped
+                      hover
+                      responsive
+                      bordered={false}
+                      data={activities}
+                      columns={columns}
+                      defaultSorted={defaultSorted}
+                      noDataIndication="Aucune donnée dans la liste"
+                      pagination={paginationFactory()}
+                    ></BootstrapTable>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col className="h6 mb-4">* tri possible sur colonne</Col>
+                </Row>
+              </Container>
+            )}
+          </ToolkitProvider>
+        </Col>
+      </Row>
     </Container>
   );
 }

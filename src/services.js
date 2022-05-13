@@ -51,7 +51,6 @@ const services = {
 
   countParticipantsByRole(id) {
     const token = localStorage.getItem("jwt");
-    console.log("getRoles");
     return base
       .get(`/participants/roles/${id}/count`, {
         headers: { Authorization: `Bearer ${token}` },
@@ -83,7 +82,6 @@ const services = {
   },
 
   deleteEventByID(id) {
-    console.log(id);
     const token = localStorage.getItem("jwt");
     return base
       .delete(`/events/${id}`, {
@@ -93,7 +91,6 @@ const services = {
   },
 
   getEventById(idEvent) {
-    console.log("Yo", idEvent);
     const token = localStorage.getItem("jwt");
     return base
       .get(`/events/${idEvent}`, {
@@ -118,7 +115,7 @@ const services = {
   // #region
   getRoles(idEvent) {
     const token = localStorage.getItem("jwt");
-    console.log("getRoles");
+
     return base
       .get(`/roles?idEvent=${idEvent}`, {
         headers: { Authorization: `Bearer ${token}` },
@@ -128,7 +125,7 @@ const services = {
 
   getRole(id) {
     const token = localStorage.getItem("jwt");
-    console.log("getRoles");
+
     return base
       .get(`/roles/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
@@ -169,8 +166,6 @@ const services = {
    */
   // #region
   getActivities(idEvent) {
-    console.log("get activities", idEvent);
-
     const token = localStorage.getItem("jwt");
     return base
       .get(`/activities?idEvent=${idEvent}`, {

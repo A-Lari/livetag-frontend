@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Button, Container, Form } from "react-bootstrap";
+import { Button, Container, Form, Card, Row, Col } from "react-bootstrap";
 import services from "../../services";
 import "./EditRole.css";
 export default function EditRole() {
@@ -42,8 +42,8 @@ export default function EditRole() {
     const { activities } = body;
 
     const updatedActivities = activities
-      .filter(activity => activity.checked)    
-      .map(activity=> activity._id);
+      .filter((activity) => activity.checked)
+      .map((activity) => activity._id);
 
     const updatedRole = {
       role_name: body.role_name,
@@ -69,8 +69,9 @@ export default function EditRole() {
         const dbRole = values[1];
 
         // Traitement pour initialiser le body avec le role récupéré en base
-        const tabActivitiesForCheck = dbRole.activities
-        .map(activity=> activity._id);        
+        const tabActivitiesForCheck = dbRole.activities.map(
+          (activity) => activity._id
+        );
         console.log(tabActivitiesForCheck);
 
         const newActivities = dbActivities.map((activity) => {
@@ -97,36 +98,69 @@ export default function EditRole() {
 
   return (
     <Container>
-      <Form onSubmit={handleSubmitSignup} onChange={handleFormChange}>
-        <Form.Group className="mb-3" controlId="role_name">
-          <Form.Label>Nom du role</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Nom du role"
-            name="role_name"
-            value={body.role_name}
-            required
-          />
-        </Form.Group>
-
-        <Form.Group className="mb-3" controlId="activities">
-          <Form.Label>Activités utilisées</Form.Label>
-          {body.activities.map((activity) => (
-            <Form.Check
-              type="checkbox"
-              id={activity._id}
-              value={activity._id}
-              checked={activity.checked}
-              name={`activity${activity._id}`}
-              label={activity.activity_name}
-            />
-          ))}
-        </Form.Group>
-
-        <Button variant="primary" type="submit">
-          Enregistrer
-        </Button>
-      </Form>
+      <Row className="justify-content-center mt-3">
+        <Col sm>
+          <Card className="m-1 mb-2">
+            <Card.Header as="h5" className="card-bg-color text-center">
+              Modifier le rôle
+            </Card.Header>
+            <Card.Body>
+              <Form onSubmit={handleSubmitSignup} onChange={handleFormChange}>
+                <Container>
+                  <Row>
+                    <Col sm>
+                      <Form.Group className="mb-3" controlId="role_name">
+                        <Form.Label>Nom du role</Form.Label>
+                        <Form.Control
+                          type="text"
+                          placeholder="Nom du role"
+                          name="role_name"
+                          value={body.role_name}
+                          required
+                        />
+                      </Form.Group>
+                    </Col>
+                    <Col>
+                      <Form.Group className="mb-3" controlId="activities">
+                        <Form.Label>Activités utilisées</Form.Label>
+                        {body.activities.map((activity) => (
+                          <Form.Check
+                            type="checkbox"
+                            id={activity._id}
+                            value={activity._id}
+                            checked={activity.checked}
+                            name={`activity${activity._id}`}
+                            label={activity.activity_name}
+                          />
+                        ))}
+                      </Form.Group>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col sm className="text-center">
+                      <Button variant="warning" type="submit">
+                        Modifier
+                      </Button>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col className="text-center">
+                      <Button
+                        variant="dark"
+                        type="submit"
+                        className="mt-3"
+                        onClick={() => navigate(`/roles`)}
+                      >
+                        retour
+                      </Button>
+                    </Col>
+                  </Row>
+                </Container>
+              </Form>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
     </Container>
   );
 }
