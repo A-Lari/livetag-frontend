@@ -13,10 +13,11 @@ import { Container, Row, Col, Button, Card } from "react-bootstrap";
 
 import ActivityAdd from "../../components/ActivityAdd";
 import "./ActivitiesList.css";
+import { useEvent } from "../../EventInUse";
 
 export default function ActivitiesList() {
   const [activities, setActivities] = useState([]);
-  const [inputTitle, setInputTitle] = useState("");
+  const { event } = useEvent();
   const [showAddActivite, setShowAddActivite] = useState(false);
 
   const { SearchBar } = Search;
@@ -115,7 +116,7 @@ export default function ActivitiesList() {
   };
 
   useEffect(() => {
-    search("627900a483fb6b651f2ea81e");
+    search(event._id);
   }, []);
 
   //supprimer l'activité et refresh la page

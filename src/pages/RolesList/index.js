@@ -5,9 +5,11 @@ import Role from "../../components/Role";
 import CreateRole from "../CreateRole";
 
 import "./RolesList.css";
+import { useEvent } from "../../EventInUse";
 
 const Roleslist = () => {
   const [roles, setRoles] = useState([]);
+  const { event } = useEvent();
   const [showAddRole, setShowAddRole] = useState(false);
 
   function handleAddButton() {
@@ -26,7 +28,7 @@ const Roleslist = () => {
   };
 
   useEffect(() => {
-    search("627900a483fb6b651f2ea81e");
+    search(event._id);
   }, []);
 
   /*return (

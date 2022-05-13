@@ -9,6 +9,11 @@ const Home = () => {
           <h2 className="h2-font">
             Bienvenue dans votre application de gestion des événements
           </h2>
+          <h3>
+            {" "}
+            Sélectionnez l'événement pour y ajouter les activités, rôles et
+            participants
+          </h3>
         </Col>
       </Row>
     </Container>

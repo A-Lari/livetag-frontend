@@ -16,7 +16,7 @@ import { Col, Container, Row } from "react-bootstrap";
 
 function Eventslist({ events, setEvents }) {
   const navigate = useNavigate();
-  const { eventChoice, setEventChoice, event, setEvent } = useEvent();
+  const { setEventChoice, setEvent } = useEvent();
 
   const { SearchBar } = Search;
   // DESCRIPTION DES COLONNES
@@ -29,10 +29,11 @@ function Eventslist({ events, setEvents }) {
     {
       dataField: "useEvent",
       text: "",
+      align: "center",
       formatter: (cellContent, row) => {
         return (
           <button
-            className="btn btn-info btn-xs btn-block"
+            className="btn btn-info btn-xs"
             onClick={() => selectEvent(row._id)}
           >
             selectionner
@@ -44,14 +45,14 @@ function Eventslist({ events, setEvents }) {
       dataField: "code",
       text: "Code *",
       sort: true,
-
+      align: "center",
       style: { verticalAlign: "middle" },
     },
     {
       dataField: "event_name",
       text: "Nom *",
       sort: true,
-      align: "left",
+      align: "center",
       style: { verticalAlign: "middle" },
     },
     {
@@ -68,7 +69,8 @@ function Eventslist({ events, setEvents }) {
     },
     {
       dataField: "start_date",
-      text: "Date de début *",
+      text: "Début *",
+      align: "center",
       formatter: (cellContent, row) => {
         return dayjs(row.start_date).format("DD/MM/YY");
       },
@@ -77,7 +79,8 @@ function Eventslist({ events, setEvents }) {
     },
     {
       dataField: "end_date",
-      text: "Date de fin *",
+      text: "Fin *",
+      align: "center",
       formatter: (cellContent, row) => {
         return dayjs(row.end_date).format("DD/MM/YY");
       },
@@ -90,7 +93,7 @@ function Eventslist({ events, setEvents }) {
       formatter: (cellContent, row) => {
         return (
           <button
-            className="btn btn-outline-warning btn-xs btn-block"
+            className="btn btn-outline-warning btn-xs"
             onClick={() => navigate(`/events/${row._id}`)}
           >
             Détails
@@ -171,7 +174,7 @@ function Eventslist({ events, setEvents }) {
       bootstrap4={true}
     >
       {(props) => (
-        <Container>
+        <Container fluid="xl">
           <Row>
             <Col>
               <SearchBar {...props.searchProps} />
@@ -185,7 +188,7 @@ function Eventslist({ events, setEvents }) {
                 striped
                 hover
                 responsive
-                bordered={false}
+                condensed
                 data={events}
                 columns={columns}
                 defaultSorted={defaultSorted}
