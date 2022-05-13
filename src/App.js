@@ -23,7 +23,7 @@ function App() {
   const { connected } = useAuth();
 
   return (
-    <div className="App">
+    <div>
       <NavBar />
       <Routes>
         <Route path="/" element={<Home />} />

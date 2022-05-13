@@ -112,12 +112,11 @@ function Eventslist({ events, setEvents }) {
     services
       .getEventFromDB()
       .then((list) => {
-        console.log("list", list);
         setEvents(list);
       })
       .catch((error) => {
         console.log("Error list events", error);
-        alert("La liste des events ne peut êtrea affichée");
+        alert("La liste des events ne peut être à affichée");
       });
   }
 

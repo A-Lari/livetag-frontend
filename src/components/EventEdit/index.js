@@ -18,17 +18,14 @@ function EventEdit({ idEvent, title, isCreate = false }) {
 
   const navigate = useNavigate();
 
-  console.log("idEvent", idEvent);
-
   useEffect(() => {
     if (!isCreate) {
       services
         .getEventById(idEvent)
         .then((response) => {
-          console.log("Yep", response);
           setBody(response);
         })
-        .catch(console.log);
+        .catch((error) => console.log(error));
     }
   }, []);
 
@@ -101,7 +98,7 @@ function EventEdit({ idEvent, title, isCreate = false }) {
                   <Form.Control
                     type="date"
                     name="start_date"
-                    value={dayjs(body.start_date).format("YYYY-MM-DD")}
+                    defaultValue={dayjs(body.start_date).format("YYYY-MM-DD")}
                     required
                   />
                 </Form.Group>
@@ -112,7 +109,7 @@ function EventEdit({ idEvent, title, isCreate = false }) {
                   <Form.Control
                     type="date"
                     name="end_date"
-                    value={dayjs(body.end_date).format("YYYY-MM-DD")}
+                    defaultValue={dayjs(body.end_date).format("YYYY-MM-DD")}
                     required
                   />
                 </Form.Group>
