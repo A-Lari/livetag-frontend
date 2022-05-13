@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import services from "../../services";
 
@@ -9,7 +9,7 @@ import ToolkitProvider, {
   Search,
 } from "react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit";
 import paginationFactory from "react-bootstrap-table2-paginator";
-import { Container, Row, Col, Button, Card } from "react-bootstrap";
+import { Container, Row, Col, Button } from "react-bootstrap";
 
 import ActivityAdd from "../../components/ActivityAdd";
 import "./ActivitiesList.css";
@@ -32,12 +32,13 @@ export default function ActivitiesList() {
       dataField: "activity_name",
       text: "Nom *",
       sort: true,
-      align: "left",
-      style: { verticalAlign: "middle" },
+      style: { verticalAlign: "middle", fontWeight: "bold" },
     },
     {
       dataField: "activity_date",
       text: "Date *",
+      align: "center",
+      headerAlign: "center",
       formatter: (cellContent, row) => {
         return dayjs(row.start_date).format("DD/MM/YY");
       },
@@ -47,7 +48,6 @@ export default function ActivitiesList() {
     {
       dataField: "description",
       text: "Description",
-      align: "left",
       style: { verticalAlign: "middle" },
     },
 
@@ -56,18 +56,21 @@ export default function ActivitiesList() {
       text: "Tarif (€)*",
       sort: true,
       align: "right",
+      headerAlign: "right",
       style: { verticalAlign: "middle" },
     },
     {
       dataField: "details",
       text: "",
+      align: "center",
+      style: { width: "8%", verticalAlign: "middle" },
       formatter: (cellContent, row) => {
         return (
           <button
-            className="btn btn-outline-warning btn-xs btn-block"
+            className="btn btn-warning btn-xs btn-block"
             onClick={() => navigate(`/activities/${row._id}`)}
           >
-            Détails
+            Modifier
           </button>
         );
       },
@@ -75,6 +78,8 @@ export default function ActivitiesList() {
     {
       dataField: "remove",
       text: "",
+      align: "center",
+      style: { width: "8%", verticalAlign: "middle" },
       formatter: (cellContent, row) => {
         return (
           <button
@@ -138,12 +143,12 @@ export default function ActivitiesList() {
   }
 
   return (
-    <Container className="mt-3">
+    <Container className="m-5" fluid="xl">
       <Row className="justify-content-center">
-        <Col sm className="m-4">
+        <Col sm>
           <h3>LISTE DES ACTIVITES</h3>
         </Col>
-        <Col sm className="m-4 text-right">
+        <Col sm className="text-right">
           <Button onClick={handleAddButton} class="button-bg-color">
             Ajouter
           </Button>
@@ -167,7 +172,7 @@ export default function ActivitiesList() {
             bootstrap4={true}
           >
             {(props) => (
-              <Container>
+              <Container fluid="xl">
                 <Row>
                   <Col>
                     <SearchBar {...props.searchProps} />
@@ -181,6 +186,7 @@ export default function ActivitiesList() {
                       striped
                       hover
                       responsive
+                      condensed
                       bordered={false}
                       data={activities}
                       columns={columns}

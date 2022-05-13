@@ -30,6 +30,7 @@ function Eventslist({ events, setEvents }) {
       dataField: "useEvent",
       text: "",
       align: "center",
+      style: { verticalAlign: "middle", width: "10%" },
       formatter: (cellContent, row) => {
         return (
           <button
@@ -46,14 +47,18 @@ function Eventslist({ events, setEvents }) {
       text: "Code *",
       sort: true,
       align: "center",
-      style: { verticalAlign: "middle" },
+      headerAlign: "center",
+      style: {
+        verticalAlign: "middle",
+        fontStyle: "italic",
+        fontSize: "12px",
+      },
     },
     {
       dataField: "event_name",
       text: "Nom *",
       sort: true,
-      align: "center",
-      style: { verticalAlign: "middle" },
+      style: { verticalAlign: "middle", width: "12%", fontWeight: "bold" },
     },
     {
       dataField: "description",
@@ -65,12 +70,15 @@ function Eventslist({ events, setEvents }) {
       dataField: "place",
       text: "Lieu *",
       sort: true,
-      style: { verticalAlign: "middle" },
+      align: "center",
+      headerAlign: "center",
+      style: { verticalAlign: "middle", width: "15%" },
     },
     {
       dataField: "start_date",
       text: "Début *",
       align: "center",
+      headerAlign: "center",
       formatter: (cellContent, row) => {
         return dayjs(row.start_date).format("DD/MM/YY");
       },
@@ -81,6 +89,7 @@ function Eventslist({ events, setEvents }) {
       dataField: "end_date",
       text: "Fin *",
       align: "center",
+      headerAlign: "center",
       formatter: (cellContent, row) => {
         return dayjs(row.end_date).format("DD/MM/YY");
       },
@@ -90,13 +99,15 @@ function Eventslist({ events, setEvents }) {
     {
       dataField: "details",
       text: "",
+      align: "center",
+      style: { verticalAlign: "middle", width: "8%" },
       formatter: (cellContent, row) => {
         return (
           <button
-            className="btn btn-outline-warning btn-xs"
+            className="btn btn-warning btn-xs"
             onClick={() => navigate(`/events/${row._id}`)}
           >
-            Détails
+            Modifier
           </button>
         );
       },
@@ -104,6 +115,8 @@ function Eventslist({ events, setEvents }) {
     {
       dataField: "remove",
       text: "",
+      align: "center",
+      style: { verticalAlign: "middle", width: "8%" },
       formatter: (cellContent, row) => {
         return (
           <button
@@ -126,7 +139,7 @@ function Eventslist({ events, setEvents }) {
   ];
 
   // RECUPERATION DES DONNEES
-
+  // #region
   function fetchEventData() {
     services
       .getEventFromDB()
@@ -164,6 +177,7 @@ function Eventslist({ events, setEvents }) {
   useEffect(() => {
     fetchEventData();
   }, []);
+  // #endregion
 
   return (
     <ToolkitProvider
@@ -189,6 +203,7 @@ function Eventslist({ events, setEvents }) {
                 hover
                 responsive
                 condensed
+                bordered={false}
                 data={events}
                 columns={columns}
                 defaultSorted={defaultSorted}

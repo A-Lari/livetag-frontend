@@ -1,7 +1,15 @@
+import { useEffect } from "react";
 import { Col, Container, Row } from "react-bootstrap";
+import { useEvent } from "../../EventInUse";
 import "./Home.css";
 
 const Home = () => {
+  const { setEventChoice, setEvent } = useEvent();
+  useEffect(() => {
+    setEventChoice(false);
+    setEvent({});
+  }, []);
+
   return (
     <Container>
       <Row className="m-5 p-5 text-center">
