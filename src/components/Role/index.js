@@ -51,7 +51,7 @@ export default function Role(role) {
           variant="outline-warning"
           onClick={() => navigate(`/roles/${role._id}`)}
         >
-          Editer
+          Modifier
         </Button>
         <Button variant="outline-danger" onClick={() => deleteRole(role._id)}>
           Supprimer

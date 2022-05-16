@@ -29,15 +29,8 @@ const Roleslist = () => {
 
   useEffect(() => {
     console.log("Role - eventId : ", eventSelect._id);
-    search(eventSelect._id);
+    search(localStorage.getItem("idEvent"));
   }, []);
-
-  /*return (
-    <div className="roles">
-      <p>ROLES LIST PAGE</p>
-      <p>{JSON.stringify(roles, null, 2)}</p>
-    </div>
-  );*/
 
   return (
     <Container className="mt-3">
