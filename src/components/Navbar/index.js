@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Alert, Container, Row, Col } from "react-bootstrap";
+import { Alert, Container, Row, Col, Badge } from "react-bootstrap";
 import { useAuth } from "../../AuthProvider";
 import { useEvent } from "../../EventInUse";
 import "./Navbar.css";
@@ -54,7 +54,9 @@ export default function NavBar() {
             <Alert variant="primary" className="m-0">
               <Container className="p-0 h5">
                 <Row className="align-items-middle">
-                  <Col className="text-center">{eventSelect.event_name} : </Col>
+                  <Col className="text-center">
+                    <Badge bg="info">{eventSelect.event_name}</Badge>{" "}
+                  </Col>
                   <Col>
                     <Link
                       className="project-link-second text-center"
