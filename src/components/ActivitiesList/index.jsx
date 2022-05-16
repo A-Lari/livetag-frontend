@@ -111,20 +111,15 @@ export default function ActivitiesList({ activities, setActivities }) {
   };
   function deleteActivityAndRefresh(idActivity) {
     //liste des activités via dB
-    services.countActivityByRole(idActivity).then((count) => {
-      console.log(count);
-      //On supprime aucune activité utilisant un role
-      if (count === 0) {
-        services
+    services
           .deleteActivity(idActivity)
-          .then((result) => {
+          .then((response) => {
+            if (response.status === 401) {
+              alert(response.data);
+            }
             search();
           })
           .catch(console.log);
-      } else {
-        alert("Activitée associée à un rôle, vous ne pouvez pas la supprimer");
-      }
-    });
   }
 
   useEffect(() => {
