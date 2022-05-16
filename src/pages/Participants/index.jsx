@@ -1,10 +1,9 @@
 import "./Participants.css";
 import { useState } from "react";
+import { Container, Row, Col, Button } from "react-bootstrap";
 
 import ParticipantEdit from "../../components/ParticipantEdit";
 import ParticipantsList from "../../components/ParticipantsList";
-
-import { Container, Row, Col, Button } from "react-bootstrap";
 
 const Participants = () => {
   const [listParticipants, setListParticipants] = useState([]);

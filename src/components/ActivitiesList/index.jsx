@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import services from "../../services";
@@ -9,18 +9,14 @@ import ToolkitProvider, {
   Search,
 } from "react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit";
 import paginationFactory from "react-bootstrap-table2-paginator";
-import { Container, Row, Col, Button } from "react-bootstrap";
-
-import ActivityAdd from "../../components/ActivityAdd";
-import "./ActivitiesList.css";
+import { Container, Row, Col } from "react-bootstrap";
 import { useEvent } from "../../EventInUse";
 
-export default function ActivitiesList() {
-  const [activities, setActivities] = useState([]);
-  const { event } = useEvent();
-  const [showAddActivite, setShowAddActivite] = useState(false);
-
+export default function ActivitiesList({ activities, setActivities }) {
+  const { eventSelect } = useEvent();
+  const navigate = useNavigate();
   const { SearchBar } = Search;
+
   // DESCRIPTION DES COLONNES
   // #region
   const columns = [
@@ -102,16 +98,11 @@ export default function ActivitiesList() {
   ];
 
   // RECUPERATION DES DONNEES
-  function handleAddButton() {
-    setShowAddActivite((currentState) => !currentState);
-  }
-
-  const navigate = useNavigate();
-
-  //liste des activités via dB
-  const search = (idEvent) => {
+  //supprimer l'activité et refresh la page
+  const search = () => {
+    console.log("Activities - eventSelect : ", eventSelect._id);
     services
-      .getActivities(idEvent)
+      .getActivities(localStorage.getItem("idEvent"))
       .then((result) => {
         setActivities(result);
       })
@@ -119,21 +110,16 @@ export default function ActivitiesList() {
         console.log(err);
       });
   };
-
-  useEffect(() => {
-    search(event._id);
-  }, []);
-
-  //supprimer l'activité et refresh la page
   function deleteActivityAndRefresh(idActivity) {
+    //liste des activités via dB
     services.countActivityByRole(idActivity).then((count) => {
       console.log(count);
       //On supprime aucune activité utilisant un role
       if (count === 0) {
         services
           .deleteActivity(idActivity)
-          .then(() => {
-            navigate(0);
+          .then((result) => {
+            search();
           })
           .catch(console.log);
       } else {
@@ -142,68 +128,48 @@ export default function ActivitiesList() {
     });
   }
 
+  useEffect(() => {
+    search();
+  }, []);
+
   return (
-    <Container className="m-5" fluid="xl">
-      <Row className="justify-content-center">
-        <Col sm>
-          <h3>LISTE DES ACTIVITES</h3>
-        </Col>
-        <Col sm className="text-right">
-          <Button onClick={handleAddButton} class="button-bg-color">
-            Ajouter
-          </Button>
-        </Col>
-      </Row>
-      {showAddActivite && (
-        <Row className="justify-content-center">
-          <Col sm>
-            <ActivityAdd />
-          </Col>
-        </Row>
+    <ToolkitProvider
+      keyField="_id"
+      data={activities}
+      columns={columns}
+      search
+      bootstrap4={true}
+    >
+      {(props) => (
+        <Container fluid="xl">
+          <Row>
+            <Col>
+              <SearchBar {...props.searchProps} />
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <BootstrapTable
+                {...props.baseProps}
+                keyField="_id"
+                striped
+                hover
+                responsive
+                condensed
+                bordered={false}
+                data={activities}
+                columns={columns}
+                defaultSorted={defaultSorted}
+                noDataIndication="Aucune donnée dans la liste"
+                pagination={paginationFactory()}
+              ></BootstrapTable>
+            </Col>
+          </Row>
+          <Row>
+            <Col className="h6 mb-4">* tri possible sur colonne</Col>
+          </Row>
+        </Container>
       )}
-      <hr />
-      <Row>
-        <Col>
-          <ToolkitProvider
-            keyField="_id"
-            data={activities}
-            columns={columns}
-            search
-            bootstrap4={true}
-          >
-            {(props) => (
-              <Container fluid="xl">
-                <Row>
-                  <Col>
-                    <SearchBar {...props.searchProps} />
-                  </Col>
-                </Row>
-                <Row>
-                  <Col>
-                    <BootstrapTable
-                      {...props.baseProps}
-                      keyField="_id"
-                      striped
-                      hover
-                      responsive
-                      condensed
-                      bordered={false}
-                      data={activities}
-                      columns={columns}
-                      defaultSorted={defaultSorted}
-                      noDataIndication="Aucune donnée dans la liste"
-                      pagination={paginationFactory()}
-                    ></BootstrapTable>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col className="h6 mb-4">* tri possible sur colonne</Col>
-                </Row>
-              </Container>
-            )}
-          </ToolkitProvider>
-        </Col>
-      </Row>
-    </Container>
+    </ToolkitProvider>
   );
 }

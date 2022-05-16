@@ -9,7 +9,7 @@ import { useEvent } from "../../EventInUse";
 
 const Roleslist = () => {
   const [roles, setRoles] = useState([]);
-  const { event } = useEvent();
+  const { eventSelect } = useEvent();
   const [showAddRole, setShowAddRole] = useState(false);
 
   function handleAddButton() {
@@ -28,7 +28,8 @@ const Roleslist = () => {
   };
 
   useEffect(() => {
-    search(event._id);
+    console.log("Role - eventId : ", eventSelect._id);
+    search(eventSelect._id);
   }, []);
 
   /*return (

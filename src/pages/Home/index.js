@@ -4,10 +4,10 @@ import { useEvent } from "../../EventInUse";
 import "./Home.css";
 
 const Home = () => {
-  const { setEventChoice, setEvent } = useEvent();
+  const { setEventChoice, setEventSelect } = useEvent();
   useEffect(() => {
     setEventChoice(false);
-    setEvent({});
+    setEventSelect({});
   }, []);
 
   return (

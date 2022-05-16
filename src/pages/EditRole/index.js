@@ -3,11 +3,13 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Button, Container, Form, Card, Row, Col } from "react-bootstrap";
 import services from "../../services";
 import "./EditRole.css";
+import { useEvent } from "../../EventInUse";
 export default function EditRole() {
+  const { eventSelect } = useEvent();
   const [body, setBody] = useState({
     role_name: "",
     activities: [],
-    event: "627900a483fb6b651f2ea81e",
+    event: "",
   });
 
   const navigate = useNavigate();
@@ -61,7 +63,7 @@ export default function EditRole() {
   /* Effet de bord au premier rendu du composant */
   useEffect(() => {
     Promise.all([
-      services.getActivities("627900a483fb6b651f2ea81e"),
+      services.getActivities(eventSelect._id),
       services.getRole(idRole),
     ])
       .then((values) => {

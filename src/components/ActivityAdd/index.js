@@ -1,15 +1,17 @@
 import { useState } from "react";
 import { Button, Container, Form, Card, Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { useEvent } from "../../EventInUse";
 import services from "../../services";
 
 function ActivityAdd() {
+  const { eventSelect } = useEvent();
   const [body, setBody] = useState({
     activity_name: "",
     activity_date: "",
     description: "",
     price: "",
-    event: "627900a483fb6b651f2ea81e",
+    event: eventSelect._id,
   });
 
   const navigate = useNavigate();

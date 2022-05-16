@@ -16,7 +16,7 @@ import { Col, Container, Row, Toast } from "react-bootstrap";
 
 function Eventslist({ events, setEvents }) {
   const navigate = useNavigate();
-  const { setEventChoice, setEvent } = useEvent();
+  const { setEventChoice, setEventSelect } = useEvent();
 
   const { SearchBar } = Search;
   // DESCRIPTION DES COLONNES
@@ -166,7 +166,7 @@ function Eventslist({ events, setEvents }) {
       .getEventById(id)
       .then((event) => {
         localStorage.setItem("idEvent", event._id);
-        setEvent(event);
+        setEventSelect(event);
         setEventChoice(true);
         navigate("../activities/");
       })

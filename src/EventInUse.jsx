@@ -5,17 +5,17 @@ const EventCtxt = createContext(null);
 
 export default function EventInuse({ children }) {
   const [eventChoice, setEventChoice] = useState(false);
-  const [event, setEvent] = useState("");
+  const [eventSelect, setEventSelect] = useState({});
 
   useEffect(() => {
     const idEvent = localStorage.getItem("idEvent");
     services.getEventById(idEvent).then((event) => {
-      setEvent(event);
+      setEventSelect(event);
       setEventChoice(true);
     });
   }, []);
 
-  const value = { eventChoice, setEventChoice, event, setEvent };
+  const value = { eventChoice, setEventChoice, eventSelect, setEventSelect };
 
   return <EventCtxt.Provider value={value}>{children}</EventCtxt.Provider>;
 }
