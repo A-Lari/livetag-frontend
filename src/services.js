@@ -91,7 +91,13 @@ const services = {
       .delete(`/events/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
-      .then((res) => res.data);
+      .then((res) => res.data)
+      .catch((err) => {
+        console.log("erreur deleteEventByID", err);
+        const { data, status } = err.response;
+        const response = { data, status };
+        return response;
+      });
   },
 
   getEventById(idEvent) {

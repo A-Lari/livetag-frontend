@@ -156,6 +156,10 @@ function Eventslist({ events, setEvents }) {
     services
       .deleteEventByID(id)
       .then((response) => {
+        console.log(response);
+        if (response.status === 401) {
+          alert(response.data);
+        }
         navigate(0);
       })
       .catch(console.log);
