@@ -9,22 +9,12 @@ export default function Role(role) {
 
   const deleteRole = (idRole) => {
     services
-      .countParticipantsByRole(idRole)
-      .then((count) => {
-        console.log(count);
-        //On supprime aucun participant utilise le role
-        if (count === 0) {
-          services
-            .deleteRole(idRole)
-            .then((response) => {
-              navigate(0);
-            })
-            .catch(console.log);
-        } else {
-          alert(
-            "Role utilisé par les participants, vous ne pouvez pas le supprimer"
-          );
+      .deleteRole(idRole)
+      .then((response) => {
+        if (response.status === 401) {
+          alert(response.data);
         }
+        navigate(0);
       })
       .catch(console.log);
   };
