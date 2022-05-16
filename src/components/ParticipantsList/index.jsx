@@ -139,7 +139,7 @@ function ParticipantsList({ listParticipants, setListParticipants }) {
   // #region
   function fecthAndSetListParticipant() {
     services
-      .getAllParticipants()
+      .getParticipantByEvent(localStorage.getItem("idEvent"))
       .then((list) => {
         setListParticipants(list);
       })

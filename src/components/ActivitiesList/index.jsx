@@ -100,7 +100,6 @@ export default function ActivitiesList({ activities, setActivities }) {
   // RECUPERATION DES DONNEES
   //supprimer l'activité et refresh la page
   const search = () => {
-    console.log("Activities - eventSelect : ", eventSelect._id);
     services
       .getActivities(localStorage.getItem("idEvent"))
       .then((result) => {
