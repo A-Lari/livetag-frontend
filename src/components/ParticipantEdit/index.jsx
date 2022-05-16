@@ -3,6 +3,7 @@ import { Container, Row, Col, Card, Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useEvent } from "../../EventInUse";
 import services from "../../services";
+import Role from "../Role";
 import "./ParticipantEdit.css";
 
 function ParticipantEdit({ idParticipant, title, isCreate = false }) {
@@ -10,7 +11,7 @@ function ParticipantEdit({ idParticipant, title, isCreate = false }) {
   const { eventSelect } = useEvent();
   const [oneParticipant, setOneParticipant] = useState({
     event: { _id: eventSelect._id, event_name: "" },
-    role: { _id: 0, role_name: "" },
+    role: { _id: 0, role_name: "", activities: [], event: "" },
   });
   const [body, setBody] = useState({
     firstname: "",
@@ -22,6 +23,8 @@ function ParticipantEdit({ idParticipant, title, isCreate = false }) {
     optional_activities: [],
   });
   const [roleList, setRoleList] = useState([]);
+  const [oneParticipantIsUpdate, setOneParticipantIsUpdate] = useState(false);
+  const [role, setRole] = useState({ activities: [] });
 
   const navigate = useNavigate();
 
@@ -43,6 +46,16 @@ function ParticipantEdit({ idParticipant, title, isCreate = false }) {
             role: reponse.role._id,
             optional_activities: reponse.optional_activities,
           });
+          setOneParticipantIsUpdate(true);
+
+          services
+            .getRole(reponse.role._id)
+            .then((result) => {
+              setRole(result);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
         })
         .catch(console.log);
     }
@@ -58,6 +71,17 @@ function ParticipantEdit({ idParticipant, title, isCreate = false }) {
   function handleFormChange(event) {
     const name = event.target.name;
     const value = event.target.value;
+    if (name === "role") {
+      services
+        .getRole(value)
+        .then((result) => {
+          setRole(result);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+
     updateBody(name, value);
   }
 
@@ -149,6 +173,11 @@ function ParticipantEdit({ idParticipant, title, isCreate = false }) {
                   </Form.Control>
                 </Form.Group>
               </Col>
+              {oneParticipantIsUpdate && (
+                <Col>
+                  <Role key={role._id} role={role} isFromParticipant={true} />
+                </Col>
+              )}
             </Row>
 
             {isCreate && (
