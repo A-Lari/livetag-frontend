@@ -1,4 +1,5 @@
 import { createContext, useEffect, useState, useContext } from "react";
+import services from "./services";
 
 const EventCtxt = createContext(null);
 
@@ -7,7 +8,11 @@ export default function EventInuse({ children }) {
   const [event, setEvent] = useState("");
 
   useEffect(() => {
-    setEventChoice(Boolean(event));
+    const idEvent = localStorage.getItem("idEvent");
+    services.getEventById(idEvent).then((event) => {
+      setEvent(event);
+      setEventChoice(true);
+    });
   }, []);
 
   const value = { eventChoice, setEventChoice, event, setEvent };

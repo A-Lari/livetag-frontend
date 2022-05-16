@@ -67,7 +67,7 @@ function ParticipantEdit({ idParticipant, title, isCreate = false }) {
   function handleUpdate(event) {
     event.preventDefault();
     services.updateParticipant(idParticipant, body).then(() => {
-      navigate("/participants");
+      navigate(-1);
       alert("Participant modifié");
     });
   }

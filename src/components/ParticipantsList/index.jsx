@@ -89,7 +89,7 @@ function ParticipantsList({ listParticipants, setListParticipants }) {
             className="btn btn-warning btn-xs btn-block"
             onClick={() => navigate(`/participants/${row._id}`)}
           >
-            Détails
+            Modifier
           </button>
         );
       },
