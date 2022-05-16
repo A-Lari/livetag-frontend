@@ -12,9 +12,8 @@ import { Col, Container, Row, Button } from "react-bootstrap";
 import { useEvent } from "../../EventInUse";
 
 function ParticipantsList({ listParticipants, setListParticipants }) {
+  const { eventSelect } = useEvent();
   const navigate = useNavigate();
-  const { event } = useEvent();
-
   const { SearchBar } = Search;
 
   // DESCRIPTION DES COLONNES
@@ -89,7 +88,7 @@ function ParticipantsList({ listParticipants, setListParticipants }) {
             className="btn btn-warning btn-xs btn-block"
             onClick={() => navigate(`/participants/${row._id}`)}
           >
-            Détails
+            Modifier
           </button>
         );
       },
@@ -131,7 +130,7 @@ function ParticipantsList({ listParticipants, setListParticipants }) {
   // OPTION DU TABLEAU
   const defaultSorted = [
     {
-      dataField: "event.event_name",
+      dataField: "role.role_name",
       order: "asc", // desc or asc
     },
   ];
@@ -140,7 +139,7 @@ function ParticipantsList({ listParticipants, setListParticipants }) {
   // #region
   function fecthAndSetListParticipant() {
     services
-      .getAllParticipants()
+      .getParticipantByEvent(localStorage.getItem("idEvent"))
       .then((list) => {
         setListParticipants(list);
       })

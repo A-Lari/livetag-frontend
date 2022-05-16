@@ -6,7 +6,7 @@ import "./Navbar.css";
 
 export default function NavBar() {
   const { connected, disconnect } = useAuth();
-  const { eventChoice, event } = useEvent();
+  const { eventChoice, eventSelect } = useEvent();
 
   return (
     <Container fluid="xl" className="p-1 navbar-perso">
@@ -54,7 +54,7 @@ export default function NavBar() {
             <Alert variant="primary" className="m-0">
               <Container className="p-0 h5">
                 <Row className="align-items-middle">
-                  <Col className="text-center">{event.event_name} : </Col>
+                  <Col className="text-center">{eventSelect.event_name} : </Col>
                   <Col>
                     <Link
                       className="project-link-second text-center"

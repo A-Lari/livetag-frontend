@@ -3,11 +3,14 @@ import { useNavigate } from "react-router-dom";
 import { Button, Container, Row, Col, Form, Card } from "react-bootstrap";
 import services from "../../services";
 import "./CreateRole.css";
+import { useEvent } from "../../EventInUse";
+
 export default function CreateRole() {
+  const { eventSelect } = useEvent();
   const [body, setBody] = useState({
     role_name: "",
     activities: [],
-    event: "627900a483fb6b651f2ea81e",
+    event: eventSelect._id,
   });
   const [activities, setActivities] = useState([]);
   const [checkActivities, setCheckActivities] = useState([]);
@@ -55,7 +58,7 @@ export default function CreateRole() {
   /* Effet de bord au premier rendu du composant */
   useEffect(() => {
     services
-      .getActivities("627900a483fb6b651f2ea81e")
+      .getActivities(eventSelect._id)
       .then((response) => {
         console.log(response);
         setCheckActivities(response);

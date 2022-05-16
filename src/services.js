@@ -33,6 +33,10 @@ const services = {
     return base.get(`participants/${idParticipant}`).then((res) => res.data);
   },
 
+  getParticipantByEvent(idEvent) {
+    return base.get(`participants/byevent/${idEvent}`).then((res) => res.data);
+  },
+
   deleteParticipant(idParticipant) {
     return base
       .delete(`/participants/${idParticipant}`)

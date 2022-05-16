@@ -1,6 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { Badge, Button, Card, Row, Col } from "react-bootstrap";
+import { Button, Card } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import services from "../../services";
 import("./Role.css");
@@ -52,7 +51,7 @@ export default function Role(role) {
           variant="outline-warning"
           onClick={() => navigate(`/roles/${role._id}`)}
         >
-          Editer
+          Modifier
         </Button>
         <Button variant="outline-danger" onClick={() => deleteRole(role._id)}>
           Supprimer

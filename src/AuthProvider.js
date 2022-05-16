@@ -16,6 +16,7 @@ export default function AuthProvider({ children }) {
     navigate("/");
     setConnected(false);
     localStorage.removeItem("jwt");
+    localStorage.removeItem("idEvent");
   }
 
   const value = { connected, disconnect, setConnected }; // Tous les enfants de AuthProvider y auront accès

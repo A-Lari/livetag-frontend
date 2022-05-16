@@ -7,9 +7,9 @@ import "./ParticipantEdit.css";
 
 function ParticipantEdit({ idParticipant, title, isCreate = false }) {
   // #region
-  const { event } = useEvent();
+  const { eventSelect } = useEvent();
   const [oneParticipant, setOneParticipant] = useState({
-    event: { _id: 0, event_name: "" },
+    event: { _id: eventSelect._id, event_name: "" },
     role: { _id: 0, role_name: "" },
   });
   const [body, setBody] = useState({
@@ -17,7 +17,7 @@ function ParticipantEdit({ idParticipant, title, isCreate = false }) {
     lastname: "",
     email: "",
     telephone: "",
-    event: null,
+    event: eventSelect._id,
     role: null,
     optional_activities: [],
   });
@@ -26,7 +26,6 @@ function ParticipantEdit({ idParticipant, title, isCreate = false }) {
   const navigate = useNavigate();
 
   function fecthAndSetListRoles(eventId) {
-    console.log(eventId);
     services.getRoles(eventId).then((reponse) => {
       setRoleList(reponse);
     });
@@ -47,7 +46,10 @@ function ParticipantEdit({ idParticipant, title, isCreate = false }) {
         })
         .catch(console.log);
     }
-    fecthAndSetListRoles(event._id);
+  }, []);
+
+  useEffect(() => {
+    fecthAndSetListRoles(eventSelect._id);
   }, []);
 
   function updateBody(key, value) {
@@ -67,7 +69,7 @@ function ParticipantEdit({ idParticipant, title, isCreate = false }) {
   function handleUpdate(event) {
     event.preventDefault();
     services.updateParticipant(idParticipant, body).then(() => {
-      navigate("/participants");
+      navigate(-1);
       alert("Participant modifié");
     });
   }
@@ -139,7 +141,7 @@ function ParticipantEdit({ idParticipant, title, isCreate = false }) {
                       <option
                         key={role._id}
                         selected={role._id === oneParticipant.role._id}
-                        defaultValue={role._id}
+                        value={role._id}
                       >
                         {role.role_name}
                       </option>

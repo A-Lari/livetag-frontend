@@ -14,7 +14,7 @@ import Inscription from "./pages/Inscription";
 import Roleslist from "./pages/RolesList";
 import EditRole from "./pages/EditRole";
 import CreateRole from "./pages/CreateRole";
-import ActivitiesList from "./pages/ActivitiesList";
+import Activities from "./pages/Activities";
 import Events from "./pages/Events";
 import Event from "./pages/Event";
 import ActivityEdit from "./pages/ActivityEdit";
@@ -44,7 +44,7 @@ function App() {
         {connected && <Route path="/roles/:idRole" element={<EditRole />} />}
         {connected && <Route path="/roles/create" element={<CreateRole />} />}
 
-        {connected && <Route path="/activities" element={<ActivitiesList />} />}
+        {connected && <Route path="/activities" element={<Activities />} />}
         {connected && (
           <Route path="/activities/:idActivity" element={<ActivityEdit />} />
         )}

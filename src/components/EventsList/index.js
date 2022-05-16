@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useEvent } from "../../EventInUse";
@@ -12,11 +12,11 @@ import ToolkitProvider, {
   Search,
 } from "react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit";
 import paginationFactory from "react-bootstrap-table2-paginator";
-import { Col, Container, Row } from "react-bootstrap";
+import { Col, Container, Row, Toast } from "react-bootstrap";
 
 function Eventslist({ events, setEvents }) {
   const navigate = useNavigate();
-  const { setEventChoice, setEvent } = useEvent();
+  const { setEventChoice, setEventSelect } = useEvent();
 
   const { SearchBar } = Search;
   // DESCRIPTION DES COLONNES
@@ -165,8 +165,10 @@ function Eventslist({ events, setEvents }) {
     services
       .getEventById(id)
       .then((event) => {
-        setEvent(event);
+        localStorage.setItem("idEvent", event._id);
+        setEventSelect(event);
         setEventChoice(true);
+        navigate("../activities/");
       })
       .catch((error) => {
         console.log("Error select events", error);
