@@ -158,7 +158,13 @@ const services = {
       .delete(`/roles/${idRole}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
-      .then((res) => res.data);
+      .then((res) => res.data)
+      .catch((err) => {
+        console.log("erreur deleteRole", err);
+        const { data, status } = err.response;
+        const response = { data, status };
+        return response;
+      });
   },
 
   updateRole(idRole, body) {
@@ -199,7 +205,13 @@ const services = {
       .delete(`/activities/${idActivity}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
-      .then((res) => res.data);
+      .then((res) => res.data)
+      .catch((err) => {
+        console.log("erreur deleteActivity", err);
+        const { data, status } = err.response;
+        const response = { data, status };
+        return response;
+      });
   },
 
   addActivity(body) {
