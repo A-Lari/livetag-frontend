@@ -51,6 +51,7 @@ function ParticipantEdit({ idParticipant, title, isCreate = false }) {
             .getRole(reponse.role._id)
             .then((result) => {
               setRole(result);
+              setFormIsCompleted(true);
             })
             .catch((err) => {
               console.log(err);
@@ -166,7 +167,6 @@ function ParticipantEdit({ idParticipant, title, isCreate = false }) {
                     placeholder="Téléphone"
                     name="telephone"
                     defaultValue={oneParticipant.telephone}
-                    value={oneParticipant.telephone}
                   />
                 </Form.Group>
               </Col>
@@ -228,14 +228,27 @@ function ParticipantEdit({ idParticipant, title, isCreate = false }) {
               <Container>
                 <Row>
                   <Col className="text-center">
-                    <Button
-                      variant="warning"
-                      type="submit"
-                      className="mt-3"
-                      onClick={handleUpdate}
-                    >
-                      MODIFIER
-                    </Button>
+                    {formIsCompleted && (
+                      <Button
+                        variant="warning"
+                        type="submit"
+                        className="mt-3"
+                        onClick={handleUpdate}
+                      >
+                        MODIFIER
+                      </Button>
+                    )}
+                    {!formIsCompleted && (
+                      <Button
+                        variant="warning"
+                        type="submit"
+                        className="mt-3"
+                        onClick={handleUpdate}
+                        disabled
+                      >
+                        MODIFIER
+                      </Button>
+                    )}
                   </Col>
                 </Row>
                 <Row>
