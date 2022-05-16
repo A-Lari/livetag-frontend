@@ -3,6 +3,7 @@ import { Container, Row, Col, Card, Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useEvent } from "../../EventInUse";
 import services from "../../services";
+import Role from "../Role";
 import "./ParticipantEdit.css";
 
 function ParticipantEdit({ idParticipant, title, isCreate = false }) {
@@ -10,7 +11,7 @@ function ParticipantEdit({ idParticipant, title, isCreate = false }) {
   const { eventSelect } = useEvent();
   const [oneParticipant, setOneParticipant] = useState({
     event: { _id: eventSelect._id, event_name: "" },
-    role: { _id: 0, role_name: "" },
+    role: { _id: 0, role_name: "", activities: [], event: "" },
   });
   const [body, setBody] = useState({
     firstname: "",
@@ -22,6 +23,8 @@ function ParticipantEdit({ idParticipant, title, isCreate = false }) {
     optional_activities: [],
   });
   const [roleList, setRoleList] = useState([]);
+  const [role, setRole] = useState({ activities: [] });
+  const [formIsCompleted, setFormIsCompleted] = useState(false);
 
   const navigate = useNavigate();
 
@@ -43,6 +46,16 @@ function ParticipantEdit({ idParticipant, title, isCreate = false }) {
             role: reponse.role._id,
             optional_activities: reponse.optional_activities,
           });
+
+          services
+            .getRole(reponse.role._id)
+            .then((result) => {
+              setRole(result);
+              setFormIsCompleted(true);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
         })
         .catch(console.log);
     }
@@ -58,6 +71,35 @@ function ParticipantEdit({ idParticipant, title, isCreate = false }) {
   function handleFormChange(event) {
     const name = event.target.name;
     const value = event.target.value;
+
+    // MET A JOUR LA LE COMPOSANT ROLE
+    if (name === "role") {
+      if (value !== "") {
+        // VERIFIE SUR AUCUN ROLE N'EST SELECTIONNE
+        services
+          .getRole(value)
+          .then((result) => {
+            setRole(result);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } else {
+        setRole({ activities: [] });
+      }
+    }
+    if (
+      body.firstname !== "" &&
+      body.lastname !== "" &&
+      body.email !== "" &&
+      body.telephone !== "" &&
+      value !== ""
+    ) {
+      setFormIsCompleted(true);
+    } else {
+      setFormIsCompleted(false);
+    }
+
     updateBody(name, value);
   }
 
@@ -70,7 +112,6 @@ function ParticipantEdit({ idParticipant, title, isCreate = false }) {
     event.preventDefault();
     services.updateParticipant(idParticipant, body).then(() => {
       navigate(-1);
-      alert("Participant modifié");
     });
   }
   // #endregion
@@ -126,7 +167,6 @@ function ParticipantEdit({ idParticipant, title, isCreate = false }) {
                     placeholder="Téléphone"
                     name="telephone"
                     defaultValue={oneParticipant.telephone}
-                    value={oneParticipant.telephone}
                   />
                 </Form.Group>
               </Col>
@@ -136,7 +176,7 @@ function ParticipantEdit({ idParticipant, title, isCreate = false }) {
                 <Form.Group className="mb-3" controlId="formEvenemt">
                   <Form.Label>Rôle</Form.Label>
                   <Form.Control as="select" name="role">
-                    <option>Rôle</option>
+                    {isCreate && <option value="">Rôle</option>}
                     {roleList.map((role) => (
                       <option
                         key={role._id}
@@ -149,9 +189,28 @@ function ParticipantEdit({ idParticipant, title, isCreate = false }) {
                   </Form.Control>
                 </Form.Group>
               </Col>
+
+              <Col>
+                <Role key={role._id} role={role} isFromParticipant={true} />
+              </Col>
             </Row>
 
-            {isCreate && (
+            {isCreate && !formIsCompleted && (
+              <Row>
+                <Col sm className="text-center">
+                  <Button
+                    variant="success"
+                    type="submit"
+                    className="mt-3"
+                    onClick={handleCreate}
+                    disabled
+                  >
+                    Enregistrer
+                  </Button>
+                </Col>
+              </Row>
+            )}
+            {isCreate && formIsCompleted && (
               <Row>
                 <Col sm className="text-center">
                   <Button
@@ -169,14 +228,27 @@ function ParticipantEdit({ idParticipant, title, isCreate = false }) {
               <Container>
                 <Row>
                   <Col className="text-center">
-                    <Button
-                      variant="warning"
-                      type="submit"
-                      className="mt-3"
-                      onClick={handleUpdate}
-                    >
-                      MODIFIER
-                    </Button>
+                    {formIsCompleted && (
+                      <Button
+                        variant="warning"
+                        type="submit"
+                        className="mt-3"
+                        onClick={handleUpdate}
+                      >
+                        MODIFIER
+                      </Button>
+                    )}
+                    {!formIsCompleted && (
+                      <Button
+                        variant="warning"
+                        type="submit"
+                        className="mt-3"
+                        onClick={handleUpdate}
+                        disabled
+                      >
+                        MODIFIER
+                      </Button>
+                    )}
                   </Col>
                 </Row>
                 <Row>

@@ -53,7 +53,7 @@ const Roleslist = () => {
       )}
       <Row className="justify-content-center">
         {roles.map((role) => (
-          <Role key={role._id} {...role} />
+          <Role key={role._id} role={role} />
         ))}
       </Row>
     </Container>

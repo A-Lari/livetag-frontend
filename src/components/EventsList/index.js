@@ -12,11 +12,11 @@ import ToolkitProvider, {
   Search,
 } from "react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit";
 import paginationFactory from "react-bootstrap-table2-paginator";
-import { Col, Container, Row, Toast } from "react-bootstrap";
+import { Col, Container, Row, Badge } from "react-bootstrap";
 
 function Eventslist({ events, setEvents }) {
   const navigate = useNavigate();
-  const { setEventChoice, setEventSelect } = useEvent();
+  const { setEventChoice, setEventSelect, eventSelect } = useEvent();
 
   const { SearchBar } = Search;
   // DESCRIPTION DES COLONNES
@@ -59,6 +59,11 @@ function Eventslist({ events, setEvents }) {
       text: "Nom *",
       sort: true,
       style: { verticalAlign: "middle", width: "12%", fontWeight: "bold" },
+      formatter: (cellContent, row) => {
+        if (row.event_name === eventSelect.event_name)
+          return <Badge bg="info">{row.event_name}</Badge>;
+        return <div>{row.event_name} </div>;
+      },
     },
     {
       dataField: "description",

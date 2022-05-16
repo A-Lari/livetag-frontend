@@ -1,10 +1,11 @@
 import React from "react";
 import { Button, Card } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+
 import services from "../../services";
 import("./Role.css");
 
-export default function Role(role) {
+export default function Role({ role, isFromParticipant = false }) {
   const navigate = useNavigate();
 
   const deleteRole = (idRole) => {
@@ -37,15 +38,22 @@ export default function Role(role) {
             </li>
           ))}
         </ul>
-        <Button
-          variant="outline-warning"
-          onClick={() => navigate(`/roles/${role._id}`)}
-        >
-          Modifier
-        </Button>
-        <Button variant="outline-danger" onClick={() => deleteRole(role._id)}>
-          Supprimer
-        </Button>
+        {!isFromParticipant && (
+          <div>
+            <Button
+              variant="outline-warning"
+              onClick={() => navigate(`/roles/${role._id}`)}
+            >
+              Modifier
+            </Button>
+            <Button
+              variant="outline-danger"
+              onClick={() => deleteRole(role._id)}
+            >
+              Supprimer
+            </Button>
+          </div>
+        )}
       </Card.Body>
     </Card>
   );
