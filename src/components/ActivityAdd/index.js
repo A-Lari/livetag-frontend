@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { useEvent } from "../../EventInUse";
 import services from "../../services";
 
+import "./ActivityAdd.css";
+
 function ActivityAdd() {
   const { eventSelect } = useEvent();
   const [body, setBody] = useState({
@@ -13,6 +15,7 @@ function ActivityAdd() {
     price: "",
     event: eventSelect._id,
   });
+  const [formIsCompleted, setFormIsCompleted] = useState(false);
 
   const navigate = useNavigate();
 
@@ -25,6 +28,19 @@ function ActivityAdd() {
   function handleFormChange(event) {
     const name = event.target.name; // activity_name
     const value = event.target.value;
+
+    if (
+      body.activity_name !== "" &&
+      body.activity_date !== "" &&
+      body.description !== "" &&
+      body.price !== "" &&
+      value !== ""
+    ) {
+      setFormIsCompleted(true);
+    } else {
+      setFormIsCompleted(false);
+    }
+
     updateBody(name, value);
   }
 
@@ -88,17 +104,35 @@ function ActivityAdd() {
                 </Form.Group>
               </Col>
             </Row>
-            <Row>
-              <Col className="text-center">
-                <Button
-                  variant="success"
-                  type="submit"
-                  onClick={handleSubmitAddActivity}
-                >
-                  Ajouter
-                </Button>
-              </Col>
-            </Row>
+            {!formIsCompleted && (
+              <Row>
+                <Col sm className="text-center">
+                  <Button
+                    variant="success"
+                    type="submit"
+                    className="mt-3"
+                    onClick={handleSubmitAddActivity}
+                    disabled
+                  >
+                    Enregistrer
+                  </Button>
+                </Col>
+              </Row>
+            )}
+            {formIsCompleted && (
+              <Row>
+                <Col sm className="text-center">
+                  <Button
+                    variant="success"
+                    type="submit"
+                    className="mt-3"
+                    onClick={handleSubmitAddActivity}
+                  >
+                    Enregistrer
+                  </Button>
+                </Col>
+              </Row>
+            )}
           </Container>
         </Form>
       </Card.Body>

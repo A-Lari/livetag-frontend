@@ -15,16 +15,31 @@ const Participants = () => {
 
   return (
     <Container className="m-5" fluid="xl">
-      <Row className="justify-content-center">
-        <Col sm>
-          <h3>LISTE DES PARTICIPANTS</h3>
-        </Col>
-        <Col sm className="text-right">
-          <Button onClick={handleAddButton} class="button-bg-color">
-            Ajouter
-          </Button>
-        </Col>
-      </Row>
+      <hr />
+      <Container>
+        <Row className="justify-content-center">
+          <Col sm>
+            <Row className="justify-content-center">
+              <Col sm>
+                <h4
+                  className="text-center"
+                  style={{ color: "rgb(1, 80, 104)" }}
+                >
+                  LISTE DES PARTICIPANTS
+                </h4>
+              </Col>
+              <Col sm className="text-center">
+                <Button
+                  onClick={handleAddButton}
+                  className="btn-success btn-xs"
+                >
+                  +
+                </Button>
+              </Col>
+            </Row>
+          </Col>{" "}
+        </Row>
+      </Container>
       {showAddParticipant && (
         <Container>
           <Row className="justify-content-center">

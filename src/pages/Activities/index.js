@@ -20,7 +20,7 @@ export default function Activities() {
           <h3>LISTE DES ACTIVITES</h3>
         </Col>
         <Col sm className="text-right">
-          <Button onClick={handleAddButton} class="button-bg-color">
+          <Button onClick={handleAddButton} className="btn-success">
             Ajouter
           </Button>
         </Col>

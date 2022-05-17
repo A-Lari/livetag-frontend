@@ -12,6 +12,8 @@ function ActivityEdit() {
     price: "",
   });
 
+  const [formIsCompleted, setFormIsCompleted] = useState(false);
+
   const navigate = useNavigate();
 
   let { idActivity } = useParams();
@@ -23,6 +25,19 @@ function ActivityEdit() {
   function handleFormChange(event) {
     const name = event.target.name; // activity_name
     const value = event.target.value;
+
+    if (
+      body.activity_name !== "" &&
+      body.activity_date !== "" &&
+      body.description !== "" &&
+      body.price !== "" &&
+      value !== ""
+    ) {
+      setFormIsCompleted(true);
+    } else {
+      setFormIsCompleted(false);
+    }
+
     updateBody(name, value);
   }
 
@@ -106,17 +121,36 @@ function ActivityEdit() {
                       </Form.Group>
                     </Col>
                   </Row>
-                  <Row>
-                    <Col className="text-center">
-                      <Button
-                        variant="warning"
-                        type="submit"
-                        onClick={handleSubmitActivity}
-                      >
-                        Modifier
-                      </Button>
-                    </Col>
-                  </Row>
+                  {!formIsCompleted && (
+                    <Row>
+                      <Col sm className="text-center">
+                        <Button
+                          variant="warning"
+                          type="submit"
+                          className="mt-3"
+                          onClick={handleSubmitActivity}
+                          disabled
+                        >
+                          Modifier
+                        </Button>
+                      </Col>
+                    </Row>
+                  )}
+                  {formIsCompleted && (
+                    <Row>
+                      <Col sm className="text-center">
+                        <Button
+                          variant="warning"
+                          type="submit"
+                          className="mt-3"
+                          onClick={handleSubmitActivity}
+                        >
+                          Modifier
+                        </Button>
+                      </Col>
+                    </Row>
+                  )}
+
                   <Row>
                     <Col className="text-center">
                       <Button

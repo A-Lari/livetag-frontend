@@ -16,6 +16,8 @@ function EventEdit({ idEvent, title, isCreate = false }) {
     code: "",
   });
 
+  const [formIsCompleted, setFormIsCompleted] = useState(false);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -38,6 +40,20 @@ function EventEdit({ idEvent, title, isCreate = false }) {
   function handleFormChange(event) {
     const name = event.target.name; // event_name
     const value = event.target.value; // Course a pied
+
+    if (
+      body.event_name !== "" &&
+      body.start_date !== "" &&
+      body.end_date !== "" &&
+      body.place !== "" &&
+      body.description !== "" &&
+      value !== ""
+    ) {
+      setFormIsCompleted(true);
+    } else {
+      setFormIsCompleted(false);
+    }
+
     updateBody(name, value);
   }
 
@@ -130,15 +146,31 @@ function EventEdit({ idEvent, title, isCreate = false }) {
               </Col>
             </Row>
 
-            {isCreate && (
+            {isCreate && !formIsCompleted && (
               <Row>
                 <Col sm className="text-center">
                   <Button
                     variant="success"
                     type="submit"
+                    className="mt-3"
+                    onClick={handleSubmitAddEvent}
+                    disabled
+                  >
+                    Enregistrer
+                  </Button>
+                </Col>
+              </Row>
+            )}
+            {isCreate && formIsCompleted && (
+              <Row>
+                <Col sm className="text-center">
+                  <Button
+                    variant="success"
+                    type="submit"
+                    className="mt-3"
                     onClick={handleSubmitAddEvent}
                   >
-                    Ajouter
+                    Enregistrer
                   </Button>
                 </Col>
               </Row>
@@ -147,13 +179,27 @@ function EventEdit({ idEvent, title, isCreate = false }) {
               <Container>
                 <Row>
                   <Col className="text-center">
-                    <Button
-                      variant="warning"
-                      type="submit"
-                      onClick={handleSubmitUpdateEvent}
-                    >
-                      Modifier
-                    </Button>
+                    {formIsCompleted && (
+                      <Button
+                        variant="warning"
+                        type="submit"
+                        className="mt-3"
+                        onClick={handleSubmitUpdateEvent}
+                      >
+                        MODIFIER
+                      </Button>
+                    )}
+                    {!formIsCompleted && (
+                      <Button
+                        variant="warning"
+                        type="submit"
+                        className="mt-3"
+                        onClick={handleSubmitUpdateEvent}
+                        disabled
+                      >
+                        MODIFIER
+                      </Button>
+                    )}
                   </Col>
                 </Row>
                 <Row>
