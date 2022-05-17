@@ -55,7 +55,9 @@ export default function NavBar() {
               <Container className="p-0 h5">
                 <Row className="align-items-middle">
                   <Col className="text-center">
-                    <Badge bg="info">{eventSelect.event_name}</Badge>{" "}
+                    <Link className="project-link" to="/events">
+                      <Badge bg="info">{eventSelect.event_name}</Badge>{" "}
+                    </Link>
                   </Col>
                   <Col>
                     <Link

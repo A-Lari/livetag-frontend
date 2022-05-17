@@ -30,7 +30,7 @@ function ActivityEdit() {
     event.preventDefault();
     services
       .updateActivity(idActivity, body)
-      .then(() => navigate("/activities"))
+      .then(() => navigate(-1))
       .catch(() => alert("Une erreur a eu lieu pendant l'ajout"));
   }
 
@@ -52,7 +52,7 @@ function ActivityEdit() {
               Modifier l'activité
             </Card.Header>
             <Card.Body>
-              <Form onSubmit={handleSubmitActivity} onChange={handleFormChange}>
+              <Form onChange={handleFormChange}>
                 <Container>
                   <Row>
                     <Col sm>
@@ -108,7 +108,11 @@ function ActivityEdit() {
                   </Row>
                   <Row>
                     <Col className="text-center">
-                      <Button variant="warning" type="submit">
+                      <Button
+                        variant="warning"
+                        type="submit"
+                        onClick={handleSubmitActivity}
+                      >
                         Modifier
                       </Button>
                     </Col>

@@ -42,7 +42,7 @@ function ActivityAdd() {
         Ajout d'une activité
       </Card.Header>
       <Card.Body>
-        <Form onSubmit={handleSubmitAddActivity} onChange={handleFormChange}>
+        <Form onChange={handleFormChange}>
           <Container>
             <Row>
               <Col sm>
@@ -90,7 +90,11 @@ function ActivityAdd() {
             </Row>
             <Row>
               <Col className="text-center">
-                <Button variant="success" type="submit">
+                <Button
+                  variant="success"
+                  type="submit"
+                  onClick={handleSubmitAddActivity}
+                >
                   Ajouter
                 </Button>
               </Col>
