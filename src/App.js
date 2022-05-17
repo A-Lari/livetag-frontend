@@ -24,37 +24,43 @@ function App() {
   const { connected } = useAuth();
 
   return (
-    <div>
-      <NavBar />
-      <Routes>
-        <Route path="/" element={<Home />} />
+    <body>
+      <main className="site-content">
+        <NavBar />
+        <Routes>
+          <Route path="/" element={<Home />} />
 
-        {connected && <Route path="/participants" element={<Participants />} />}
-        {connected && (
-          <Route
-            path="/participants/:idParticipant"
-            element={<Participant />}
-          />
-        )}
+          {connected && (
+            <Route path="/participants" element={<Participants />} />
+          )}
+          {connected && (
+            <Route
+              path="/participants/:idParticipant"
+              element={<Participant />}
+            />
+          )}
 
-        {connected && <Route path="/events" element={<Events />} />}
-        {connected && <Route path="/events/:idEvent" element={<Event />} />}
+          {connected && <Route path="/events" element={<Events />} />}
+          {connected && <Route path="/events/:idEvent" element={<Event />} />}
 
-        {connected && <Route path="/roles" element={<Roleslist />} />}
-        {connected && <Route path="/roles/:idRole" element={<EditRole />} />}
-        {connected && <Route path="/roles/create" element={<CreateRole />} />}
+          {connected && <Route path="/roles" element={<Roleslist />} />}
+          {connected && <Route path="/roles/:idRole" element={<EditRole />} />}
+          {connected && <Route path="/roles/create" element={<CreateRole />} />}
 
-        {connected && <Route path="/activities" element={<Activities />} />}
-        {connected && (
-          <Route path="/activities/:idActivity" element={<ActivityEdit />} />
-        )}
-        {connected && <Route path="/qrcode/:idQrcode" element={<QrCode />} />}
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/signup" element={<SignupPage />} />
-        <Route path="/inscriptions/:id" element={<Inscription />} />
-      </Routes>
-      <Footer />
-    </div>
+          {connected && <Route path="/activities" element={<Activities />} />}
+          {connected && (
+            <Route path="/activities/:idActivity" element={<ActivityEdit />} />
+          )}
+          {connected && <Route path="/qrcode/:idQrcode" element={<QrCode />} />}
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage />} />
+          <Route path="/inscriptions/:id" element={<Inscription />} />
+        </Routes>
+      </main>
+      <footer className="site-footer">
+        <Footer />
+      </footer>
+    </body>
   );
 }
 

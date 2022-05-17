@@ -23,8 +23,9 @@ export default function NavBar() {
         )}
         {connected && eventChoice && (
           <Col className="nav-links text-center p-2">
-            <span className="text-secondary">Evénement sélectionné : </span>
             <Link className="project-link" to="/events">
+              <span className="text-secondary">Evénement sélectionné : </span>
+
               {eventSelect.event_name}
             </Link>
           </Col>
