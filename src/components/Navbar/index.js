@@ -3,6 +3,7 @@ import { Alert, Container, Row, Col, Badge, NavLink } from "react-bootstrap";
 import { useAuth } from "../../AuthProvider";
 import { useEvent } from "../../EventInUse";
 import "./Navbar.css";
+import NavBarLogMenu from "../NavBarLogMenu";
 
 export default function NavBar() {
   const { connected, disconnect } = useAuth();
@@ -30,27 +31,9 @@ export default function NavBar() {
             </Link>
           </Col>
         )}
-        {connected === true && (
-          <Col className="nav-links text-right">
-            <a className="project-link" href="/" onClick={disconnect}>
-              Se déconnecter
-            </a>
-          </Col>
-        )}
-        {connected === false && (
-          <Col className="nav-links text-right" md="auto">
-            <Link className="project-link" to="/login">
-              Se connecter
-            </Link>
-          </Col>
-        )}
-        {connected === false && (
-          <Col className="nav-links text-right" md="auto">
-            <Link className="project-link" to="/signup">
-              S'inscrire
-            </Link>
-          </Col>
-        )}
+        <Col className="nav-links text-right">
+          <NavBarLogMenu />
+        </Col>
       </Row>
       <Row className="justify-content-center">
         <Col md="auto">
