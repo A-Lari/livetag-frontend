@@ -13,17 +13,27 @@ const Events = () => {
   }
 
   return (
-    <Container className="m-5" fluid="xl">
-      <Row className="justify-content-center">
-        <Col sm>
-          <h3>LISTE DES EVENEMENTS</h3>
-        </Col>
-        <Col sm className=" text-right">
-          <Button onClick={handleAddButton} class="button-bg-color">
-            Ajouter
-          </Button>
-        </Col>
-      </Row>
+    <Container className="m-4" fluid="xl">
+      <hr />
+      <Container>
+        <Row className="justify-content-center">
+          <Col sm>
+            <Row className="justify-content-center">
+              <Col sm>
+                <h3 className="text-center">EVENEMENTS</h3>
+              </Col>
+              <Col sm className="text-center">
+                <Button
+                  onClick={handleAddButton}
+                  className="btn-success btn-xs"
+                >
+                  +
+                </Button>
+              </Col>
+            </Row>
+          </Col>{" "}
+        </Row>
+      </Container>
       {showAddEvent && (
         <Container>
           <Row className="justify-content-center">

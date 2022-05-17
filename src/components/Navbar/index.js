@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Alert, Container, Row, Col, Badge } from "react-bootstrap";
+import { Alert, Container, Row, Col, Badge, NavLink } from "react-bootstrap";
 import { useAuth } from "../../AuthProvider";
 import { useEvent } from "../../EventInUse";
 import "./Navbar.css";
@@ -10,54 +10,55 @@ export default function NavBar() {
 
   return (
     <Container fluid="xl" className="p-1 navbar-perso">
-      <Row className="align-items-middle ">
-        <Col xs={3} className="text-center">
+      <Row className="align-items-middle justify-content-center">
+        <Col className="text-left">
           <img src="../../logo192.png" className=" logo-img" />
         </Col>
-        <Col className="nav-links text-center">
-          <Link className="home-link" to="/">
-            Accueil
-          </Link>
-        </Col>
-        <Col className="nav-links text-center">
-          {connected && (
+        {connected && !eventChoice && (
+          <Col className="nav-links text-center">
             <Link className="project-link" to="/events">
               Evénements
             </Link>
-          )}
-        </Col>
-        <Col className="nav-links text-center">
-          {connected === true && (
+          </Col>
+        )}
+        {connected && eventChoice && (
+          <Col className="nav-links text-center p-2">
+            <Link className="project-link" to="/events">
+              <span className="text-secondary">Evénement sélectionné : </span>
+
+              {eventSelect.event_name}
+            </Link>
+          </Col>
+        )}
+        {connected === true && (
+          <Col className="nav-links text-right">
             <a className="project-link" href="/" onClick={disconnect}>
               Se déconnecter
             </a>
-          )}
-        </Col>
-        <Col className="nav-links text-center">
-          {connected === false && (
+          </Col>
+        )}
+        {connected === false && (
+          <Col className="nav-links text-right" md="auto">
             <Link className="project-link" to="/login">
               Se connecter
             </Link>
-          )}
-        </Col>
-        <Col className="nav-links text-center">
-          {connected === false && (
+          </Col>
+        )}
+        {connected === false && (
+          <Col className="nav-links text-right" md="auto">
             <Link className="project-link" to="/signup">
               S'inscrire
             </Link>
-          )}
-        </Col>
+          </Col>
+        )}
       </Row>
-      <Row>
-        <Col>
+      <Row className="justify-content-center">
+        <Col md="auto">
           {connected && eventChoice && (
             <Alert variant="primary" className="m-0">
               <Container className="p-0 h5">
-                <Row className="align-items-middle">
-                  <Col className="text-center">
-                    <Badge bg="info">{eventSelect.event_name}</Badge>{" "}
-                  </Col>
-                  <Col>
+                <Row className="align-items-middle justify-content-center">
+                  <Col className="text-center " md="auto">
                     <Link
                       className="project-link-second text-center"
                       to="/activities"
@@ -65,7 +66,7 @@ export default function NavBar() {
                       Activités
                     </Link>
                   </Col>
-                  <Col>
+                  <Col className="text-center " md="auto">
                     <Link
                       className="project-link-second text-center"
                       to="/roles"
@@ -73,7 +74,7 @@ export default function NavBar() {
                       Rôles
                     </Link>
                   </Col>
-                  <Col>
+                  <Col className="text-center " md="auto">
                     <Link
                       className="project-link-second text-center"
                       to="/participants"

@@ -172,7 +172,7 @@ function ParticipantEdit({ idParticipant, title, isCreate = false }) {
               </Col>
             </Row>
             <Row>
-              <Col sm>
+              <Col xs={8}>
                 <Form.Group className="mb-3" controlId="formEvenemt">
                   <Form.Label>Rôle</Form.Label>
                   <Form.Control as="select" name="role">

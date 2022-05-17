@@ -12,16 +12,15 @@ const Home = () => {
 
   return (
     <Container>
-      <Row className="m-5 p-5 text-center">
-        <Col>
+      <Row className="m-5 p-5 justify-content-center">
+        <Col className="text-center">
+          <div className="homeContainer" />
+          <br />
+          <br />
+          <br />
           <h2 className="h2-font">
             Bienvenue dans votre application de gestion des événements
           </h2>
-          <h3>
-            {" "}
-            Sélectionnez l'événement pour y ajouter les activités, rôles et
-            participants
-          </h3>
         </Col>
       </Row>
     </Container>

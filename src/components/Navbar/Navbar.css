@@ -1,5 +1,7 @@
 .navbar-perso {
-  background-color: rgb(19, 181, 230);
+  /*background-color: rgb(19, 181, 230);*/
+  background-color: rgb(1, 80, 104);
+
   /* font-family: fantasy; */
 }
 
@@ -17,7 +19,7 @@
 
 .home-link,
 .project-link {
-  color: black;
+  color: white;
   text-decoration: none;
 }
 
@@ -26,6 +28,7 @@
   color: rgb(73, 72, 72);
   text-decoration: none;
 }
+
 .nav-links a:hover {
   color: rgb(255, 255, 255);
 }

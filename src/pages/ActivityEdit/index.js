@@ -4,6 +4,8 @@ import services from "../../services";
 import { Button, Card, Form, Container, Row, Col } from "react-bootstrap";
 import dayjs from "dayjs";
 
+import "./ActivityEdit.css";
+
 function ActivityEdit() {
   const [body, setBody] = useState({
     activity_name: "",
@@ -11,6 +13,8 @@ function ActivityEdit() {
     description: "",
     price: "",
   });
+
+  const [formIsCompleted, setFormIsCompleted] = useState(false);
 
   const navigate = useNavigate();
 
@@ -23,6 +27,19 @@ function ActivityEdit() {
   function handleFormChange(event) {
     const name = event.target.name; // activity_name
     const value = event.target.value;
+
+    if (
+      body.activity_name !== "" &&
+      body.activity_date !== "" &&
+      body.description !== "" &&
+      body.price !== "" &&
+      value !== ""
+    ) {
+      setFormIsCompleted(true);
+    } else {
+      setFormIsCompleted(false);
+    }
+
     updateBody(name, value);
   }
 
@@ -30,7 +47,7 @@ function ActivityEdit() {
     event.preventDefault();
     services
       .updateActivity(idActivity, body)
-      .then(() => navigate("/activities"))
+      .then(() => navigate(-1))
       .catch(() => alert("Une erreur a eu lieu pendant l'ajout"));
   }
 
@@ -52,7 +69,7 @@ function ActivityEdit() {
               Modifier l'activité
             </Card.Header>
             <Card.Body>
-              <Form onSubmit={handleSubmitActivity} onChange={handleFormChange}>
+              <Form onChange={handleFormChange}>
                 <Container>
                   <Row>
                     <Col sm>
@@ -106,13 +123,36 @@ function ActivityEdit() {
                       </Form.Group>
                     </Col>
                   </Row>
-                  <Row>
-                    <Col className="text-center">
-                      <Button variant="warning" type="submit">
-                        Modifier
-                      </Button>
-                    </Col>
-                  </Row>
+                  {!formIsCompleted && (
+                    <Row>
+                      <Col sm className="text-center">
+                        <Button
+                          variant="warning"
+                          type="submit"
+                          className="mt-3"
+                          onClick={handleSubmitActivity}
+                          disabled
+                        >
+                          Modifier
+                        </Button>
+                      </Col>
+                    </Row>
+                  )}
+                  {formIsCompleted && (
+                    <Row>
+                      <Col sm className="text-center">
+                        <Button
+                          variant="warning"
+                          type="submit"
+                          className="mt-3"
+                          onClick={handleSubmitActivity}
+                        >
+                          Modifier
+                        </Button>
+                      </Col>
+                    </Row>
+                  )}
+
                   <Row>
                     <Col className="text-center">
                       <Button

@@ -36,7 +36,7 @@ export default function ActivitiesList({ activities, setActivities }) {
       align: "center",
       headerAlign: "center",
       formatter: (cellContent, row) => {
-        return dayjs(row.start_date).format("DD/MM/YY");
+        return dayjs(row.activity_date).format("DD/MM/YY");
       },
       sort: true,
       style: { verticalAlign: "middle" },
@@ -90,12 +90,12 @@ export default function ActivitiesList({ activities, setActivities }) {
   ];
   // #endregion
   // OPTION DU TABLEAU
-  const defaultSorted = [
-    {
-      dataField: "event_name",
-      order: "asc", // desc or asc
-    },
-  ];
+  // const defaultSorted = [
+  //   {
+  //     dataField: "event_name",
+  //     order: "asc", // desc or asc
+  //   },
+  // ];
 
   // RECUPERATION DES DONNEES
   //supprimer l'activité et refresh la page
@@ -112,14 +112,14 @@ export default function ActivitiesList({ activities, setActivities }) {
   function deleteActivityAndRefresh(idActivity) {
     //liste des activités via dB
     services
-          .deleteActivity(idActivity)
-          .then((response) => {
-            if (response.status === 401) {
-              alert(response.data);
-            }
-            search();
-          })
-          .catch(console.log);
+      .deleteActivity(idActivity)
+      .then((response) => {
+        if (response.status === 401) {
+          alert(response.data);
+        }
+        search();
+      })
+      .catch(console.log);
   }
 
   useEffect(() => {
@@ -137,8 +137,12 @@ export default function ActivitiesList({ activities, setActivities }) {
       {(props) => (
         <Container fluid="xl">
           <Row>
-            <Col>
-              <SearchBar {...props.searchProps} />
+            <Col className="text-center">
+              <SearchBar
+                {...props.searchProps}
+                className="mb-3"
+                style={{ width: "500px" }}
+              />
             </Col>
           </Row>
           <Row>
@@ -153,7 +157,7 @@ export default function ActivitiesList({ activities, setActivities }) {
                 bordered={false}
                 data={activities}
                 columns={columns}
-                defaultSorted={defaultSorted}
+                //defaultSorted={defaultSorted}
                 noDataIndication="Aucune donnée dans la liste"
                 pagination={paginationFactory()}
               ></BootstrapTable>

@@ -11,6 +11,7 @@ export default function EditRole() {
     activities: [],
     event: "",
   });
+  const [formIsCompleted, setFormIsCompleted] = useState(false);
 
   const navigate = useNavigate();
   let { idRole } = useParams();
@@ -24,6 +25,11 @@ export default function EditRole() {
     const value = event.target.value;
 
     if (!name.startsWith("activity")) {
+      if (body.role_name !== "" && value !== "") {
+        setFormIsCompleted(true);
+      } else {
+        setFormIsCompleted(false);
+      }
       updateBody(name, value);
     } else {
       const newActivities = body.activities.map((activity) => {
@@ -32,14 +38,13 @@ export default function EditRole() {
         }
         return activity;
       });
-      console.log(newActivities);
+
       setBody({ ...body, activities: newActivities });
     }
   }
 
   function handleSubmitSignup(event) {
     event.preventDefault();
-    console.log(body);
 
     const { activities } = body;
 
@@ -52,11 +57,10 @@ export default function EditRole() {
       activities: updatedActivities,
       event: body.event,
     };
-    console.log(updatedRole);
 
     services
       .updateRole(idRole, updatedRole)
-      .then(() => navigate("/roles"))
+      .then(() => navigate(-1))
       .catch(() => alert("Une erreur pendant la mise à jour d'un role"));
   }
 
@@ -74,7 +78,6 @@ export default function EditRole() {
         const tabActivitiesForCheck = dbRole.activities.map(
           (activity) => activity._id
         );
-        console.log(tabActivitiesForCheck);
 
         const newActivities = dbActivities.map((activity) => {
           const foundIndex = tabActivitiesForCheck.indexOf(activity._id);
@@ -85,7 +88,7 @@ export default function EditRole() {
           }
           return activity;
         });
-        console.log(newActivities);
+
         setBody({
           ...body,
           activities: newActivities,
@@ -107,7 +110,7 @@ export default function EditRole() {
               Modifier le rôle
             </Card.Header>
             <Card.Body>
-              <Form onSubmit={handleSubmitSignup} onChange={handleFormChange}>
+              <Form onChange={handleFormChange}>
                 <Container>
                   <Row>
                     <Col sm>
@@ -138,20 +141,43 @@ export default function EditRole() {
                       </Form.Group>
                     </Col>
                   </Row>
-                  <Row>
-                    <Col sm className="text-center">
-                      <Button variant="warning" type="submit">
-                        Modifier
-                      </Button>
-                    </Col>
-                  </Row>
+                  {!formIsCompleted && (
+                    <Row>
+                      <Col sm className="text-center">
+                        <Button
+                          variant="warning"
+                          type="submit"
+                          className="mt-3"
+                          onClick={handleSubmitSignup}
+                          disabled
+                        >
+                          Modifier
+                        </Button>
+                      </Col>
+                    </Row>
+                  )}
+                  {formIsCompleted && (
+                    <Row>
+                      <Col sm className="text-center">
+                        <Button
+                          variant="warning"
+                          type="submit"
+                          className="mt-3"
+                          onClick={handleSubmitSignup}
+                        >
+                          Modifier
+                        </Button>
+                      </Col>
+                    </Row>
+                  )}
+
                   <Row>
                     <Col className="text-center">
                       <Button
                         variant="dark"
                         type="submit"
                         className="mt-3"
-                        onClick={() => navigate(`/roles`)}
+                        onClick={() => navigate("/roles")}
                       >
                         retour
                       </Button>

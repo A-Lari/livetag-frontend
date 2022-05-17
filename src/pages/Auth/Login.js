@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "../../AuthProvider";
-import { Button, Container, Form } from "react-bootstrap";
+import { Button, Container, Form, Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import services from "../../services";
 
@@ -31,7 +31,7 @@ function LoginPage() {
         const { jwt } = result;
         localStorage.setItem("jwt", jwt);
         setConnected(true);
-        navigate("/");
+        navigate("/events");
       })
       .catch((err) => {
         console.log(err);
@@ -40,24 +40,48 @@ function LoginPage() {
   }
 
   return (
-    <div>
-      <h1>Login</h1> 
-      <Container>
-        <Form onSubmit={handleSubmitLogin} onChange={handleChangeInput} >
+    <Container>
+      <Row className="justify-content-center mt-3">
+        <Col className="text-center">
+          <h3>Login</h3>
+        </Col>
+      </Row>
+      <Form onSubmit={handleSubmitLogin} onChange={handleChangeInput}>
+        <Row className="justify-content-center m-3">
+          <Col className="text-center " md="auto">
             <Form.Group className="mb-3" controlId="email">
-            <Form.Label>email</Form.Label>
-            <Form.Control type="email" placeholder="test@test.com" name="email" required/>
+              <Form.Label>email</Form.Label>
+              <Form.Control
+                type="email"
+                placeholder="prenom.nom@email.com"
+                name="email"
+                required
+              />
             </Form.Group>
-
+          </Col>
+        </Row>
+        <Row className="justify-content-center m-3">
+          <Col className="text-center" md="auto">
             <Form.Group className="mb-3" controlId="password">
-            <Form.Label>password</Form.Label>
-            <Form.Control type="password" placeholder="password" name="password" required/>
+              <Form.Label>password</Form.Label>
+              <Form.Control
+                type="password"
+                placeholder="password"
+                name="password"
+                required
+              />
             </Form.Group>
-
-            <Button variant="primary" type="submit">Se connecter</Button>
-        </Form>
-      </Container>      
-    </div>
+          </Col>
+        </Row>
+        <Row className="justify-content-center m-3">
+          <Col className="text-center">
+            <Button variant="primary" type="submit">
+              Se connecter
+            </Button>
+          </Col>
+        </Row>
+      </Form>
+    </Container>
   );
 }
 
