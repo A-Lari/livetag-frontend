@@ -32,24 +32,37 @@ const Roleslist = () => {
   }, []);
 
   return (
-    <Container className="mt-3">
-      <Row className="justify-content-center">
-        <Col sm className="m-4">
-          <h3>LISTE DES ROLES</h3>
-        </Col>
-        <Col sm className="m-4 text-right">
-          <Button onClick={handleAddButton} class="button-bg-color">
-            Ajouter
-          </Button>
-        </Col>
-      </Row>
-      {showAddRole && (
+    <Container className="m-4" fluid="xl">
+      <hr />
+      <Container>
         <Row className="justify-content-center">
           <Col sm>
-            <CreateRole />
-          </Col>
+            <Row className="justify-content-center">
+              <Col sm>
+                <h3 className="text-center">ROLES</h3>
+              </Col>
+              <Col sm className="text-center">
+                <Button
+                  onClick={handleAddButton}
+                  className="btn-success btn-xs"
+                >
+                  +
+                </Button>
+              </Col>
+            </Row>
+          </Col>{" "}
         </Row>
+      </Container>
+      {showAddRole && (
+        <Container>
+          <Row className="justify-content-center">
+            <Col sm>
+              <CreateRole />
+            </Col>
+          </Row>
+        </Container>
       )}
+      <hr />
       <Row className="justify-content-center">
         {roles.map((role) => (
           <Role key={role._id} role={role} />

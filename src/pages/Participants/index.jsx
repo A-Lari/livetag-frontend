@@ -14,19 +14,14 @@ const Participants = () => {
   }
 
   return (
-    <Container className="m-5" fluid="xl">
+    <Container className="m-4" fluid="xl">
       <hr />
       <Container>
         <Row className="justify-content-center">
           <Col sm>
             <Row className="justify-content-center">
               <Col sm>
-                <h4
-                  className="text-center"
-                  style={{ color: "rgb(1, 80, 104)" }}
-                >
-                  LISTE DES PARTICIPANTS
-                </h4>
+                <h3 className="text-center">PARTICIPANTS</h3>
               </Col>
               <Col sm className="text-center">
                 <Button

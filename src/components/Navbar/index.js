@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Alert, Container, Row, Col, Badge } from "react-bootstrap";
+import { Alert, Container, Row, Col, Badge, NavLink } from "react-bootstrap";
 import { useAuth } from "../../AuthProvider";
 import { useEvent } from "../../EventInUse";
 import "./Navbar.css";
