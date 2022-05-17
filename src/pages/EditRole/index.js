@@ -11,6 +11,7 @@ export default function EditRole() {
     activities: [],
     event: "",
   });
+  const [formIsCompleted, setFormIsCompleted] = useState(false);
 
   const navigate = useNavigate();
   let { idRole } = useParams();
@@ -24,6 +25,11 @@ export default function EditRole() {
     const value = event.target.value;
 
     if (!name.startsWith("activity")) {
+      if (body.role_name !== "" && value !== "") {
+        setFormIsCompleted(true);
+      } else {
+        setFormIsCompleted(false);
+      }
       updateBody(name, value);
     } else {
       const newActivities = body.activities.map((activity) => {
@@ -135,17 +141,36 @@ export default function EditRole() {
                       </Form.Group>
                     </Col>
                   </Row>
-                  <Row>
-                    <Col sm className="text-center">
-                      <Button
-                        variant="warning"
-                        type="submit"
-                        onClick={handleSubmitSignup}
-                      >
-                        Modifier
-                      </Button>
-                    </Col>
-                  </Row>
+                  {!formIsCompleted && (
+                    <Row>
+                      <Col sm className="text-center">
+                        <Button
+                          variant="warning"
+                          type="submit"
+                          className="mt-3"
+                          onClick={handleSubmitSignup}
+                          disabled
+                        >
+                          Modifier
+                        </Button>
+                      </Col>
+                    </Row>
+                  )}
+                  {formIsCompleted && (
+                    <Row>
+                      <Col sm className="text-center">
+                        <Button
+                          variant="warning"
+                          type="submit"
+                          className="mt-3"
+                          onClick={handleSubmitSignup}
+                        >
+                          Modifier
+                        </Button>
+                      </Col>
+                    </Row>
+                  )}
+
                   <Row>
                     <Col className="text-center">
                       <Button

@@ -14,6 +14,7 @@ export default function CreateRole() {
   });
   const [activities, setActivities] = useState([]);
   const [checkActivities, setCheckActivities] = useState([]);
+  const [formIsCompleted, setFormIsCompleted] = useState(false);
 
   const navigate = useNavigate();
 
@@ -26,6 +27,11 @@ export default function CreateRole() {
     const value = event.target.value;
 
     if (!name.startsWith("activity")) {
+      if (body.role_name !== "" && value !== "") {
+        setFormIsCompleted(true);
+      } else {
+        setFormIsCompleted(false);
+      }
       updateBody(name, value);
     } else {
       console.log(event.target.checked);
@@ -72,7 +78,7 @@ export default function CreateRole() {
         Ajouter un rôle
       </Card.Header>
       <Card.Body>
-        <Form onSubmit={handleSubmitSignup} onChange={handleFormChange}>
+        <Form onChange={handleFormChange}>
           <Container>
             <Row>
               <Col sm>
@@ -101,13 +107,35 @@ export default function CreateRole() {
                 </Form.Group>
               </Col>
             </Row>
-            <Row>
-              <Col sm className="text-center">
-                <Button variant="success" type="submit">
-                  Enregistrer
-                </Button>
-              </Col>
-            </Row>
+            {!formIsCompleted && (
+              <Row>
+                <Col sm className="text-center">
+                  <Button
+                    variant="success"
+                    type="submit"
+                    className="mt-3"
+                    onClick={handleSubmitSignup}
+                    disabled
+                  >
+                    Enregistrer
+                  </Button>
+                </Col>
+              </Row>
+            )}
+            {formIsCompleted && (
+              <Row>
+                <Col sm className="text-center">
+                  <Button
+                    variant="success"
+                    type="submit"
+                    className="mt-3"
+                    onClick={handleSubmitSignup}
+                  >
+                    Enregistrer
+                  </Button>
+                </Col>
+              </Row>
+            )}
           </Container>
         </Form>
       </Card.Body>
