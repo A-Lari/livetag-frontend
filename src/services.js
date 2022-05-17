@@ -250,6 +250,21 @@ const services = {
   },
 
   // #endregion
+
+  /**
+   * SERVICES QRCODE
+   */
+  // #region
+  generateQRCode(idParticipant, body) {
+    const token = localStorage.getItem("jwt");
+    console.log("generateQRCode");
+    return base
+      .post(`/qrcode/${idParticipant}`, body, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => res.data);
+  },
+  // #endregion
 };
 
 export default services;
