@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Card } from "react-bootstrap";
+import { Button, Card, Badge } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
 import services from "../../services";
@@ -29,12 +29,17 @@ export default function Role({ role, isFromParticipant = false }) {
         <ul class="list-group">
           {role.activities.map((activity) => (
             <li key={activity._id} class="list-group-item">
-              <Button
-                className="btn btn-secondary btn-xs btn-block"
-                onClick={() => navigate(`/activities/${activity._id}`)}
-              >
-                {activity.activity_name}
-              </Button>
+              {!isFromParticipant && (
+                <Button
+                  className="btn btn-secondary btn-xs btn-block"
+                  onClick={() => navigate(`/activities/${activity._id}`)}
+                >
+                  {activity.activity_name}
+                </Button>
+              )}
+              {isFromParticipant && (
+                <Badge bg="secondary">{activity.activity_name}</Badge>
+              )}
             </li>
           ))}
         </ul>
