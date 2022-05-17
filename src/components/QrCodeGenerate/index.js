@@ -27,6 +27,17 @@ export default function QrCodegenerate({idQrcode}) {
         });
     }
 
+    function handleSendMail(idParticipant) {
+        console.log(idParticipant);
+        /*Generation du Qrcode et envoi par mail par le backend*/
+        services
+          .generateQRCode(idParticipant)
+          .then((response) => {
+            console.log(response);      
+          })
+          .catch(() => alert("Une erreur pendant l'envoi par mail du Qrcode au participant"));
+    }
+
     useEffect(() => {
         services
             .getParticipantById(idQrcode)
@@ -56,6 +67,7 @@ export default function QrCodegenerate({idQrcode}) {
             trigger={() => <Button variant="outline-info">Imprimer</Button>}
             content={() => componentRef.current}
             />
+            <Button onClick={() => handleSendMail(participant._id)} variant="outline-info">Envoi mail</Button>
         </Card.Body>
         <Card.Body>
             <Button onClick={() => navigate(`/participants`)} variant="outline-dark">Retour</Button>
