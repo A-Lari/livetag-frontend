@@ -6,6 +6,9 @@ import services from "../../services";
 import dayjs from "dayjs";
 import { useRef } from 'react';
 import ReactToPrint from 'react-to-print';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
+
 
 export default function QrCodegenerate({idQrcode}) {
     const [participant, setParticipant] = useState({
@@ -13,6 +16,7 @@ export default function QrCodegenerate({idQrcode}) {
         role: {},
     });
     const [url, setUrl] = useState("");
+    const [open, setOpen] = useState(false);
 
     const navigate = useNavigate();
     const componentRef = useRef(null);
@@ -33,7 +37,8 @@ export default function QrCodegenerate({idQrcode}) {
         services
           .generateQRCode(idParticipant)
           .then((response) => {
-            console.log(response);      
+            console.log(response);
+            setOpen(true);
           })
           .catch(() => alert("Une erreur pendant l'envoi par mail du Qrcode au participant"));
     }
@@ -72,6 +77,9 @@ export default function QrCodegenerate({idQrcode}) {
         <Card.Body>
             <Button onClick={() => navigate(`/participants`)} variant="outline-dark">Retour</Button>
         </Card.Body>
+        <Snackbar open={open} autoHideDuration={2000} onClose={()=> setOpen(false)}>
+          <Alert variant="filled" severity="success">Le Qrcode a été envoyée à {participant.email}</Alert>
+        </Snackbar>        
     </Card>
   )
 }
