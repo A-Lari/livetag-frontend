@@ -14,13 +14,6 @@ export default function NavBar() {
         <Col className="text-left">
           <img src="../../logo192.png" className=" logo-img" />
         </Col>
-        {connected === false && (
-          <Col className="nav-links text-center">
-            <Link className="home-link" to="/">
-              BIENVENUE
-            </Link>
-          </Col>
-        )}
         {connected && !eventChoice && (
           <Col className="nav-links text-center">
             <Link className="project-link" to="/events">
@@ -29,9 +22,10 @@ export default function NavBar() {
           </Col>
         )}
         {connected && eventChoice && (
-          <Col className="nav-links text-center">
+          <Col className="nav-links text-center p-2">
+            <span className="text-secondary">Evénement sélectionné : </span>
             <Link className="project-link" to="/events">
-              <Badge bg="info">{eventSelect.event_name}</Badge>{" "}
+              {eventSelect.event_name}
             </Link>
           </Col>
         )}
