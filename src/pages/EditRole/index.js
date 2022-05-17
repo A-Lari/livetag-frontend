@@ -32,14 +32,13 @@ export default function EditRole() {
         }
         return activity;
       });
-      console.log(newActivities);
+
       setBody({ ...body, activities: newActivities });
     }
   }
 
   function handleSubmitSignup(event) {
     event.preventDefault();
-    console.log(body);
 
     const { activities } = body;
 
@@ -52,11 +51,10 @@ export default function EditRole() {
       activities: updatedActivities,
       event: body.event,
     };
-    console.log(updatedRole);
 
     services
       .updateRole(idRole, updatedRole)
-      .then(() => navigate("/roles"))
+      .then(() => navigate(-1))
       .catch(() => alert("Une erreur pendant la mise à jour d'un role"));
   }
 
@@ -74,7 +72,6 @@ export default function EditRole() {
         const tabActivitiesForCheck = dbRole.activities.map(
           (activity) => activity._id
         );
-        console.log(tabActivitiesForCheck);
 
         const newActivities = dbActivities.map((activity) => {
           const foundIndex = tabActivitiesForCheck.indexOf(activity._id);
@@ -85,7 +82,7 @@ export default function EditRole() {
           }
           return activity;
         });
-        console.log(newActivities);
+
         setBody({
           ...body,
           activities: newActivities,
@@ -107,7 +104,7 @@ export default function EditRole() {
               Modifier le rôle
             </Card.Header>
             <Card.Body>
-              <Form onSubmit={handleSubmitSignup} onChange={handleFormChange}>
+              <Form onChange={handleFormChange}>
                 <Container>
                   <Row>
                     <Col sm>
@@ -140,7 +137,11 @@ export default function EditRole() {
                   </Row>
                   <Row>
                     <Col sm className="text-center">
-                      <Button variant="warning" type="submit">
+                      <Button
+                        variant="warning"
+                        type="submit"
+                        onClick={handleSubmitSignup}
+                      >
                         Modifier
                       </Button>
                     </Col>
@@ -151,7 +152,7 @@ export default function EditRole() {
                         variant="dark"
                         type="submit"
                         className="mt-3"
-                        onClick={() => navigate(`/roles`)}
+                        onClick={() => navigate("/roles")}
                       >
                         retour
                       </Button>

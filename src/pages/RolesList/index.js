@@ -28,7 +28,6 @@ const Roleslist = () => {
   };
 
   useEffect(() => {
-    console.log("Role - eventId : ", eventSelect._id);
     search(localStorage.getItem("idEvent"));
   }, []);
 
