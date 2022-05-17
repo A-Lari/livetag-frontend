@@ -1,5 +1,8 @@
 .footer {
   display: flex;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
   justify-content: space-evenly;
   /*background-color: rgb(19, 181, 230);*/
   background-color: rgb(1, 80, 104);

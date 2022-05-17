@@ -178,7 +178,11 @@ function ParticipantsList({ listParticipants, setListParticipants }) {
         <Container fluid="xl">
           <Row>
             <Col className="text-center">
-              <SearchBar {...props.searchProps} className="p-3 m-2" />
+              <SearchBar
+                {...props.searchProps}
+                className="mb-3"
+                style={{ width: "500px" }}
+              />
             </Col>
           </Row>
           <Row>

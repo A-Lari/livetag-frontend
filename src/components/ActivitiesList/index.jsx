@@ -137,8 +137,12 @@ export default function ActivitiesList({ activities, setActivities }) {
       {(props) => (
         <Container fluid="xl">
           <Row>
-            <Col>
-              <SearchBar {...props.searchProps} />
+            <Col className="text-center">
+              <SearchBar
+                {...props.searchProps}
+                className="mb-3"
+                style={{ width: "500px" }}
+              />
             </Col>
           </Row>
           <Row>

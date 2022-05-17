@@ -12,7 +12,7 @@ import ToolkitProvider, {
   Search,
 } from "react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit";
 import paginationFactory from "react-bootstrap-table2-paginator";
-import { Col, Container, Row, Badge } from "react-bootstrap";
+import { Col, Container, Row, Badge, Alert } from "react-bootstrap";
 
 function Eventslist({ events, setEvents }) {
   const navigate = useNavigate();
@@ -61,7 +61,11 @@ function Eventslist({ events, setEvents }) {
       style: { verticalAlign: "middle", width: "12%", fontWeight: "bold" },
       formatter: (cellContent, row) => {
         if (row.event_name === eventSelect.event_name)
-          return <Badge bg="info">{row.event_name}</Badge>;
+          return (
+            <Alert bg="info" className="m-0">
+              {row.event_name}
+            </Alert>
+          );
         return <div>{row.event_name} </div>;
       },
     },
@@ -201,8 +205,12 @@ function Eventslist({ events, setEvents }) {
       {(props) => (
         <Container fluid="xl">
           <Row>
-            <Col>
-              <SearchBar {...props.searchProps} />
+            <Col className="text-center">
+              <SearchBar
+                {...props.searchProps}
+                className="mb-3"
+                style={{ width: "500px" }}
+              />
             </Col>
           </Row>
           <Row>
