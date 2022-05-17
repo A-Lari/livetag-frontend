@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Container, Form } from "react-bootstrap";
+import { Button, Container, Form, Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import services from "../../services";
 
@@ -35,34 +35,75 @@ function SignupPage() {
   }
 
   return (
-    <div>
-      <h1>Inscription</h1>
-      <Container>
-        <Form onSubmit={handleSubmitSignup} onChange={handleFormChange} >
+    <Container>
+      <Row className="justify-content-center mt-3">
+        <Col className="text-center">
+          <h1>Inscription</h1>
+        </Col>
+      </Row>
+
+      <Form onSubmit={handleSubmitSignup} onChange={handleFormChange}>
+        <Row className="justify-content-center m-3">
+          <Col className="text-center " md="auto">
             <Form.Group className="mb-3" controlId="organisation">
-            <Form.Label>Organisation</Form.Label>
-            <Form.Control type="text" placeholder="nom organisation" name="organisation" required/>
+              <Form.Label>Organisation</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="nom organisation"
+                name="organisation"
+                required
+              />
             </Form.Group>
-
+          </Col>
+        </Row>
+        <Row className="justify-content-center m-3">
+          <Col className="text-center" md="auto">
             <Form.Group className="mb-3" controlId="email">
-            <Form.Label>Email</Form.Label>
-            <Form.Control type="email" placeholder="test@test.com" name="email" required/>
+              <Form.Label>Email</Form.Label>
+              <Form.Control
+                type="email"
+                placeholder="test@test.com"
+                name="email"
+                required
+              />
             </Form.Group>
-
+          </Col>
+        </Row>
+        <Row className="justify-content-center m-3">
+          <Col className="text-center" md="auto">
             <Form.Group className="mb-3" controlId="password">
-            <Form.Label>Password</Form.Label>
-            <Form.Control type="password" placeholder="password" name="password" required/>
+              <Form.Label>Password</Form.Label>
+              <Form.Control
+                type="password"
+                placeholder="password"
+                name="password"
+                required
+              />
             </Form.Group>
-
+          </Col>
+        </Row>
+        <Row className="justify-content-center m-3">
+          <Col className="text-center" md="auto">
             <Form.Group className="mb-3" controlId="confirmPassword">
-            <Form.Label>ConfirmPassword</Form.Label>
-            <Form.Control type="password" placeholder="confirmPassword" name="confirmPassword" required/>
+              <Form.Label>ConfirmPassword</Form.Label>
+              <Form.Control
+                type="password"
+                placeholder="confirmPassword"
+                name="confirmPassword"
+                required
+              />
             </Form.Group>
-
-            <Button variant="primary" type="submit">S'inscrire</Button>
-        </Form>
-      </Container>
-    </div>
+          </Col>
+        </Row>
+        <Row className="justify-content-center m-3">
+          <Col className="text-center" md="auto">
+            <Button variant="primary" type="submit">
+              S'inscrire
+            </Button>
+          </Col>
+        </Row>
+      </Form>
+    </Container>
   );
 }
 

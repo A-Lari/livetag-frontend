@@ -19,6 +19,7 @@ import Events from "./pages/Events";
 import Event from "./pages/Event";
 import ActivityEdit from "./pages/ActivityEdit";
 import QrCode from "./pages/QrCode";
+import Profil from "./pages/Auth/Profil";
 
 function App() {
   const { connected } = useAuth();
@@ -53,6 +54,7 @@ function App() {
           )}
           {connected && <Route path="/qrcode/:idQrcode" element={<QrCode />} />}
           <Route path="/login" element={<LoginPage />} />
+          {connected && <Route path="/profil" element={<Profil />} />}
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/inscriptions/:id" element={<Inscription />} />
         </Routes>
