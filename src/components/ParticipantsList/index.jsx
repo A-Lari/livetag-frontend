@@ -177,9 +177,12 @@ function ParticipantsList({ listParticipants, setListParticipants }) {
       {(props) => (
         <Container fluid="xl">
           <Row>
+            <Col className="text-center">
+              <SearchBar {...props.searchProps} className="p-3 m-2" />
+            </Col>
+          </Row>
+          <Row>
             <Col>
-              <SearchBar {...props.searchProps} />
-
               <BootstrapTable
                 {...props.baseProps}
                 keyField="_id"
