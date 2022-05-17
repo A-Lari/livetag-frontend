@@ -4,6 +4,8 @@ import services from "../../services";
 import { Button, Card, Form, Container, Row, Col } from "react-bootstrap";
 import dayjs from "dayjs";
 
+import "./ActivityEdit.css";
+
 function ActivityEdit() {
   const [body, setBody] = useState({
     activity_name: "",
