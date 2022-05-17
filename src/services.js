@@ -175,6 +175,15 @@ const services = {
       })
       .then((res) => res.data);
   },
+
+  generateInscriptionLink(idRole, body) {
+    const token = localStorage.getItem("jwt");
+    return base
+      .post(`/roles/${idRole}/link`, body, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => res.data);
+  },
   // #endregion
 
   /**

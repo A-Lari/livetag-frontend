@@ -51,7 +51,7 @@ function App() {
         {connected && <Route path="/qrcode/:idQrcode" element={<QrCode />} />}
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
-        <Route path="/inscription/:id" element={<Inscription />} />
+        <Route path="/inscriptions/:id" element={<Inscription />} />
       </Routes>
       <Footer />
     </div>

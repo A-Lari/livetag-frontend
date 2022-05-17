@@ -1,6 +1,7 @@
 import React from "react";
 import { Button, Card } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import {CopyToClipboard} from 'react-copy-to-clipboard';
 
 import services from "../../services";
 import("./Role.css");
@@ -15,6 +16,16 @@ export default function Role({ role, isFromParticipant = false }) {
         if (response.status === 401) {
           alert(response.data);
         }
+        navigate(0);
+      })
+      .catch(console.log);
+  };
+
+  const generateInscriptionLink = (idRole) => {
+    services
+      .generateInscriptionLink(idRole)
+      .then((response) => {
+        console.log(response);
         navigate(0);
       })
       .catch(console.log);
@@ -38,6 +49,14 @@ export default function Role({ role, isFromParticipant = false }) {
             </li>
           ))}
         </ul>
+        {role.link && (
+          <p>
+            <Card.Link href={role.link} target="_blank">{role.link}</Card.Link>
+            <CopyToClipboard text={role.link}>
+              <Button variant="outline-info" size="sm">Copier le lien</Button>
+            </CopyToClipboard>
+          </p>
+        )}
         {!isFromParticipant && (
           <div>
             <Button
@@ -45,6 +64,9 @@ export default function Role({ role, isFromParticipant = false }) {
               onClick={() => navigate(`/roles/${role._id}`)}
             >
               Modifier
+            </Button>
+            <Button variant="outline-success" onClick={() => generateInscriptionLink(role._id)}>
+              Générer le lien
             </Button>
             <Button
               variant="outline-danger"
