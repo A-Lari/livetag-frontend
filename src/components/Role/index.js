@@ -58,17 +58,17 @@ export default function Role({
             </li>
           ))}
         </ul>
-        {role.link && (
-          <p>
+        {!isFromParticipant && role.link && (
+          <div className="m-2">
             <Card.Link href={role.link} target="_blank">
-              {role.link}
+              lien d'inscription
             </Card.Link>
             <CopyToClipboard text={role.link}>
               <Button variant="outline-info" size="sm">
-                Copier le lien
+                Copier lien
               </Button>
             </CopyToClipboard>
-          </p>
+          </div>
         )}
         {!isFromParticipant && (
           <div>
