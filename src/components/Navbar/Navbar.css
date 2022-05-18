@@ -66,3 +66,13 @@
   border-color: white;
   border-radius: 5px;
 }
+
+.titre-sous-menu {
+  background-color: rgb(200, 209, 212);
+
+  border-width: 0.5;
+  border-color: white;
+  border-radius: 5px;
+  align-self: center;
+  padding: 3px;
+}

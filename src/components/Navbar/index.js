@@ -37,10 +37,10 @@ export default function NavBar() {
         </Col>
       </Row>
       <Row className="justify-content-center">
-        <Col md="auto">
+        <Col xs={3}>
           {connected && eventChoice && (
-            <Alert variant="primary" className="m-0">
-              <Container className="p-0 h5">
+            <div className="titre-sous-menu">
+              <Container className="p-0">
                 <Row className="align-items-middle justify-content-center">
                   <Col className="text-center " md="auto">
                     <Link
@@ -68,7 +68,7 @@ export default function NavBar() {
                   </Col>
                 </Row>
               </Container>{" "}
-            </Alert>
+            </div>
           )}
         </Col>
       </Row>
