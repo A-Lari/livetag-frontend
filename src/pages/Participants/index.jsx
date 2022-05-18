@@ -67,7 +67,6 @@ const Participants = () => {
         <Col sm>
           <ParticipantsList
             listParticipants={listParticipants}
-            setListParticipants={setListParticipants}
             fecthAndSetListParticipant={fecthAndSetListParticipant}
           />
         </Col>

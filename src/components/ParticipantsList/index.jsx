@@ -11,11 +11,7 @@ import paginationFactory from "react-bootstrap-table2-paginator";
 import { Col, Container, Row, Button } from "react-bootstrap";
 import { useEvent } from "../../EventInUse";
 
-function ParticipantsList({
-  listParticipants,
-  setListParticipants,
-  fecthAndSetListParticipant,
-}) {
+function ParticipantsList({ listParticipants, fecthAndSetListParticipant }) {
   const { eventSelect } = useEvent();
   const navigate = useNavigate();
   const { SearchBar } = Search;
