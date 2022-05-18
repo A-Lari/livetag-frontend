@@ -11,7 +11,7 @@ export default function EventInuse({ children }) {
   const [eventSelect, setEventSelect] = useState({});
 
   useEffect(() => {
-    if (connected) {
+    if (localStorage.getItem("idEvent") !== null) {
       const idEvent = localStorage.getItem("idEvent");
       services.getEventById(idEvent).then((event) => {
         setEventSelect(event);
