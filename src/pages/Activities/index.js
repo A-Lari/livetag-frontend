@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 
+import services from "../../services";
+
 import ActivityAdd from "../../components/ActivityAdd";
 import ActivitiesList from "../../components/ActivitiesList";
 
@@ -13,6 +15,17 @@ export default function Activities() {
   function handleAddButton() {
     setShowAddActivite((currentState) => !currentState);
   }
+
+  const search = () => {
+    services
+      .getActivities(localStorage.getItem("idEvent"))
+      .then((result) => {
+        setActivities(result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <Container className="m-4" fluid="xl">
@@ -40,7 +53,7 @@ export default function Activities() {
         <Container>
           <Row className="justify-content-center">
             <Col sm>
-              <ActivityAdd />
+              <ActivityAdd fecthAndSetListActivities={search} />
             </Col>
           </Row>
         </Container>
@@ -50,7 +63,7 @@ export default function Activities() {
         <Col>
           <ActivitiesList
             activities={activities}
-            setActivities={setActivities}
+            fecthAndSetListActivities={search}
           />
         </Col>
       </Row>

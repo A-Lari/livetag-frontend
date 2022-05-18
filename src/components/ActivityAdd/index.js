@@ -6,7 +6,7 @@ import services from "../../services";
 
 import "./ActivityAdd.css";
 
-function ActivityAdd() {
+function ActivityAdd({ fecthAndSetListActivities }) {
   const { eventSelect } = useEvent();
   const [body, setBody] = useState({
     activity_name: "",
@@ -15,10 +15,6 @@ function ActivityAdd() {
     price: "",
     event: eventSelect._id,
   });
-  const [formIsCompleted, setFormIsCompleted] = useState(false);
-
-  const navigate = useNavigate();
-
   function updateBody(key, value) {
     // Il faut toujours faire une copie du state qu'on veut modifier si c'est un objet
     // objet = {  } ou [ ]
@@ -29,18 +25,6 @@ function ActivityAdd() {
     const name = event.target.name; // activity_name
     const value = event.target.value;
 
-    if (
-      body.activity_name !== "" &&
-      body.activity_date !== "" &&
-      body.description !== "" &&
-      body.price !== "" &&
-      value !== ""
-    ) {
-      setFormIsCompleted(true);
-    } else {
-      setFormIsCompleted(false);
-    }
-
     updateBody(name, value);
   }
 
@@ -48,7 +32,16 @@ function ActivityAdd() {
     event.preventDefault();
     services
       .addActivity(body)
-      .then(() => navigate(0))
+      .then(() => {
+        fecthAndSetListActivities();
+        setBody({
+          activity_name: "",
+          activity_date: "",
+          description: "",
+          price: "",
+          event: eventSelect._id,
+        });
+      })
       .catch(() => alert("Une erreur a eu lieu pendant l'ajout"));
   }
 
@@ -58,7 +51,7 @@ function ActivityAdd() {
         Ajout d'une activité
       </Card.Header>
       <Card.Body>
-        <Form onChange={handleFormChange}>
+        <Form onChange={handleFormChange} onSubmit={handleSubmitAddActivity}>
           <Container>
             <Row>
               <Col sm>
@@ -68,6 +61,7 @@ function ActivityAdd() {
                     type="text"
                     placeholder="Nom de l'activité"
                     name="activity_name"
+                    value={body.activity_name}
                     required
                   />
                 </Form.Group>
@@ -76,7 +70,12 @@ function ActivityAdd() {
               <Col>
                 <Form.Group className="mb-3" controlId="activity_date">
                   <Form.Label>Date</Form.Label>
-                  <Form.Control type="date" name="activity_date" required />
+                  <Form.Control
+                    type="date"
+                    name="activity_date"
+                    value={body.activity_date}
+                    required
+                  />
                 </Form.Group>
               </Col>
               <Col>
@@ -86,6 +85,7 @@ function ActivityAdd() {
                     type="text"
                     placeholder="prix"
                     name="price"
+                    value={body.price}
                     required
                   />
                 </Form.Group>
@@ -99,40 +99,19 @@ function ActivityAdd() {
                     type="text"
                     placeholder="description de l'activité"
                     name="description"
+                    value={body.description}
                     required
                   />
                 </Form.Group>
               </Col>
             </Row>
-            {!formIsCompleted && (
-              <Row>
-                <Col sm className="text-center">
-                  <Button
-                    variant="success"
-                    type="submit"
-                    className="mt-3"
-                    onClick={handleSubmitAddActivity}
-                    disabled
-                  >
-                    Enregistrer
-                  </Button>
-                </Col>
-              </Row>
-            )}
-            {formIsCompleted && (
-              <Row>
-                <Col sm className="text-center">
-                  <Button
-                    variant="success"
-                    type="submit"
-                    className="mt-3"
-                    onClick={handleSubmitAddActivity}
-                  >
-                    Enregistrer
-                  </Button>
-                </Col>
-              </Row>
-            )}
+            <Row>
+              <Col sm className="text-center">
+                <Button variant="success" type="submit" className="mt-3">
+                  Enregistrer
+                </Button>
+              </Col>
+            </Row>
           </Container>
         </Form>
       </Card.Body>
