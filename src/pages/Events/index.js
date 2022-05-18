@@ -53,8 +53,7 @@ const Events = () => {
             <Col sm>
               <EventEdit
                 isCreate={true}
-                fetchEventData={fetchEventData}
-                setShowAddEvent={setShowAddEvent}
+                fecthAndSetListEvent={fetchEventData}
                 title="Ajout d'un événement"
               />
             </Col>
@@ -64,11 +63,7 @@ const Events = () => {
       <hr />
       <Row className="justify-content-center">
         <Col>
-          <Eventslist
-            events={events}
-            setEvents={setEvents}
-            fetchEventData={fetchEventData}
-          />
+          <Eventslist events={events} fecthAndSetListEvent={fetchEventData} />
         </Col>
       </Row>
     </Container>

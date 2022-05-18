@@ -12,9 +12,9 @@ import ToolkitProvider, {
   Search,
 } from "react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit";
 import paginationFactory from "react-bootstrap-table2-paginator";
-import { Col, Container, Row, Badge, Alert } from "react-bootstrap";
+import { Col, Container, Row, Alert } from "react-bootstrap";
 
-function Eventslist({ events, setEvents, fetchEventData }) {
+function Eventslist({ events, fecthAndSetListEvent }) {
   const navigate = useNavigate();
   const { setEventChoice, setEventSelect, eventSelect } = useEvent();
 
@@ -163,7 +163,7 @@ function Eventslist({ events, setEvents, fetchEventData }) {
           setEventSelect({});
           localStorage.removeItem("idEvent");
         }
-        fetchEventData();
+        fecthAndSetListEvent();
       })
       .catch(console.log);
   }
@@ -184,7 +184,7 @@ function Eventslist({ events, setEvents, fetchEventData }) {
   }
 
   useEffect(() => {
-    fetchEventData();
+    fecthAndSetListEvent();
   }, []);
   // #endregion
 

@@ -6,13 +6,7 @@ import dayjs from "dayjs";
 
 import "./EventEdit.css";
 
-function EventEdit({
-  idEvent,
-  title,
-  fetchEventData,
-  setShowAddEvent,
-  isCreate = false,
-}) {
+function EventEdit({ idEvent, title, fecthAndSetListEvent, isCreate = false }) {
   const [body, setBody] = useState({
     event_name: "",
     start_date: "",
@@ -62,7 +56,7 @@ function EventEdit({
           code: "",
         });
 
-        fetchEventData();
+        fecthAndSetListEvent();
       })
       .catch(() => alert("Une erreur a eu lieu pendant l'ajout"));
   }
