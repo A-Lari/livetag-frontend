@@ -11,7 +11,11 @@ import paginationFactory from "react-bootstrap-table2-paginator";
 import { Col, Container, Row, Button } from "react-bootstrap";
 import { useEvent } from "../../EventInUse";
 
-function ParticipantsList({ listParticipants, setListParticipants }) {
+function ParticipantsList({
+  listParticipants,
+  setListParticipants,
+  fecthAndSetListParticipant,
+}) {
   const { eventSelect } = useEvent();
   const navigate = useNavigate();
   const { SearchBar } = Search;
@@ -138,17 +142,7 @@ function ParticipantsList({ listParticipants, setListParticipants }) {
 
   // RECUPERATION DES DONNEES
   // #region
-  function fecthAndSetListParticipant() {
-    services
-      .getParticipantByEvent(localStorage.getItem("idEvent"))
-      .then((list) => {
-        setListParticipants(list);
-      })
-      .catch((error) => {
-        console.log("Error list participants", error);
-        alert("La liste des participants ne peut être affichée");
-      });
-  }
+
   function deleteParticipant(idParticipant) {
     services
       .deleteParticipant(idParticipant)

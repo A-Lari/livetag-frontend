@@ -6,7 +6,12 @@ import services from "../../services";
 import Role from "../Role";
 import "./ParticipantEdit.css";
 
-function ParticipantEdit({ idParticipant, title, isCreate = false }) {
+function ParticipantEdit({
+  idParticipant,
+  fecthAndSetListParticipant,
+  title,
+  isCreate = false,
+}) {
   // #region
   const { eventSelect } = useEvent();
   const [oneParticipant, setOneParticipant] = useState({
@@ -24,7 +29,6 @@ function ParticipantEdit({ idParticipant, title, isCreate = false }) {
   });
   const [roleList, setRoleList] = useState([]);
   const [role, setRole] = useState({ activities: [] });
-  const [formIsCompleted, setFormIsCompleted] = useState(false);
 
   const navigate = useNavigate();
 
@@ -51,7 +55,6 @@ function ParticipantEdit({ idParticipant, title, isCreate = false }) {
             .getRole(reponse.role._id)
             .then((result) => {
               setRole(result);
-              setFormIsCompleted(true);
             })
             .catch((err) => {
               console.log(err);
@@ -62,7 +65,7 @@ function ParticipantEdit({ idParticipant, title, isCreate = false }) {
   }, []);
 
   useEffect(() => {
-    fecthAndSetListRoles(eventSelect._id);
+    fecthAndSetListRoles(localStorage.getItem("idEvent"));
   }, []);
 
   function updateBody(key, value) {
@@ -88,30 +91,28 @@ function ParticipantEdit({ idParticipant, title, isCreate = false }) {
         setRole({ activities: [] });
       }
     }
-    if (
-      body.firstname !== "" &&
-      body.lastname !== "" &&
-      body.email !== "" &&
-      body.telephone !== "" &&
-      value !== ""
-    ) {
-      setFormIsCompleted(true);
-    } else {
-      setFormIsCompleted(false);
-    }
 
     updateBody(name, value);
   }
 
   function handleCreate(event) {
     event.preventDefault();
-    services.createParticipant(body).then(() => navigate(0));
+    setBody({
+      firstname: "",
+      lastname: "",
+      email: "",
+      telephone: "",
+      event: eventSelect._id,
+      role: null,
+      optional_activities: [],
+    });
+    services.createParticipant(body).then(() => fecthAndSetListParticipant());
   }
 
   function handleUpdate(event) {
     event.preventDefault();
     services.updateParticipant(idParticipant, body).then(() => {
-      navigate(-1);
+      alert("Modification prise en compte");
     });
   }
   // #endregion
@@ -121,7 +122,10 @@ function ParticipantEdit({ idParticipant, title, isCreate = false }) {
         {title}
       </Card.Header>
       <Card.Body>
-        <Form onChange={handleFormChange}>
+        <Form
+          onChange={handleFormChange}
+          onSubmit={isCreate ? handleCreate : handleUpdate}
+        >
           <Container>
             <Row>
               <Col sm>
@@ -131,7 +135,8 @@ function ParticipantEdit({ idParticipant, title, isCreate = false }) {
                     type="text"
                     placeholder="Prénom"
                     name="firstname"
-                    defaultValue={oneParticipant.firstname}
+                    value={body.firstname}
+                    required
                   />
                 </Form.Group>
               </Col>
@@ -142,7 +147,8 @@ function ParticipantEdit({ idParticipant, title, isCreate = false }) {
                     type="text"
                     placeholder="Nom"
                     name="lastname"
-                    defaultValue={oneParticipant.lastname}
+                    value={body.lastname}
+                    required
                   />
                 </Form.Group>
               </Col>
@@ -155,7 +161,8 @@ function ParticipantEdit({ idParticipant, title, isCreate = false }) {
                     type="email"
                     placeholder="Email"
                     name="email"
-                    defaultValue={oneParticipant.email}
+                    value={body.email}
+                    required
                   />
                 </Form.Group>
               </Col>
@@ -163,19 +170,20 @@ function ParticipantEdit({ idParticipant, title, isCreate = false }) {
                 <Form.Group className="mb-3" controlId="formTelephone">
                   <Form.Label>Téléphone</Form.Label>
                   <Form.Control
-                    type="text"
+                    type="tel"
                     placeholder="Téléphone"
                     name="telephone"
-                    defaultValue={oneParticipant.telephone}
+                    value={body.telephone}
+                    required
                   />
                 </Form.Group>
               </Col>
             </Row>
             <Row>
-              <Col xs={8}>
+              <Col xs={7}>
                 <Form.Group className="mb-3" controlId="formEvenemt">
                   <Form.Label>Rôle</Form.Label>
-                  <Form.Control as="select" name="role">
+                  <Form.Control as="select" name="role" required>
                     {isCreate && <option value="">Rôle</option>}
                     {roleList.map((role) => (
                       <option
@@ -195,30 +203,10 @@ function ParticipantEdit({ idParticipant, title, isCreate = false }) {
               </Col>
             </Row>
 
-            {isCreate && !formIsCompleted && (
+            {isCreate && (
               <Row>
                 <Col sm className="text-center">
-                  <Button
-                    variant="success"
-                    type="submit"
-                    className="mt-3"
-                    onClick={handleCreate}
-                    disabled
-                  >
-                    Enregistrer
-                  </Button>
-                </Col>
-              </Row>
-            )}
-            {isCreate && formIsCompleted && (
-              <Row>
-                <Col sm className="text-center">
-                  <Button
-                    variant="success"
-                    type="submit"
-                    className="mt-3"
-                    onClick={handleCreate}
-                  >
+                  <Button variant="success" type="submit" className="mt-3">
                     Enregistrer
                   </Button>
                 </Col>
@@ -228,27 +216,9 @@ function ParticipantEdit({ idParticipant, title, isCreate = false }) {
               <Container>
                 <Row>
                   <Col className="text-center">
-                    {formIsCompleted && (
-                      <Button
-                        variant="warning"
-                        type="submit"
-                        className="mt-3"
-                        onClick={handleUpdate}
-                      >
-                        MODIFIER
-                      </Button>
-                    )}
-                    {!formIsCompleted && (
-                      <Button
-                        variant="warning"
-                        type="submit"
-                        className="mt-3"
-                        onClick={handleUpdate}
-                        disabled
-                      >
-                        MODIFIER
-                      </Button>
-                    )}
+                    <Button variant="warning" type="submit" className="mt-3">
+                      MODIFIER
+                    </Button>
                   </Col>
                 </Row>
                 <Row>
