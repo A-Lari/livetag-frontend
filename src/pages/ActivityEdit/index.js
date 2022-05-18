@@ -14,8 +14,6 @@ function ActivityEdit() {
     price: "",
   });
 
-  const [formIsCompleted, setFormIsCompleted] = useState(false);
-
   const navigate = useNavigate();
 
   let { idActivity } = useParams();
@@ -27,19 +25,6 @@ function ActivityEdit() {
   function handleFormChange(event) {
     const name = event.target.name; // activity_name
     const value = event.target.value;
-
-    if (
-      body.activity_name !== "" &&
-      body.activity_date !== "" &&
-      body.description !== "" &&
-      body.price !== "" &&
-      value !== ""
-    ) {
-      setFormIsCompleted(true);
-    } else {
-      setFormIsCompleted(false);
-    }
-
     updateBody(name, value);
   }
 
@@ -47,7 +32,7 @@ function ActivityEdit() {
     event.preventDefault();
     services
       .updateActivity(idActivity, body)
-      .then(() => navigate(-1))
+      .then(() => alert("modification ok!"))
       .catch(() => alert("Une erreur a eu lieu pendant l'ajout"));
   }
 
@@ -69,7 +54,7 @@ function ActivityEdit() {
               Modifier l'activité
             </Card.Header>
             <Card.Body>
-              <Form onChange={handleFormChange}>
+              <Form onChange={handleFormChange} onSubmit={handleSubmitActivity}>
                 <Container>
                   <Row>
                     <Col sm>
@@ -123,35 +108,14 @@ function ActivityEdit() {
                       </Form.Group>
                     </Col>
                   </Row>
-                  {!formIsCompleted && (
-                    <Row>
-                      <Col sm className="text-center">
-                        <Button
-                          variant="warning"
-                          type="submit"
-                          className="mt-3"
-                          onClick={handleSubmitActivity}
-                          disabled
-                        >
-                          Modifier
-                        </Button>
-                      </Col>
-                    </Row>
-                  )}
-                  {formIsCompleted && (
-                    <Row>
-                      <Col sm className="text-center">
-                        <Button
-                          variant="warning"
-                          type="submit"
-                          className="mt-3"
-                          onClick={handleSubmitActivity}
-                        >
-                          Modifier
-                        </Button>
-                      </Col>
-                    </Row>
-                  )}
+
+                  <Row>
+                    <Col sm className="text-center">
+                      <Button variant="warning" type="submit" className="mt-3">
+                        Modifier
+                      </Button>
+                    </Col>
+                  </Row>
 
                   <Row>
                     <Col className="text-center">

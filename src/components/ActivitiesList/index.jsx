@@ -12,7 +12,10 @@ import paginationFactory from "react-bootstrap-table2-paginator";
 import { Container, Row, Col } from "react-bootstrap";
 import { useEvent } from "../../EventInUse";
 
-export default function ActivitiesList({ activities, setActivities }) {
+export default function ActivitiesList({
+  activities,
+  fecthAndSetListActivities,
+}) {
   const { eventSelect } = useEvent();
   const navigate = useNavigate();
   const { SearchBar } = Search;
@@ -100,16 +103,6 @@ export default function ActivitiesList({ activities, setActivities }) {
 
   // RECUPERATION DES DONNEES
   //supprimer l'activité et refresh la page
-  const search = () => {
-    services
-      .getActivities(localStorage.getItem("idEvent"))
-      .then((result) => {
-        setActivities(result);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
   function deleteActivityAndRefresh(idActivity) {
     //liste des activités via dB
     services
@@ -118,13 +111,13 @@ export default function ActivitiesList({ activities, setActivities }) {
         if (response.status === 401) {
           alert(response.data);
         }
-        search();
+        fecthAndSetListActivities();
       })
       .catch(console.log);
   }
 
   useEffect(() => {
-    search();
+    fecthAndSetListActivities();
   }, []);
 
   return (

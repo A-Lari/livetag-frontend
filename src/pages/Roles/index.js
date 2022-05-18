@@ -1,24 +1,22 @@
 import { useEffect, useState } from "react";
-import { Container, Row, Col, Button, Accordion } from "react-bootstrap";
+import { Container, Row, Col, Button } from "react-bootstrap";
 import services from "../../services";
-import Role from "../../components/Role";
-import CreateRole from "../CreateRole";
+import RolesList from "../../components/RolesList";
+import CreateRole from "../RoleAdd";
 
-import "./RolesList.css";
-import { useEvent } from "../../EventInUse";
+import "./Roles.css";
 
-const Roleslist = () => {
+const Roles = () => {
   const [roles, setRoles] = useState([]);
-  const { eventSelect } = useEvent();
   const [showAddRole, setShowAddRole] = useState(false);
 
   function handleAddButton() {
     setShowAddRole((currentState) => !currentState);
   }
 
-  const search = (idEvent) => {
+  const search = () => {
     services
-      .getRoles(idEvent)
+      .getRoles(localStorage.getItem("idEvent"))
       .then((result) => {
         setRoles(result);
       })
@@ -28,7 +26,7 @@ const Roleslist = () => {
   };
 
   useEffect(() => {
-    search(localStorage.getItem("idEvent"));
+    search();
   }, []);
 
   return (
@@ -57,19 +55,15 @@ const Roleslist = () => {
         <Container>
           <Row className="justify-content-center">
             <Col sm>
-              <CreateRole />
+              <CreateRole fecthAndSetListRoles={search} />
             </Col>
           </Row>
         </Container>
       )}
       <hr />
-      <Row className="justify-content-center">
-        {roles.map((role) => (
-          <Role key={role._id} role={role} />
-        ))}
-      </Row>
+      <RolesList roles={roles} fecthAndSetListRoles={search} />
     </Container>
   );
 };
 
-export default Roleslist;
+export default Roles;

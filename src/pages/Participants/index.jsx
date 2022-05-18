@@ -2,6 +2,8 @@ import "./Participants.css";
 import { useState } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 
+import services from "../../services";
+
 import ParticipantEdit from "../../components/ParticipantEdit";
 import ParticipantsList from "../../components/ParticipantsList";
 
@@ -11,6 +13,18 @@ const Participants = () => {
 
   function handleAddButton() {
     setShowAddParticipant((currentState) => !currentState);
+  }
+
+  function fecthAndSetListParticipant() {
+    services
+      .getParticipantByEvent(localStorage.getItem("idEvent"))
+      .then((list) => {
+        setListParticipants(list);
+      })
+      .catch((error) => {
+        console.log("Error list participants", error);
+        alert("La liste des participants ne peut être affichée");
+      });
   }
 
   return (
@@ -39,7 +53,11 @@ const Participants = () => {
         <Container>
           <Row className="justify-content-center">
             <Col sm>
-              <ParticipantEdit isCreate={true} title="Ajout d'un participant" />
+              <ParticipantEdit
+                fecthAndSetListParticipant={fecthAndSetListParticipant}
+                isCreate={true}
+                title="Ajout d'un participant"
+              />
             </Col>
           </Row>
         </Container>
@@ -49,7 +67,7 @@ const Participants = () => {
         <Col sm>
           <ParticipantsList
             listParticipants={listParticipants}
-            setListParticipants={setListParticipants}
+            fecthAndSetListParticipant={fecthAndSetListParticipant}
           />
         </Col>
       </Row>

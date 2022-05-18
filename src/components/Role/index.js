@@ -1,12 +1,16 @@
 import React from "react";
 import { Button, Card, Badge } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import {CopyToClipboard} from 'react-copy-to-clipboard';
+import { CopyToClipboard } from "react-copy-to-clipboard";
 
 import services from "../../services";
 import("./Role.css");
 
-export default function Role({ role, isFromParticipant = false }) {
+export default function Role({
+  role,
+  fecthAndSetListRoles,
+  isFromParticipant = false,
+}) {
   const navigate = useNavigate();
 
   const deleteRole = (idRole) => {
@@ -16,7 +20,7 @@ export default function Role({ role, isFromParticipant = false }) {
         if (response.status === 401) {
           alert(response.data);
         }
-        navigate(0);
+        fecthAndSetListRoles();
       })
       .catch(console.log);
   };
@@ -25,8 +29,8 @@ export default function Role({ role, isFromParticipant = false }) {
     services
       .generateInscriptionLink(idRole)
       .then((response) => {
-        console.log(response);
-        navigate(0);
+        alert("lien généré");
+        fecthAndSetListRoles();
       })
       .catch(console.log);
   };
@@ -54,13 +58,17 @@ export default function Role({ role, isFromParticipant = false }) {
             </li>
           ))}
         </ul>
-        {role.link && (
-          <p>
-            <Card.Link href={role.link} target="_blank">{role.link}</Card.Link>
+        {!isFromParticipant && role.link && (
+          <div className="m-2">
+            <Card.Link href={role.link} target="_blank">
+              lien d'inscription
+            </Card.Link>
             <CopyToClipboard text={role.link}>
-              <Button variant="outline-info" size="sm">Copier le lien</Button>
+              <Button variant="outline-info" size="sm">
+                Copier lien
+              </Button>
             </CopyToClipboard>
-          </p>
+          </div>
         )}
         {!isFromParticipant && (
           <div>
@@ -70,7 +78,10 @@ export default function Role({ role, isFromParticipant = false }) {
             >
               Modifier
             </Button>
-            <Button variant="outline-success" onClick={() => generateInscriptionLink(role._id)}>
+            <Button
+              variant="outline-success"
+              onClick={() => generateInscriptionLink(role._id)}
+            >
               Générer le lien
             </Button>
             <Button
