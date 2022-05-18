@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import Eventslist from "../../components/EventsList";
 import EventEdit from "../../components/EventEdit";
+import services from "../../services";
 
 const Events = () => {
   const [events, setEvents] = useState([]);
@@ -10,6 +11,18 @@ const Events = () => {
 
   function handleAddButton() {
     setShowAddEvent((currentState) => !currentState);
+  }
+
+  function fetchEventData() {
+    services
+      .getEventFromDB()
+      .then((list) => {
+        setEvents(list);
+      })
+      .catch((error) => {
+        console.log("Error list events", error);
+        alert("La liste des events ne peut être à affichée");
+      });
   }
 
   return (
@@ -38,7 +51,12 @@ const Events = () => {
         <Container>
           <Row className="justify-content-center">
             <Col sm>
-              <EventEdit isCreate={true} title="Ajout d'un événement" />
+              <EventEdit
+                isCreate={true}
+                fetchEventData={fetchEventData}
+                setShowAddEvent={setShowAddEvent}
+                title="Ajout d'un événement"
+              />
             </Col>
           </Row>
         </Container>
@@ -46,7 +64,11 @@ const Events = () => {
       <hr />
       <Row className="justify-content-center">
         <Col>
-          <Eventslist events={events} setEvents={setEvents} />
+          <Eventslist
+            events={events}
+            setEvents={setEvents}
+            fetchEventData={fetchEventData}
+          />
         </Col>
       </Row>
     </Container>

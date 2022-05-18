@@ -14,7 +14,7 @@ import ToolkitProvider, {
 import paginationFactory from "react-bootstrap-table2-paginator";
 import { Col, Container, Row, Badge, Alert } from "react-bootstrap";
 
-function Eventslist({ events, setEvents }) {
+function Eventslist({ events, setEvents, fetchEventData }) {
   const navigate = useNavigate();
   const { setEventChoice, setEventSelect, eventSelect } = useEvent();
 
@@ -150,27 +150,20 @@ function Eventslist({ events, setEvents }) {
 
   // RECUPERATION DES DONNEES
   // #region
-  function fetchEventData() {
-    services
-      .getEventFromDB()
-      .then((list) => {
-        setEvents(list);
-      })
-      .catch((error) => {
-        console.log("Error list events", error);
-        alert("La liste des events ne peut être à affichée");
-      });
-  }
 
   function deleteEvent(id) {
     services
       .deleteEventByID(id)
       .then((response) => {
-        console.log(response);
         if (response.status === 401) {
           alert(response.data);
         }
-        navigate(0);
+        if (eventSelect._id === id) {
+          setEventChoice(false);
+          setEventSelect({});
+          localStorage.removeItem("idEvent");
+        }
+        fetchEventData();
       })
       .catch(console.log);
   }

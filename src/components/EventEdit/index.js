@@ -6,7 +6,13 @@ import dayjs from "dayjs";
 
 import "./EventEdit.css";
 
-function EventEdit({ idEvent, title, isCreate = false }) {
+function EventEdit({
+  idEvent,
+  title,
+  fetchEventData,
+  setShowAddEvent,
+  isCreate = false,
+}) {
   const [body, setBody] = useState({
     event_name: "",
     start_date: "",
@@ -15,8 +21,6 @@ function EventEdit({ idEvent, title, isCreate = false }) {
     description: "",
     code: "",
   });
-
-  const [formIsCompleted, setFormIsCompleted] = useState(false);
 
   const navigate = useNavigate();
 
@@ -41,19 +45,6 @@ function EventEdit({ idEvent, title, isCreate = false }) {
     const name = event.target.name; // event_name
     const value = event.target.value; // Course a pied
 
-    if (
-      body.event_name !== "" &&
-      body.start_date !== "" &&
-      body.end_date !== "" &&
-      body.place !== "" &&
-      body.description !== "" &&
-      value !== ""
-    ) {
-      setFormIsCompleted(true);
-    } else {
-      setFormIsCompleted(false);
-    }
-
     updateBody(name, value);
   }
 
@@ -61,7 +52,18 @@ function EventEdit({ idEvent, title, isCreate = false }) {
     event.preventDefault();
     services
       .addEvents(body)
-      .then(() => navigate(0))
+      .then((result) => {
+        setBody({
+          event_name: "",
+          start_date: "",
+          end_date: "",
+          place: "",
+          description: "",
+          code: "",
+        });
+
+        fetchEventData();
+      })
       .catch(() => alert("Une erreur a eu lieu pendant l'ajout"));
   }
 
@@ -79,7 +81,10 @@ function EventEdit({ idEvent, title, isCreate = false }) {
         {title}
       </Card.Header>
       <Card.Body>
-        <Form onChange={handleFormChange}>
+        <Form
+          onChange={handleFormChange}
+          onSubmit={isCreate ? handleSubmitAddEvent : handleSubmitUpdateEvent}
+        >
           <Container>
             <Row>
               <Col sm>
@@ -89,7 +94,7 @@ function EventEdit({ idEvent, title, isCreate = false }) {
                     type="text"
                     placeholder="Nom de l'évènnement"
                     name="event_name"
-                    defaultValue={body.event_name}
+                    value={body.event_name}
                     required
                   />
                 </Form.Group>
@@ -101,7 +106,7 @@ function EventEdit({ idEvent, title, isCreate = false }) {
                     type="text"
                     placeholder="Lieu de l'évènnement"
                     name="place"
-                    defaultValue={body.place}
+                    value={body.place}
                     required
                   />
                 </Form.Group>
@@ -139,37 +144,17 @@ function EventEdit({ idEvent, title, isCreate = false }) {
                     type="text"
                     placeholder="Description"
                     name="description"
-                    defaultValue={body.description}
+                    value={body.description}
                     required
                   />
                 </Form.Group>
               </Col>
             </Row>
 
-            {isCreate && !formIsCompleted && (
+            {isCreate && (
               <Row>
                 <Col sm className="text-center">
-                  <Button
-                    variant="success"
-                    type="submit"
-                    className="mt-3"
-                    onClick={handleSubmitAddEvent}
-                    disabled
-                  >
-                    Enregistrer
-                  </Button>
-                </Col>
-              </Row>
-            )}
-            {isCreate && formIsCompleted && (
-              <Row>
-                <Col sm className="text-center">
-                  <Button
-                    variant="success"
-                    type="submit"
-                    className="mt-3"
-                    onClick={handleSubmitAddEvent}
-                  >
+                  <Button variant="success" type="submit" className="mt-3">
                     Enregistrer
                   </Button>
                 </Col>
@@ -179,27 +164,9 @@ function EventEdit({ idEvent, title, isCreate = false }) {
               <Container>
                 <Row>
                   <Col className="text-center">
-                    {formIsCompleted && (
-                      <Button
-                        variant="warning"
-                        type="submit"
-                        className="mt-3"
-                        onClick={handleSubmitUpdateEvent}
-                      >
-                        MODIFIER
-                      </Button>
-                    )}
-                    {!formIsCompleted && (
-                      <Button
-                        variant="warning"
-                        type="submit"
-                        className="mt-3"
-                        onClick={handleSubmitUpdateEvent}
-                        disabled
-                      >
-                        MODIFIER
-                      </Button>
-                    )}
+                    <Button variant="warning" type="submit" className="mt-3">
+                      MODIFIER
+                    </Button>
                   </Col>
                 </Row>
                 <Row>
