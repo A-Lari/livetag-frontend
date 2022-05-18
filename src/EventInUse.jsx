@@ -1,12 +1,10 @@
 import { createContext, useEffect, useState, useContext } from "react";
-import { useAuth } from "./AuthProvider";
+
 import services from "./services";
 
 const EventCtxt = createContext(null);
 
 export default function EventInuse({ children }) {
-  const { connected } = useAuth();
-
   const [eventChoice, setEventChoice] = useState(false);
   const [eventSelect, setEventSelect] = useState({});
 
