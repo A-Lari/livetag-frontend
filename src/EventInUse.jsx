@@ -1,17 +1,15 @@
 import { createContext, useEffect, useState, useContext } from "react";
-import { useAuth } from "./AuthProvider";
+
 import services from "./services";
 
 const EventCtxt = createContext(null);
 
 export default function EventInuse({ children }) {
-  const { connected } = useAuth();
-
   const [eventChoice, setEventChoice] = useState(false);
   const [eventSelect, setEventSelect] = useState({});
 
   useEffect(() => {
-    if (connected) {
+    if (localStorage.getItem("idEvent") !== null) {
       const idEvent = localStorage.getItem("idEvent");
       services.getEventById(idEvent).then((event) => {
         setEventSelect(event);

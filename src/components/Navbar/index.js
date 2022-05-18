@@ -2,8 +2,8 @@ import { Link } from "react-router-dom";
 import { Alert, Container, Row, Col, Badge, NavLink } from "react-bootstrap";
 import { useAuth } from "../../AuthProvider";
 import { useEvent } from "../../EventInUse";
-import "./Navbar.css";
 import NavBarLogMenu from "../NavBarLogMenu";
+import "./Navbar.css";
 
 export default function NavBar() {
   const { connected, disconnect } = useAuth();
@@ -13,7 +13,7 @@ export default function NavBar() {
     <Container fluid="xl" className="p-1 navbar-perso">
       <Row className="align-items-middle justify-content-center">
         <Col className="text-left">
-          <img src="../../logo192.png" className=" logo-img" />
+          <div className="logo-navbar " />
         </Col>
         {connected && !eventChoice && (
           <Col className="nav-links text-center">
@@ -23,12 +23,13 @@ export default function NavBar() {
           </Col>
         )}
         {connected && eventChoice && (
-          <Col className="nav-links text-center p-2">
-            <Link className="project-link" to="/events">
-              <span className="text-secondary">Evénement sélectionné : </span>
-
-              {eventSelect.event_name}
-            </Link>
+          <Col className="text-center p-3">
+            <div className="titre-evenement">
+              <Link className="project-link-evenement-select" to="/events">
+                <span className="text-secondary">Evénement sélectionné : </span>
+                {eventSelect.event_name}
+              </Link>
+            </div>
           </Col>
         )}
         <Col className="nav-links text-right">
@@ -36,10 +37,10 @@ export default function NavBar() {
         </Col>
       </Row>
       <Row className="justify-content-center">
-        <Col md="auto">
+        <Col xs={3}>
           {connected && eventChoice && (
-            <Alert variant="primary" className="m-0">
-              <Container className="p-0 h5">
+            <div className="titre-sous-menu">
+              <Container className="p-0">
                 <Row className="align-items-middle justify-content-center">
                   <Col className="text-center " md="auto">
                     <Link
@@ -67,7 +68,7 @@ export default function NavBar() {
                   </Col>
                 </Row>
               </Container>{" "}
-            </Alert>
+            </div>
           )}
         </Col>
       </Row>

@@ -1,10 +1,12 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useEvent } from "./EventInUse";
 
 const AuthContext = createContext(null);
 
 export default function AuthProvider({ children }) {
   const [connected, setConnected] = useState(false);
+  const { setEventChoice, setEventSelect } = useEvent();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -17,6 +19,8 @@ export default function AuthProvider({ children }) {
     setConnected(false);
     localStorage.removeItem("jwt");
     localStorage.removeItem("idEvent");
+    setEventChoice(false);
+    setEventSelect({});
   }
 
   const value = { connected, disconnect, setConnected }; // Tous les enfants de AuthProvider y auront accès
