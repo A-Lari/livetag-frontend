@@ -56,7 +56,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           {connected && <Route path="/profil" element={<Profil />} />}
           <Route path="/signup" element={<SignupPage />} />
-          <Route path="/inscriptions/:id" element={<Inscription />} />
+          <Route path="/inscriptions/:idLink" element={<Inscription />} />
         </Routes>
       </main>
       <footer className="site-footer">
