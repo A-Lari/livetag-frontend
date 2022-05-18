@@ -24,6 +24,7 @@ export default function ActivitiesList({ activities, setActivities }) {
       dataField: "_id",
       hidden: true,
     },
+    { dataField: "updatedAt", text: "update", hidden: true },
     {
       dataField: "activity_name",
       text: "Nom *",
@@ -89,13 +90,13 @@ export default function ActivitiesList({ activities, setActivities }) {
     },
   ];
   // #endregion
-  // OPTION DU TABLEAU
-  // const defaultSorted = [
-  //   {
-  //     dataField: "event_name",
-  //     order: "asc", // desc or asc
-  //   },
-  // ];
+  //OPTION DU TABLEAU
+  const defaultSorted = [
+    {
+      dataField: "updatedAt",
+      order: "desc", // desc or asc
+    },
+  ];
 
   // RECUPERATION DES DONNEES
   //supprimer l'activité et refresh la page
@@ -157,7 +158,7 @@ export default function ActivitiesList({ activities, setActivities }) {
                 bordered={false}
                 data={activities}
                 columns={columns}
-                //defaultSorted={defaultSorted}
+                defaultSorted={defaultSorted}
                 noDataIndication="Aucune donnée dans la liste"
                 pagination={paginationFactory()}
               ></BootstrapTable>

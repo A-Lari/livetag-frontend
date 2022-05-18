@@ -26,6 +26,7 @@ function Eventslist({ events, setEvents }) {
       dataField: "_id",
       hidden: true,
     },
+    { dataField: "updatedAt", text: "update *", hidden: true },
     {
       dataField: "useEvent",
       text: "",
@@ -142,8 +143,8 @@ function Eventslist({ events, setEvents }) {
   // OPTION DU TABLEAU
   const defaultSorted = [
     {
-      dataField: "event_name",
-      order: "asc", // desc or asc
+      dataField: "updatedAt",
+      order: "desc", // desc or asc
     },
   ];
 

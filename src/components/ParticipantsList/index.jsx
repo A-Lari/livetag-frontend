@@ -23,6 +23,7 @@ function ParticipantsList({ listParticipants, setListParticipants }) {
       dataField: "_id",
       hidden: true,
     },
+    { dataField: "updatedAt", text: "update", hidden: true },
     {
       dataField: "event._id",
       hidden: true,
@@ -130,8 +131,8 @@ function ParticipantsList({ listParticipants, setListParticipants }) {
   // OPTION DU TABLEAU
   const defaultSorted = [
     {
-      dataField: "role.role_name",
-      order: "asc", // desc or asc
+      dataField: "updatedAt",
+      order: "desc", // desc or asc
     },
   ];
 
