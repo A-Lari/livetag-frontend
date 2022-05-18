@@ -44,3 +44,19 @@
   height: 40px;
   width: 40px;
 }
+
+.logo-navbar {
+  background-image: url("../../logo-livetag.png");
+  background-repeat: no-repeat;
+  background-size: auto 100%;
+  width: 154px;
+  height: 40px;
+}
+
+.titre-evenement {
+  border: solid;
+  border-width: 1;
+  border-color: white;
+  border-radius: 5;
+  padding: 3;
+}
