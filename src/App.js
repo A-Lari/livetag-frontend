@@ -11,9 +11,9 @@ import NavBar from "./components/Navbar";
 import Participants from "./pages/Participants";
 import Participant from "./pages/Participant";
 import Inscription from "./pages/Inscription";
-import Roleslist from "./pages/RolesList";
-import EditRole from "./pages/EditRole";
-import CreateRole from "./pages/CreateRole";
+import Roles from "./pages/Roles";
+import EditRole from "./pages/RoleEdit";
+import CreateRole from "./pages/RoleAdd";
 import Activities from "./pages/Activities";
 import Events from "./pages/Events";
 import Event from "./pages/Event";
@@ -44,7 +44,7 @@ function App() {
           {connected && <Route path="/events" element={<Events />} />}
           {connected && <Route path="/events/:idEvent" element={<Event />} />}
 
-          {connected && <Route path="/roles" element={<Roleslist />} />}
+          {connected && <Route path="/roles" element={<Roles />} />}
           {connected && <Route path="/roles/:idRole" element={<EditRole />} />}
           {connected && <Route path="/roles/create" element={<CreateRole />} />}
 
