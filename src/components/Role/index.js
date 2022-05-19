@@ -1,7 +1,10 @@
 import React from "react";
+import { useState } from "react";
 import { Button, Card, Badge } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { CopyToClipboard } from "react-copy-to-clipboard";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 
 import services from "../../services";
 import("./Role.css");
@@ -11,6 +14,8 @@ export default function Role({
   fecthAndSetListRoles,
   isFromParticipant = false,
 }) {
+  const [open, setOpen] = useState(false);
+  const [response, setResponse] = useState({});
   const navigate = useNavigate();
 
   const deleteRole = (idRole) => {
@@ -18,7 +23,8 @@ export default function Role({
       .deleteRole(idRole)
       .then((response) => {
         if (response.status === 401) {
-          alert(response.data);
+          setResponse(response);
+          setOpen(true);
         }
         fecthAndSetListRoles();
       })
@@ -93,6 +99,15 @@ export default function Role({
           </div>
         )}
       </Card.Body>
+      <Snackbar
+        open={open}
+        autoHideDuration={3000}
+        onClose={() => setOpen(false)}
+      >
+        <Alert variant="filled" severity="warning">
+          {response.data}
+        </Alert>
+      </Snackbar>
     </Card>
   );
 }
