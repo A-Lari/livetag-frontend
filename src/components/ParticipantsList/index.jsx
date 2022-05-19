@@ -200,15 +200,9 @@ function ParticipantsList({ listParticipants, fecthAndSetListParticipant }) {
           <Row>
             <Col className="h6 mb-4">* tri possible sur colonne</Col>
           </Row>
-          <Snackbar
-        open={open}
-        autoHideDuration={2000}
-        onClose={() => setOpen(false)}
-      >
-        <Alert variant="filled" severity="success">
-        Participant supprimé
-        </Alert>
-      </Snackbar>
+          <Snackbar open={open} autoHideDuration={2000} onClose={() => setOpen(false)}>
+            <Alert variant="filled" severity="success">Participant supprimé</Alert>
+          </Snackbar>
         </Container>
       )}
     </ToolkitProvider>

@@ -167,8 +167,8 @@ export default function ActivitiesList({
             <Col className="h6 mb-4">* tri possible sur colonne</Col>
           </Row>
           <Snackbar open={open} autoHideDuration={3000} onClose={()=> setOpen(false)}>
-          <Alert variant="filled" severity="warning">{response.data}</Alert>
-        </Snackbar> 
+            <Alert variant="filled" severity="warning">{response.data}</Alert>
+          </Snackbar> 
         </Container>
       )}
     </ToolkitProvider>
