@@ -19,6 +19,21 @@ const services = {
     // email, password, confirmPassword
     return base.post("/auth/signup", body);
   },
+
+  getCurrentUser() {
+    const token = localStorage.getItem("jwt");
+    return base
+      .get(`/users`, { headers: { Authorization: `Bearer ${token}` } })
+      .then((res) => res.data);
+  },
+
+  // updateCurrentUser(body) {
+  //   const token = localStorage.getItem("jwt");
+  //   return base
+  //     .put(`/users`, body, { headers: { Authorization: `Bearer ${token}` } })
+  //     .then((res) => res.data);
+  // },
+
   // #endregion
 
   /**
@@ -83,6 +98,21 @@ const services = {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => res.data);
+  },
+
+  getEventOfCurrentUser(idUser) {
+    const token = localStorage.getItem("jwt");
+    return base
+      .get(`/events/user/${idUser}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => res.data)
+      .catch((err) => {
+        console.log("erreur deleteEventByID", err);
+        const { data, status } = err.response;
+        const response = { data, status };
+        return response;
+      });
   },
 
   deleteEventByID(id) {

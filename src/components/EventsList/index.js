@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useEvent } from "../../EventInUse";
@@ -17,6 +17,7 @@ import { Col, Container, Row, Alert } from "react-bootstrap";
 function Eventslist({ events, fecthAndSetListEvent }) {
   const navigate = useNavigate();
   const { setEventChoice, setEventSelect, eventSelect } = useEvent();
+  const [currentUser, setCurrentUser] = useState({});
 
   const { SearchBar } = Search;
   // DESCRIPTION DES COLONNES
@@ -182,10 +183,23 @@ function Eventslist({ events, fecthAndSetListEvent }) {
         alert("La liste des events ne peut être à affichée");
       });
   }
+  function fetchAndSetCurrentUser() {
+    services
+      .getCurrentUser()
+      .then((user) => {
+        setCurrentUser(user);
+      })
+      .catch(() => alert("erreur"));
+  }
 
   useEffect(() => {
-    fecthAndSetListEvent();
+    fetchAndSetCurrentUser();
   }, []);
+
+  useEffect(() => {
+    fecthAndSetListEvent(currentUser._id);
+  }, [currentUser]);
+
   // #endregion
 
   return (

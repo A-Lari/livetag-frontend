@@ -1,5 +1,5 @@
 import "./Events.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import Eventslist from "../../components/EventsList";
 import EventEdit from "../../components/EventEdit";
@@ -13,16 +13,18 @@ const Events = () => {
     setShowAddEvent((currentState) => !currentState);
   }
 
-  function fetchEventData() {
-    services
-      .getEventFromDB()
-      .then((list) => {
-        setEvents(list);
-      })
-      .catch((error) => {
-        console.log("Error list events", error);
-        alert("La liste des events ne peut être à affichée");
-      });
+  function fetchEventData(idUser) {
+    if (idUser !== undefined) {
+      services
+        .getEventOfCurrentUser(idUser)
+        .then((list) => {
+          setEvents(list);
+        })
+        .catch((error) => {
+          console.log("Error list events", error);
+          alert("La liste des events ne peut être à affichée");
+        });
+    }
   }
 
   return (

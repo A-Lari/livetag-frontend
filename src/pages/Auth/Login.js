@@ -28,6 +28,7 @@ function LoginPage() {
     services
       .login(body)
       .then((result) => {
+        console.log(result);
         const { jwt } = result;
         localStorage.setItem("jwt", jwt);
         setConnected(true);
