@@ -27,12 +27,23 @@ const services = {
       .then((res) => res.data);
   },
 
-  // updateCurrentUser(body) {
-  //   const token = localStorage.getItem("jwt");
-  //   return base
-  //     .put(`/users`, body, { headers: { Authorization: `Bearer ${token}` } })
-  //     .then((res) => res.data);
-  // },
+  putUserData(body) {
+    const token = localStorage.getItem("jwt");
+    return base
+      .put(`/users/data`, body, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => res.data);
+  },
+
+  putUserPassword(body) {
+    const token = localStorage.getItem("jwt");
+    return base
+      .put(`/users/pwd`, body, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => res.data);
+  },
 
   // #endregion
 
