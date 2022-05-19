@@ -120,7 +120,7 @@ function Inscription() {
   return !confirm ? (
     <Card className="m-1 mb-2">
       <Card.Header as="h5" className="card-bg-color text-center">
-        INSCRIPTION: {role.event.event_name} à {role.event.place} du {dayjs(role.event.start_date).format('DD/MM/YYYY')} au {dayjs(role.event.end_date).format('DD/MM/YYYY')}
+        INSCRIPTION: {role.role_name}, {role.event.event_name} à {role.event.place} du {dayjs(role.event.start_date).format('DD/MM/YYYY')} au {dayjs(role.event.end_date).format('DD/MM/YYYY')}
       </Card.Header>
       <Card.Body>
       <Form onSubmit={handleCreate} onChange={handleFormChange}>
@@ -174,7 +174,7 @@ function Inscription() {
               </Col>
             </Row>
 
-            <Row>
+            { (body.optional_activities.length > 0) && <Row>
               <Col sm>
                 <Form.Group className="mb-3" controlId="activities">
                   <Form.Label>Activités accessibles hors-rôle</Form.Label>
@@ -190,7 +190,7 @@ function Inscription() {
                   ))}
                 </Form.Group>
               </Col>
-            </Row>
+            </Row>}
 
             <Row>
               <Col sm className="text-center">
@@ -211,7 +211,7 @@ function Inscription() {
   ) : (
     <Card className="m-1 mb-2">
       <Card.Header as="h5" className="card-bg-color text-center">
-        CONFIRMATION: {role.event.event_name} à {role.event.place} du {dayjs(role.event.start_date).format('DD/MM/YYYY')} au {dayjs(role.event.end_date).format('DD/MM/YYYY')}
+        CONFIRMATION: {role.role_name}, {role.event.event_name} à {role.event.place} du {dayjs(role.event.start_date).format('DD/MM/YYYY')} au {dayjs(role.event.end_date).format('DD/MM/YYYY')}
       </Card.Header>
       <Card.Body ref={componentRef}>
         <Container>
