@@ -14,10 +14,9 @@ import ToolkitProvider, {
 import paginationFactory from "react-bootstrap-table2-paginator";
 import { Col, Container, Row, Alert } from "react-bootstrap";
 
-function Eventslist({ events, fecthAndSetListEvent }) {
+function Eventslist({ events, fecthAndSetListEvent, currentUser }) {
   const navigate = useNavigate();
   const { setEventChoice, setEventSelect, eventSelect } = useEvent();
-  const [currentUser, setCurrentUser] = useState({});
 
   const { SearchBar } = Search;
   // DESCRIPTION DES COLONNES
@@ -164,7 +163,7 @@ function Eventslist({ events, fecthAndSetListEvent }) {
           setEventSelect({});
           localStorage.removeItem("idEvent");
         }
-        fecthAndSetListEvent();
+        fecthAndSetListEvent(currentUser._id);
       })
       .catch(console.log);
   }
@@ -183,21 +182,10 @@ function Eventslist({ events, fecthAndSetListEvent }) {
         alert("La liste des events ne peut être à affichée");
       });
   }
-  function fetchAndSetCurrentUser() {
-    services
-      .getCurrentUser()
-      .then((user) => {
-        setCurrentUser(user);
-      })
-      .catch(() => alert("erreur"));
-  }
-
-  useEffect(() => {
-    fetchAndSetCurrentUser();
-  }, []);
 
   useEffect(() => {
     fecthAndSetListEvent(currentUser._id);
+    console.log(events);
   }, [currentUser]);
 
   // #endregion
