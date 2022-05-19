@@ -7,6 +7,7 @@ import services from "../../services";
 
 const Events = () => {
   const [events, setEvents] = useState([]);
+  const [currentUser, setCurrentUser] = useState({});
   const [showAddEvent, setShowAddEvent] = useState(false);
 
   function handleAddButton() {
@@ -26,6 +27,19 @@ const Events = () => {
         });
     }
   }
+
+  function fetchAndSetCurrentUser() {
+    services
+      .getCurrentUser()
+      .then((user) => {
+        setCurrentUser(user);
+      })
+      .catch(() => alert("erreur"));
+  }
+
+  useEffect(() => {
+    fetchAndSetCurrentUser();
+  }, []);
 
   return (
     <Container className="m-4" fluid="xl">
@@ -55,6 +69,7 @@ const Events = () => {
             <Col sm>
               <EventEdit
                 isCreate={true}
+                currentUser={currentUser}
                 fecthAndSetListEvent={fetchEventData}
                 title="Ajout d'un événement"
               />
@@ -65,7 +80,11 @@ const Events = () => {
       <hr />
       <Row className="justify-content-center">
         <Col>
-          <Eventslist events={events} fecthAndSetListEvent={fetchEventData} />
+          <Eventslist
+            events={events}
+            currentUser={currentUser}
+            fecthAndSetListEvent={fetchEventData}
+          />
         </Col>
       </Row>
     </Container>
