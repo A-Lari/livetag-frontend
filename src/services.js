@@ -225,6 +225,21 @@ const services = {
       })
       .then((res) => res.data);
   },
+
+  searchRoleByLink(id) {
+    return base
+      .get(`/roles/search/${id}`)
+      .then((res) => res.data)
+      .catch((err) => {
+        console.log("erreur searchRoleByLink", err);
+      });
+  },
+
+  createInscriptionFromLink(idLink, body) {
+    return base
+      .post(`/inscriptions/${idLink}`, body)
+      .then((res) => res.data);
+  },
   // #endregion
 
   /**
@@ -288,6 +303,15 @@ const services = {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => res.data);
+  },
+
+  getOptionalActivities(id) {
+    return base
+      .get(`/activities/roles/${id}/optional_activities`)
+      .then((res) => res.data)
+      .catch((err) => {
+        console.log("erreur getOptionalActivities", err);
+      });
   },
 
   // #endregion

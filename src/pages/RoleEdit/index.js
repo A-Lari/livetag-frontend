@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button, Container, Form, Card, Row, Col } from "react-bootstrap";
 import services from "../../services";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 import "./EditRole.css";
 import { useEvent } from "../../EventInUse";
 export default function EditRole() {
@@ -11,7 +13,7 @@ export default function EditRole() {
     activities: [],
     event: "",
   });
-
+  const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   let { idRole } = useParams();
 
@@ -37,7 +39,7 @@ export default function EditRole() {
     }
   }
 
-  function handleSubmitSignup(event) {
+  function handleSubmit(event) {
     event.preventDefault();
 
     const { activities } = body;
@@ -54,7 +56,7 @@ export default function EditRole() {
 
     services
       .updateRole(idRole, updatedRole)
-      .then(() => alert("role modifié"))
+      .then(() => setOpen(true))
       .catch(() => alert("Une erreur pendant la mise à jour d'un role"));
   }
 
@@ -104,7 +106,7 @@ export default function EditRole() {
               Modifier le rôle
             </Card.Header>
             <Card.Body>
-              <Form onChange={handleFormChange} onSubmit={handleSubmitSignup}>
+              <Form onChange={handleFormChange} onSubmit={handleSubmit}>
                 <Container>
                   <Row>
                     <Col sm>
@@ -161,6 +163,15 @@ export default function EditRole() {
           </Card>
         </Col>
       </Row>
+      <Snackbar
+        open={open}
+        autoHideDuration={2000}
+        onClose={() => setOpen(false)}
+      >
+        <Alert variant="filled" severity="success">
+          rôle modifié
+        </Alert>
+      </Snackbar>
     </Container>
   );
 }

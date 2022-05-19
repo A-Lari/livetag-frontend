@@ -5,6 +5,8 @@ import { useEvent } from "../../EventInUse";
 import services from "../../services";
 import Role from "../Role";
 import "./ParticipantEdit.css";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 
 function ParticipantEdit({
   idParticipant,
@@ -29,7 +31,7 @@ function ParticipantEdit({
   });
   const [roleList, setRoleList] = useState([]);
   const [role, setRole] = useState({ activities: [] });
-
+  const [open, setOpen] = useState(false);
   const navigate = useNavigate();
 
   function fecthAndSetListRoles(eventId) {
@@ -112,7 +114,7 @@ function ParticipantEdit({
   function handleUpdate(event) {
     event.preventDefault();
     services.updateParticipant(idParticipant, body).then(() => {
-      alert("Modification prise en compte");
+      setOpen(true);
     });
   }
   // #endregion
@@ -238,6 +240,15 @@ function ParticipantEdit({
           </Container>
         </Form>
       </Card.Body>
+      <Snackbar
+        open={open}
+        autoHideDuration={2000}
+        onClose={() => setOpen(false)}
+      >
+        <Alert variant="filled" severity="success">
+          Modification prise en compte
+        </Alert>
+      </Snackbar>
     </Card>
   );
 }

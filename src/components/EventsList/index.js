@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useEvent } from "../../EventInUse";
@@ -12,11 +12,15 @@ import ToolkitProvider, {
   Search,
 } from "react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit";
 import paginationFactory from "react-bootstrap-table2-paginator";
-import { Col, Container, Row, Alert } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 
 function Eventslist({ events, fecthAndSetListEvent, currentUser }) {
   const navigate = useNavigate();
   const { setEventChoice, setEventSelect, eventSelect } = useEvent();
+  const [open, setOpen] = useState(false);
+  const [response, setResponse] = useState({});
 
   const { SearchBar } = Search;
   // DESCRIPTION DES COLONNES
@@ -156,7 +160,8 @@ function Eventslist({ events, fecthAndSetListEvent, currentUser }) {
       .deleteEventByID(id)
       .then((response) => {
         if (response.status === 401) {
-          alert(response.data);
+          setResponse(response);
+          setOpen(true);
         }
         if (eventSelect._id === id) {
           setEventChoice(false);
@@ -230,6 +235,15 @@ function Eventslist({ events, fecthAndSetListEvent, currentUser }) {
           <Row>
             <Col className="h6 mb-4">* tri possible sur colonne</Col>
           </Row>
+          <Snackbar
+            open={open}
+            autoHideDuration={3000}
+            onClose={() => setOpen(false)}
+          >
+            <Alert variant="filled" severity="warning">
+              {response.data}
+            </Alert>
+          </Snackbar>
         </Container>
       )}
     </ToolkitProvider>
