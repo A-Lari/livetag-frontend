@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Container, Row, Col, Card, Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import services from "../../services";
@@ -6,7 +6,13 @@ import dayjs from "dayjs";
 
 import "./EventEdit.css";
 
-function EventEdit({ idEvent, title, fecthAndSetListEvent, isCreate = false }) {
+function EventEdit({
+  idEvent,
+  currentUser,
+  title,
+  fecthAndSetListEvent,
+  isCreate = false,
+}) {
   const [body, setBody] = useState({
     event_name: "",
     start_date: "",
@@ -15,7 +21,6 @@ function EventEdit({ idEvent, title, fecthAndSetListEvent, isCreate = false }) {
     description: "",
     code: "",
   });
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -27,7 +32,7 @@ function EventEdit({ idEvent, title, fecthAndSetListEvent, isCreate = false }) {
         })
         .catch((error) => console.log(error));
     }
-  }, []);
+  }, [idEvent, isCreate]);
 
   function updateBody(key, value) {
     // Il faut toujours faire une copie du state qu'on veut modifier si c'est un objet
@@ -56,7 +61,7 @@ function EventEdit({ idEvent, title, fecthAndSetListEvent, isCreate = false }) {
           code: "",
         });
 
-        fecthAndSetListEvent();
+        fecthAndSetListEvent(currentUser._id);
       })
       .catch(() => alert("Une erreur a eu lieu pendant l'ajout"));
   }

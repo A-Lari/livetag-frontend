@@ -16,7 +16,7 @@ import { Col, Container, Row } from "react-bootstrap";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 
-function Eventslist({ events, fecthAndSetListEvent }) {
+function Eventslist({ events, fecthAndSetListEvent, currentUser }) {
   const navigate = useNavigate();
   const { setEventChoice, setEventSelect, eventSelect } = useEvent();
   const [open, setOpen] = useState(false);
@@ -168,7 +168,7 @@ function Eventslist({ events, fecthAndSetListEvent }) {
           setEventSelect({});
           localStorage.removeItem("idEvent");
         }
-        fecthAndSetListEvent();
+        fecthAndSetListEvent(currentUser._id);
       })
       .catch(console.log);
   }
@@ -189,8 +189,10 @@ function Eventslist({ events, fecthAndSetListEvent }) {
   }
 
   useEffect(() => {
-    fecthAndSetListEvent();
-  }, []);
+    fecthAndSetListEvent(currentUser._id);
+    console.log(events);
+  }, [currentUser]);
+
   // #endregion
 
   return (
