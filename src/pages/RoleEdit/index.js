@@ -37,7 +37,7 @@ export default function EditRole() {
     }
   }
 
-  function handleSubmitSignup(event) {
+  function handleSubmit(event) {
     event.preventDefault();
 
     const { activities } = body;
@@ -104,7 +104,7 @@ export default function EditRole() {
               Modifier le rôle
             </Card.Header>
             <Card.Body>
-              <Form onChange={handleFormChange} onSubmit={handleSubmitSignup}>
+              <Form onChange={handleFormChange} onSubmit={handleSubmit}>
                 <Container>
                   <Row>
                     <Col sm>

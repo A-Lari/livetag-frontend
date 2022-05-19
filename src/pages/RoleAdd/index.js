@@ -42,7 +42,7 @@ export default function CreateRole({ fecthAndSetListRoles }) {
     }
   }
 
-  function handleSubmitSignup(event) {
+  function handleSubmit(event) {
     event.preventDefault();
 
     services
@@ -70,7 +70,7 @@ export default function CreateRole({ fecthAndSetListRoles }) {
         Ajouter un rôle
       </Card.Header>
       <Card.Body>
-        <Form onChange={handleFormChange} onSubmit={handleSubmitSignup}>
+        <Form onChange={handleFormChange} onSubmit={handleSubmit}>
           <Container>
             <Row>
               <Col sm>
