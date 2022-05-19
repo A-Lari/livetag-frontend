@@ -32,7 +32,7 @@ function EventEdit({
         })
         .catch((error) => console.log(error));
     }
-  }, []);
+  }, [idEvent, isCreate]);
 
   function updateBody(key, value) {
     // Il faut toujours faire une copie du state qu'on veut modifier si c'est un objet
