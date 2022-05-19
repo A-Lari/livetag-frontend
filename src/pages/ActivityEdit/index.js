@@ -5,6 +5,8 @@ import { Button, Card, Form, Container, Row, Col } from "react-bootstrap";
 import dayjs from "dayjs";
 
 import "./ActivityEdit.css";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 
 function ActivityEdit() {
   const [body, setBody] = useState({
@@ -15,6 +17,7 @@ function ActivityEdit() {
   });
 
   const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
 
   let { idActivity } = useParams();
 
@@ -32,7 +35,7 @@ function ActivityEdit() {
     event.preventDefault();
     services
       .updateActivity(idActivity, body)
-      .then(() => alert("modification ok!"))
+      .then(() => setOpen(true))
       .catch(() => alert("Une erreur a eu lieu pendant l'ajout"));
   }
 
@@ -135,6 +138,15 @@ function ActivityEdit() {
           </Card>
         </Col>
       </Row>
+      <Snackbar
+        open={open}
+        autoHideDuration={2000}
+        onClose={() => setOpen(false)}
+      >
+        <Alert variant="filled" severity="success">
+          activité modifiée
+        </Alert>
+      </Snackbar>
     </Container>
   );
 }

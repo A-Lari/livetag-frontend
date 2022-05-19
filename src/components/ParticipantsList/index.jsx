@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect,useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import services from "../../services";
@@ -10,10 +10,13 @@ import ToolkitProvider, {
 import paginationFactory from "react-bootstrap-table2-paginator";
 import { Col, Container, Row, Button } from "react-bootstrap";
 import { useEvent } from "../../EventInUse";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 
 function ParticipantsList({ listParticipants, fecthAndSetListParticipant }) {
   const { eventSelect } = useEvent();
   const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
   const { SearchBar } = Search;
 
   // DESCRIPTION DES COLONNES
@@ -144,7 +147,7 @@ function ParticipantsList({ listParticipants, fecthAndSetListParticipant }) {
       .deleteParticipant(idParticipant)
       .then(() => {
         fecthAndSetListParticipant();
-        alert("Participant supprimé");
+        setOpen(true);
       })
       .catch((error) => {
         console.log("Error delete participant", error);
@@ -197,6 +200,15 @@ function ParticipantsList({ listParticipants, fecthAndSetListParticipant }) {
           <Row>
             <Col className="h6 mb-4">* tri possible sur colonne</Col>
           </Row>
+          <Snackbar
+        open={open}
+        autoHideDuration={2000}
+        onClose={() => setOpen(false)}
+      >
+        <Alert variant="filled" severity="success">
+        Participant supprimé
+        </Alert>
+      </Snackbar>
         </Container>
       )}
     </ToolkitProvider>

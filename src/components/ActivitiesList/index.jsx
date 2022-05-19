@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import services from "../../services";
@@ -11,6 +11,9 @@ import ToolkitProvider, {
 import paginationFactory from "react-bootstrap-table2-paginator";
 import { Container, Row, Col } from "react-bootstrap";
 import { useEvent } from "../../EventInUse";
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
+
 
 export default function ActivitiesList({
   activities,
@@ -19,6 +22,8 @@ export default function ActivitiesList({
   const { eventSelect } = useEvent();
   const navigate = useNavigate();
   const { SearchBar } = Search;
+  const [open, setOpen] = useState(false);
+  const [response, setResponse] = useState({});
 
   // DESCRIPTION DES COLONNES
   // #region
@@ -109,7 +114,8 @@ export default function ActivitiesList({
       .deleteActivity(idActivity)
       .then((response) => {
         if (response.status === 401) {
-          alert(response.data);
+          setResponse(response);
+          setOpen(true);
         }
         fecthAndSetListActivities();
       })
@@ -160,6 +166,9 @@ export default function ActivitiesList({
           <Row>
             <Col className="h6 mb-4">* tri possible sur colonne</Col>
           </Row>
+          <Snackbar open={open} autoHideDuration={3000} onClose={()=> setOpen(false)}>
+          <Alert variant="filled" severity="warning">{response.data}</Alert>
+        </Snackbar> 
         </Container>
       )}
     </ToolkitProvider>
