@@ -1,6 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Container, Row, Col, Card, Form, Button } from "react-bootstrap";
+
+import dayjs from "dayjs";
+import ReactToPrint from 'react-to-print';
+import QRCode from "qrcode";
+
 import services from "../../services";
 import "./Inscription.css";
 
@@ -18,11 +23,16 @@ function Inscription() {
     event: {},
     role: {},
   });
-  const [checkActivities, setCheckActivities] = useState([{}]);
+  const [confirm, setConfirm] = useState(false);
+  const [participant, setParticipant] = useState({
+    event: {},
+    role: {},
+  });
+  const [url, setUrl] = useState("");
 
   const navigate = useNavigate();
+  const componentRef = useRef(null);
   let { idLink } = useParams();
-  console.log(idLink);
 
   /* Effet de bord au premier rendu du composant */
   useEffect(() => {
@@ -35,7 +45,6 @@ function Inscription() {
         services.getOptionalActivities(response._id)
         .then((activities) => {
           console.log(activities);
-          setCheckActivities(activities);
 
           const newActivities = activities.map((activity) => {
             activity.checked = false;
@@ -74,6 +83,16 @@ function Inscription() {
     }
   }
 
+  function generateQRCode(id) {
+    QRCode.toDataURL(JSON.stringify(id), {width: 300, errorCorrectionLevel: "H"})
+    .then((url) => {
+      setUrl(url);
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+}
+
   function handleCreate(event) {
     event.preventDefault();
     console.log("handleCreate");
@@ -90,20 +109,21 @@ function Inscription() {
       .createInscriptionFromLink(idLink, inscriptionBody)
       .then((response) => {
         console.log(response);
-        //TODO aller sur une page de confirmation
-        //navigate(`/confirm/${response._id});
+        generateQRCode(response._id);
+        setParticipant(response);
+        setConfirm(true);
       })
       .catch(() => alert("Une erreur pendant l'inscription d'un participant"));
   }
 
   // #endregion
-  return (
+  return !confirm ? (
     <Card className="m-1 mb-2">
       <Card.Header as="h5" className="card-bg-color text-center">
-        INSCRIPTION {role.event.event_name} : {role.role_name}
+        INSCRIPTION: {role.event.event_name} à {role.event.place} du {dayjs(role.event.start_date).format('DD/MM/YYYY')} au {dayjs(role.event.end_date).format('DD/MM/YYYY')}
       </Card.Header>
       <Card.Body>
-        <Form onChange={handleFormChange}>
+      <Form onSubmit={handleCreate} onChange={handleFormChange}>
           <Container>
             <Row>
               <Col sm>
@@ -178,7 +198,6 @@ function Inscription() {
                   variant="success"
                   type="submit"
                   className="mt-3"
-                  onClick={handleCreate}
                 >
                   Enregistrer
                 </Button>
@@ -189,7 +208,32 @@ function Inscription() {
         </Form>
       </Card.Body>
     </Card>
-  );
+  ) : (
+    <Card className="m-1 mb-2">
+      <Card.Header as="h5" className="card-bg-color text-center">
+        CONFIRMATION: {role.event.event_name} à {role.event.place} du {dayjs(role.event.start_date).format('DD/MM/YYYY')} au {dayjs(role.event.end_date).format('DD/MM/YYYY')}
+      </Card.Header>
+      <Card.Body ref={componentRef}>
+        <Container>
+          <Row>
+          <Card.Text>
+            {participant.lastname} {participant.firstname}, email: {participant.email}, tel: {participant.telephone}
+            </Card.Text>
+            <Card.Text>
+            <img src={url} alt="" />
+            </Card.Text>
+          </Row>
+          <Row>
+            <ReactToPrint
+            trigger={() => <Button variant="outline-info">Imprimer</Button>}
+            content={() => componentRef.current}
+            />
+            <Button onClick={() => navigate(`/`)} variant="outline-dark">Accueil du site</Button>
+          </Row>
+        </Container>
+      </Card.Body>
+    </Card>
+  )
 }
 
 export default Inscription;
