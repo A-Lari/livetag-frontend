@@ -14,3 +14,7 @@ Button {
   background-color: rgb(204, 225, 248);
   color: black;
 }
+
+div.m-2 svg {
+  cursor: pointer;
+}

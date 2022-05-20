@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 
 import services from "../../services";
 import("./Role.css");
@@ -70,9 +71,7 @@ export default function Role({
               lien d'inscription
             </Card.Link>
             <CopyToClipboard text={role.link}>
-              <Button variant="outline-info" size="sm">
-                Copier lien
-              </Button>
+              <ContentCopyIcon color="success"/>
             </CopyToClipboard>
           </div>
         )}
