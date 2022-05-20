@@ -114,8 +114,6 @@ function ParticipantEdit({
             services
               .getOptionalActivities(result._id)
               .then((activities) => {
-                console.log(activities);
-
                 const newActivities = activities.map((activity) => {
                   activity.checked = false;
                   return activity;
@@ -201,6 +199,7 @@ function ParticipantEdit({
       setRole({ activities: [] });
 
       fecthAndSetListParticipant();
+      evt.target.reset();
     });
   }
 
@@ -278,28 +277,6 @@ function ParticipantEdit({
               </Col>
             </Row>
 
-            {body.optional_activities.length > 0 && (
-              <Row>
-                <Col sm>
-                  <Form.Group className="mb-3" controlId="activities">
-                    <Form.Label>Activités accessibles hors-rôle</Form.Label>
-                    {body.optional_activities.map((activity, index) => (
-                      <Form.Check
-                        key={index}
-                        type="checkbox"
-                        id={activity._id}
-                        value={activity._id}
-                        checked={activity.checked}
-                        name={`activity${activity._id}`}
-                        label={`${activity.activity_name}`}
-                        onChange={handleFormChange}
-                      />
-                    ))}
-                  </Form.Group>
-                </Col>
-              </Row>
-            )}
-
             <Row>
               <Col xs={7}>
                 <Form.Group className="mb-3" controlId="formEvenemt">
@@ -322,6 +299,27 @@ function ParticipantEdit({
                     ))}
                   </Form.Control>
                 </Form.Group>
+                {body.optional_activities.length > 0 && (
+                  <Row>
+                    <Col sm>
+                      <Form.Group className="mb-3" controlId="activities">
+                        <Form.Label>Activités accessibles hors-rôle</Form.Label>
+                        {body.optional_activities.map((activity, index) => (
+                          <Form.Check
+                            key={index}
+                            type="checkbox"
+                            id={activity._id}
+                            value={activity._id}
+                            checked={activity.checked}
+                            name={`activity${activity._id}`}
+                            label={`${activity.activity_name}`}
+                            onChange={handleFormChange}
+                          />
+                        ))}
+                      </Form.Group>
+                    </Col>
+                  </Row>
+                )}
               </Col>
 
               <Col>
