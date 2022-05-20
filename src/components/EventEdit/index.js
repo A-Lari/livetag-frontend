@@ -48,7 +48,6 @@ function EventEdit({
     const name = event.target.name; // event_name
     const value = event.target.value; // Course a pied
 
-    console.log(name, value);
     if(name === "end_date") {
       if (body.start_date) {
         const date_deb = new Date(body.start_date);
