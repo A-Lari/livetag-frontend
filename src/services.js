@@ -52,30 +52,56 @@ const services = {
    */
   // #region
   getAllParticipants() {
-    return base.get(`/participants`).then((res) => res.data);
+    const token = localStorage.getItem("jwt");
+    return base
+      .get(`/participants`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => res.data);
   },
 
   getParticipantById(idParticipant) {
-    return base.get(`participants/${idParticipant}`).then((res) => res.data);
+    const token = localStorage.getItem("jwt");
+    return base
+      .get(`participants/${idParticipant}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => res.data);
   },
 
   getParticipantByEvent(idEvent) {
-    return base.get(`participants/byevent/${idEvent}`).then((res) => res.data);
+    const token = localStorage.getItem("jwt");
+    return base
+      .get(`participants/byevent/${idEvent}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => res.data);
   },
 
   deleteParticipant(idParticipant) {
+    const token = localStorage.getItem("jwt");
     return base
-      .delete(`/participants/${idParticipant}`)
+      .delete(`/participants/${idParticipant}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
       .then((res) => res.data);
   },
 
   createParticipant(body) {
-    return base.post(`/participants`, body).then((res) => res.data);
+    const token = localStorage.getItem("jwt");
+    return base
+      .post(`/participants`, body, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => res.data);
   },
 
   updateParticipant(idParticipant, body) {
+    const token = localStorage.getItem("jwt");
     return base
-      .put(`/participants/${idParticipant}`, body)
+      .put(`/participants/${idParticipant}`, body, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
       .then((res) => res.data);
   },
 
@@ -236,9 +262,7 @@ const services = {
   },
 
   createInscriptionFromLink(idLink, body) {
-    return base
-      .post(`/inscriptions/${idLink}`, body)
-      .then((res) => res.data);
+    return base.post(`/inscriptions/${idLink}`, body).then((res) => res.data);
   },
   // #endregion
 
