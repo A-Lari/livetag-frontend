@@ -20,6 +20,7 @@ import Event from "./pages/Event";
 import ActivityEdit from "./pages/ActivityEdit";
 import QrCode from "./pages/QrCode";
 import Profil from "./pages/Auth/Profil";
+import StripeJS from "./StripeJS";
 
 function App() {
   const { connected } = useAuth();
@@ -30,6 +31,8 @@ function App() {
         <NavBar />
         <Routes>
           <Route path="/" element={<Home />} />
+
+          <Route path="/stripe" element={<StripeJS />} />
 
           {connected && (
             <Route path="/participants" element={<Participants />} />
