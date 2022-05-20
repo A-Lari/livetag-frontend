@@ -134,6 +134,11 @@ function ParticipantEdit({
             console.log(err);
           });
       } else {
+        setBody({
+          ...body,
+          role: value,
+          optional_activities: [],
+        });
         setRole({ activities: [] });
       }
     } else if (!name.startsWith("activity")) {
