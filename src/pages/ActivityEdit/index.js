@@ -80,7 +80,7 @@ function ActivityEdit() {
                         <Form.Control
                           type="date"
                           name="activity_date"
-                          value={dayjs(Date(body.activity_date)).format(
+                          value={dayjs(body.activity_date).format(
                             "YYYY-MM-DD"
                           )}
                           onChange={handleFormChange}

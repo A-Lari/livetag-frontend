@@ -3,6 +3,8 @@ import { Container, Row, Col, Card, Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import services from "../../services";
 import dayjs from "dayjs";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 
 import "./EventEdit.css";
 
@@ -21,6 +23,8 @@ function EventEdit({
     description: "",
     code: "",
   });
+  const [open, setOpen] = useState(false);
+  const [message, setMessage] = useState({});
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -44,7 +48,41 @@ function EventEdit({
     const name = event.target.name; // event_name
     const value = event.target.value; // Course a pied
 
-    updateBody(name, value);
+    if(name === "end_date") {
+      if (body.start_date) {
+        const date_deb = new Date(body.start_date);
+        const date_fin = new Date(value);
+        if (dayjs(date_fin).isBefore(date_deb)) {
+          setMessage({
+            severity: "warning",
+            content: "La date de fin ne peut pas être inférieure à la date de debut"
+          });
+          setOpen(true);
+        } else {
+          updateBody(name, value);
+        }
+      } else {
+        updateBody(name, value);
+      }
+    } else if(name === "start_date") {
+      if (body.end_date) {
+        const date_deb = new Date(value);
+        const date_fin = new Date(body.end_date);
+        if (dayjs(date_deb).isAfter(date_fin)) {
+          setMessage({
+            severity: "warning",
+            content: "La date de début ne peut pas être supérieure à la date de fin"
+          });
+          setOpen(true);
+        } else {
+          updateBody(name, value);
+        }
+      } else {
+        updateBody(name, value);
+      }
+    } else {
+      updateBody(name, value);
+    }
   }
 
   function handleSubmitAddEvent(event) {
@@ -70,7 +108,13 @@ function EventEdit({
     event.preventDefault();
     services
       .updateEvent(idEvent, body)
-      .then(() => navigate("/events"))
+      .then(() => {
+        setMessage({
+          severity: "success",
+          content: "Evennement mis à jour"
+        });
+        setOpen(true);
+      })
       .catch(() => alert("Une erreur a eu lieu pendant la modification"));
   }
 
@@ -119,7 +163,7 @@ function EventEdit({
                   <Form.Control
                     type="date"
                     name="start_date"
-                    value={dayjs(Date(body.start_date)).format("YYYY-MM-DD")}
+                    value={dayjs(body.start_date).format("YYYY-MM-DD")}
                     onChange={handleFormChange}
                     required
                   />
@@ -131,7 +175,7 @@ function EventEdit({
                   <Form.Control
                     type="date"
                     name="end_date"
-                    value={dayjs(Date(body.end_date)).format("YYYY-MM-DD")}
+                    value={dayjs(body.end_date).format("YYYY-MM-DD")}
                     onChange={handleFormChange}
                     required
                   />
@@ -188,6 +232,15 @@ function EventEdit({
           </Container>
         </Form>
       </Card.Body>
+      <Snackbar
+        open={open}
+        autoHideDuration={3000}
+        onClose={() => setOpen(false)}
+      >
+        <Alert variant="filled" severity={message.severity}>
+          {message.content}
+        </Alert>
+      </Snackbar>      
     </Card>
   );
 }

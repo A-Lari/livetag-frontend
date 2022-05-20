@@ -61,7 +61,7 @@ export default function QrCodegenerate({idQrcode}) {
                 {participant.event.event_name} à {participant.event.place} du {dayjs(participant.event.start_date).format('DD/MM/YYYY')} au {dayjs(participant.event.end_date).format('DD/MM/YYYY')}
             </Card.Title>
             <Card.Text>
-                {participant.lastname} {participant.firstname}, email: {participant.email}, tel: {participant.telephone}
+            {participant.role.role_name}, {participant.lastname} {participant.firstname}, email: {participant.email}, tel: {participant.telephone}
             </Card.Text>            
             <Card.Text>
                 <img src={url} alt="" />

@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import services from "../../services";
 import { Col, Container, Form, Row, Button } from "react-bootstrap";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 
 export default function Profil() {
   const [currentUser, setCurrentUser] = useState({});
@@ -11,6 +13,8 @@ export default function Profil() {
     password: "",
     confirmPassword: "",
   });
+  const [open, setOpen] = useState(false);
+  const [message, setMessage] = useState({});
 
   function fetchAndSetCurrentUser() {
     services
@@ -42,7 +46,13 @@ export default function Profil() {
     event.preventDefault();
     services
       .putUserData(body)
-      .then((result) => fetchAndSetCurrentUser(""))
+      .then((result) => {
+        setMessage({
+          severity: "success",
+          content: "Profil mis à jour"
+        });
+        setOpen(true);
+      })
       .catch(() =>
         alert("Une erreur a eu lieu pendant la modification de vos données")
       );
@@ -51,7 +61,14 @@ export default function Profil() {
     event.preventDefault();
     services
       .putUserPassword(body)
-      .then(() => fetchAndSetCurrentUser(""))
+      .then(() => {
+        setMessage({
+          severity: "success",
+          content: "Mot de passe mis à jour"
+        });
+        setOpen(true);        
+        fetchAndSetCurrentUser("")
+      })
       .catch(() =>
         alert(
           "Une erreur a eu lieu pendant la modification de votre mot de passe"
@@ -153,6 +170,15 @@ export default function Profil() {
           </Form>
         </Container>
       </Container>
+      <Snackbar
+      open={open}
+      autoHideDuration={3000}
+      onClose={() => setOpen(false)}
+    >
+      <Alert variant="filled" severity={message.severity}>
+        {message.content}
+      </Alert>
+    </Snackbar>      
     </Container>
   );
 }
