@@ -119,7 +119,7 @@ function EventEdit({
                   <Form.Control
                     type="date"
                     name="start_date"
-                    value={dayjs(body.start_date).format("YYYY-MM-DD")}
+                    value={dayjs(Date(body.start_date)).format("YYYY-MM-DD")}
                     onChange={handleFormChange}
                     required
                   />
@@ -131,7 +131,7 @@ function EventEdit({
                   <Form.Control
                     type="date"
                     name="end_date"
-                    value={dayjs(body.end_date).format("YYYY-MM-DD")}
+                    value={dayjs(Date(body.end_date)).format("YYYY-MM-DD")}
                     onChange={handleFormChange}
                     required
                   />
@@ -176,7 +176,6 @@ function EventEdit({
                   <Col className="text-center">
                     <Button
                       variant="dark"
-                      type="submit"
                       className="mt-3"
                       onClick={() => navigate(`/events`)}
                     >
