@@ -87,8 +87,9 @@ export default function CreateRole({ fecthAndSetListRoles }) {
               <Col>
                 <Form.Group className="mb-3" controlId="activities">
                   <Form.Label>Activités utilisées</Form.Label>
-                  {checkActivities.map((activity) => (
+                  {checkActivities.map((activity, index) => (
                     <Form.Check
+                      key={index}
                       type="checkbox"
                       id={activity._id}
                       value={activity._id}
