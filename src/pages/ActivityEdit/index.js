@@ -57,7 +57,7 @@ function ActivityEdit() {
               Modifier l'activité
             </Card.Header>
             <Card.Body>
-              <Form onChange={handleFormChange} onSubmit={handleSubmitActivity}>
+              <Form onSubmit={handleSubmitActivity}>
                 <Container>
                   <Row>
                     <Col sm>
@@ -68,6 +68,7 @@ function ActivityEdit() {
                           placeholder="Nom de l'activité"
                           name="activity_name"
                           defaultValue={body.activity_name}
+                          onChange={handleFormChange}
                           required
                         />
                       </Form.Group>
@@ -79,7 +80,10 @@ function ActivityEdit() {
                         <Form.Control
                           type="date"
                           name="activity_date"
-                          value={dayjs(body.activity_date).format("YYYY-MM-DD")}
+                          value={dayjs(Date(body.activity_date)).format(
+                            "YYYY-MM-DD"
+                          )}
+                          onChange={handleFormChange}
                           required
                         />
                       </Form.Group>
@@ -92,6 +96,7 @@ function ActivityEdit() {
                           placeholder="prix"
                           name="price"
                           defaultValue={body.price}
+                          onChange={handleFormChange}
                           required
                         />
                       </Form.Group>
@@ -106,6 +111,7 @@ function ActivityEdit() {
                           placeholder="description de l'activité"
                           name="description"
                           defaultValue={body.description}
+                          onChange={handleFormChange}
                           required
                         />
                       </Form.Group>
@@ -124,7 +130,6 @@ function ActivityEdit() {
                     <Col className="text-center">
                       <Button
                         variant="dark"
-                        type="submit"
                         className="mt-3"
                         onClick={() => navigate(`/activities`)}
                       >

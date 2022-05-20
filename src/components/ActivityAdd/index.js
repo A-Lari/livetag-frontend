@@ -51,7 +51,7 @@ function ActivityAdd({ fecthAndSetListActivities }) {
         Ajout d'une activité
       </Card.Header>
       <Card.Body>
-        <Form onChange={handleFormChange} onSubmit={handleSubmitAddActivity}>
+        <Form onSubmit={handleSubmitAddActivity}>
           <Container>
             <Row>
               <Col sm>
@@ -62,6 +62,7 @@ function ActivityAdd({ fecthAndSetListActivities }) {
                     placeholder="Nom de l'activité"
                     name="activity_name"
                     value={body.activity_name}
+                    onChange={handleFormChange}
                     required
                   />
                 </Form.Group>
@@ -74,6 +75,7 @@ function ActivityAdd({ fecthAndSetListActivities }) {
                     type="date"
                     name="activity_date"
                     value={body.activity_date}
+                    onChange={handleFormChange}
                     required
                   />
                 </Form.Group>
@@ -86,6 +88,7 @@ function ActivityAdd({ fecthAndSetListActivities }) {
                     placeholder="prix"
                     name="price"
                     value={body.price}
+                    onChange={handleFormChange}
                     required
                   />
                 </Form.Group>
@@ -100,6 +103,7 @@ function ActivityAdd({ fecthAndSetListActivities }) {
                     placeholder="description de l'activité"
                     name="description"
                     value={body.description}
+                    onChange={handleFormChange}
                     required
                   />
                 </Form.Group>

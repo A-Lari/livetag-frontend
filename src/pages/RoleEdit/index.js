@@ -106,7 +106,7 @@ export default function EditRole() {
               Modifier le rôle
             </Card.Header>
             <Card.Body>
-              <Form onChange={handleFormChange} onSubmit={handleSubmit}>
+              <Form onSubmit={handleSubmit}>
                 <Container>
                   <Row>
                     <Col sm>
@@ -117,6 +117,7 @@ export default function EditRole() {
                           placeholder="Nom du role"
                           name="role_name"
                           value={body.role_name}
+                          onChange={handleFormChange}
                           required
                         />
                       </Form.Group>
@@ -124,15 +125,16 @@ export default function EditRole() {
                     <Col>
                       <Form.Group className="mb-3" controlId="activities">
                         <Form.Label>Activités utilisées</Form.Label>
-                        {body.activities.map((activity, index) => (
+                        {body.activities.map((activity) => (
                           <Form.Check
-                            key={index}
+                            key={activity._id}
                             type="checkbox"
                             id={activity._id}
                             value={activity._id}
                             checked={activity.checked}
                             name={`activity${activity._id}`}
                             label={activity.activity_name}
+                            onChange={handleFormChange}
                           />
                         ))}
                       </Form.Group>
@@ -150,7 +152,6 @@ export default function EditRole() {
                     <Col className="text-center">
                       <Button
                         variant="dark"
-                        type="submit"
                         className="mt-3"
                         onClick={() => navigate("/roles")}
                       >

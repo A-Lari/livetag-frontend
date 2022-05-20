@@ -42,14 +42,13 @@ export default function Profil() {
     event.preventDefault();
     services
       .putUserData(body)
-      .then((result) => console.log(result))
+      .then((result) => fetchAndSetCurrentUser(""))
       .catch(() =>
         alert("Une erreur a eu lieu pendant la modification de vos données")
       );
   }
   function handleSubmitUpdatePassword(event) {
     event.preventDefault();
-    console.log("handleSubmitUpdatePassword", body);
     services
       .putUserPassword(body)
       .then(() => fetchAndSetCurrentUser(""))
@@ -77,7 +76,7 @@ export default function Profil() {
       <hr />
       <Container>
         <Container>
-          <Form onChange={handleFormChange} onSubmit={handleSubmitUpdateProfil}>
+          <Form onSubmit={handleSubmitUpdateProfil}>
             <Row className="justify-content-center">
               <Col md="auto">
                 <Form.Group controlId="organisation">
@@ -86,6 +85,7 @@ export default function Profil() {
                     type="text"
                     name="organisation"
                     value={body.organisation}
+                    onChange={handleFormChange}
                     required
                   />
                 </Form.Group>
@@ -97,6 +97,7 @@ export default function Profil() {
                     type="email"
                     name="email"
                     value={body.email}
+                    onChange={handleFormChange}
                     required
                   />
                 </Form.Group>
@@ -114,10 +115,7 @@ export default function Profil() {
         </Container>
 
         <Container className="mt-5">
-          <Form
-            onChange={handleFormChange}
-            onSubmit={handleSubmitUpdatePassword}
-          >
+          <Form onSubmit={handleSubmitUpdatePassword}>
             <Row className="justify-content-center">
               <Col md="auto">
                 <Form.Group controlId="password">
@@ -126,6 +124,7 @@ export default function Profil() {
                     type="password"
                     name="password"
                     value={body.password}
+                    onChange={handleFormChange}
                     required
                   />
                 </Form.Group>
@@ -137,6 +136,7 @@ export default function Profil() {
                     type="password"
                     name="confirmPassword"
                     value={body.confirmPassword}
+                    onChange={handleFormChange}
                     required
                   />
                 </Form.Group>

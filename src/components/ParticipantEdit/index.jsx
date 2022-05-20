@@ -53,27 +53,28 @@ function ParticipantEdit({
           );
 
           //On recherche les activités en option pour le role du participant et on check avec ceux du participant
-          services.getOptionalActivities(reponse.role._id)
-          .then((activities) => {
-            const newActivities = activities.map((activity) => {
-              const foundIndex = tabActivitiesForCheck.indexOf(activity._id);
-              if (foundIndex !== -1) {
-                activity.checked = true;
-              } else {
-                activity.checked = false;
-              }
-              return activity;
-            });
+          services
+            .getOptionalActivities(reponse.role._id)
+            .then((activities) => {
+              const newActivities = activities.map((activity) => {
+                const foundIndex = tabActivitiesForCheck.indexOf(activity._id);
+                if (foundIndex !== -1) {
+                  activity.checked = true;
+                } else {
+                  activity.checked = false;
+                }
+                return activity;
+              });
 
-            //On met à jour le body avec tous les éléments concernés
-            setBody({
-              ...reponse,
-              event: reponse.event._id,
-              role: reponse.role._id,
-              optional_activities: newActivities,
-            });
-          })
-          .catch(console.log);
+              //On met à jour le body avec tous les éléments concernés
+              setBody({
+                ...reponse,
+                event: reponse.event._id,
+                role: reponse.role._id,
+                optional_activities: newActivities,
+              });
+            })
+            .catch(console.log);
 
           //On positionne le role du participant
           services
@@ -110,29 +111,32 @@ function ParticipantEdit({
             setRole(result);
 
             //On recherche les activités en options pour le role sélectionné
-            services.getOptionalActivities(result._id)
-            .then((activities) => {
-              console.log(activities);
-    
-              const newActivities = activities.map((activity) => {
-                activity.checked = false;
-                return activity;
-              });
+            services
+              .getOptionalActivities(result._id)
+              .then((activities) => {
+                const newActivities = activities.map((activity) => {
+                  activity.checked = false;
+                  return activity;
+                });
 
-              //On positionne le role et les activités en option
-              setBody({
-                ...body,
-                role: value,
-                optional_activities: newActivities,
-              });
-            })
-            .catch(console.log);
-
+                //On positionne le role et les activités en option
+                setBody({
+                  ...body,
+                  role: value,
+                  optional_activities: newActivities,
+                });
+              })
+              .catch(console.log);
           })
           .catch((err) => {
             console.log(err);
           });
       } else {
+        setBody({
+          ...body,
+          role: value,
+          optional_activities: [],
+        });
         setRole({ activities: [] });
       }
     } else if (!name.startsWith("activity")) {
@@ -150,9 +154,16 @@ function ParticipantEdit({
     }
   }
 
-
   function genereBodyToPost(curentBody) {
-    const {firstname, lastname, email, telephone, event, role, optional_activities} = curentBody;
+    const {
+      firstname,
+      lastname,
+      email,
+      telephone,
+      event,
+      role,
+      optional_activities,
+    } = curentBody;
 
     const updatedOptionalActivities = optional_activities
       .filter((activity) => activity.checked)
@@ -172,7 +183,7 @@ function ParticipantEdit({
   }
 
   function handleCreate(evt) {
-    evt.preventDefault(); 
+    evt.preventDefault();
     const bodyTocreate = genereBodyToPost(body);
 
     services.createParticipant(bodyTocreate).then(() => {
@@ -188,6 +199,7 @@ function ParticipantEdit({
       setRole({ activities: [] });
 
       fecthAndSetListParticipant();
+      evt.target.reset();
     });
   }
 
@@ -206,10 +218,7 @@ function ParticipantEdit({
         {title}
       </Card.Header>
       <Card.Body>
-        <Form
-          onChange={handleFormChange}
-          onSubmit={isCreate ? handleCreate : handleUpdate}
-        >
+        <Form onSubmit={isCreate ? handleCreate : handleUpdate}>
           <Container>
             <Row>
               <Col sm>
@@ -220,6 +229,7 @@ function ParticipantEdit({
                     placeholder="Prénom"
                     name="firstname"
                     value={body.firstname}
+                    onChange={handleFormChange}
                     required
                   />
                 </Form.Group>
@@ -232,6 +242,7 @@ function ParticipantEdit({
                     placeholder="Nom"
                     name="lastname"
                     value={body.lastname}
+                    onChange={handleFormChange}
                     required
                   />
                 </Form.Group>
@@ -246,6 +257,7 @@ function ParticipantEdit({
                     placeholder="Email"
                     name="email"
                     value={body.email}
+                    onChange={handleFormChange}
                     required
                   />
                 </Form.Group>
@@ -258,36 +270,23 @@ function ParticipantEdit({
                     placeholder="Téléphone"
                     name="telephone"
                     value={body.telephone}
+                    onChange={handleFormChange}
                     required
                   />
                 </Form.Group>
               </Col>
             </Row>
 
-            { (body.optional_activities.length > 0) && <Row>
-              <Col sm>
-                <Form.Group className="mb-3" controlId="activities">
-                  <Form.Label>Activités accessibles hors-rôle</Form.Label>
-                  {body.optional_activities.map((activity, index) => (
-                    <Form.Check
-                      key={index}
-                      type="checkbox"
-                      id={activity._id}
-                      value={activity._id}
-                      checked={activity.checked}
-                      name={`activity${activity._id}`}
-                      label={`${activity.activity_name}`}
-                    />
-                  ))}
-                </Form.Group>
-              </Col>
-            </Row>}            
-
             <Row>
               <Col xs={7}>
                 <Form.Group className="mb-3" controlId="formEvenemt">
                   <Form.Label>Rôle</Form.Label>
-                  <Form.Control as="select" name="role" required>
+                  <Form.Control
+                    as="select"
+                    name="role"
+                    required
+                    onChange={handleFormChange}
+                  >
                     {isCreate && <option value="">Rôle</option>}
                     {roleList.map((role) => (
                       <option
@@ -300,6 +299,27 @@ function ParticipantEdit({
                     ))}
                   </Form.Control>
                 </Form.Group>
+                {body.optional_activities.length > 0 && (
+                  <Row>
+                    <Col sm>
+                      <Form.Group className="mb-3" controlId="activities">
+                        <Form.Label>Activités accessibles hors-rôle</Form.Label>
+                        {body.optional_activities.map((activity, index) => (
+                          <Form.Check
+                            key={index}
+                            type="checkbox"
+                            id={activity._id}
+                            value={activity._id}
+                            checked={activity.checked}
+                            name={`activity${activity._id}`}
+                            label={`${activity.activity_name}`}
+                            onChange={handleFormChange}
+                          />
+                        ))}
+                      </Form.Group>
+                    </Col>
+                  </Row>
+                )}
               </Col>
 
               <Col>
@@ -329,7 +349,6 @@ function ParticipantEdit({
                   <Col className="text-center">
                     <Button
                       variant="dark"
-                      type="submit"
                       className="mt-3"
                       onClick={() => navigate(`/participants`)}
                     >
