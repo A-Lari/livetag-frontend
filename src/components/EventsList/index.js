@@ -190,7 +190,6 @@ function Eventslist({ events, fecthAndSetListEvent, currentUser }) {
 
   useEffect(() => {
     fecthAndSetListEvent(currentUser._id);
-    console.log(events);
   }, [currentUser]);
 
   // #endregion
