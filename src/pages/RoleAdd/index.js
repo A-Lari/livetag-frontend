@@ -25,7 +25,6 @@ export default function CreateRole({ fecthAndSetListRoles }) {
     if (!name.startsWith("activity")) {
       updateBody(name, value);
     } else {
-      console.log(event.target.checked);
       if (event.target.checked) {
         const newActivities = [...activities].concat(value);
         setActivities(newActivities);
@@ -48,7 +47,11 @@ export default function CreateRole({ fecthAndSetListRoles }) {
     services
       .createRole(body)
       .then(() => {
-        console.log(body);
+        setBody({
+          role_name: "",
+          activities: [],
+          event: eventSelect._id,
+        });
         fecthAndSetListRoles();
       })
       .catch(() => alert("Une erreur pendant la création d'un role"));
@@ -70,7 +73,7 @@ export default function CreateRole({ fecthAndSetListRoles }) {
         Ajouter un rôle
       </Card.Header>
       <Card.Body>
-        <Form onChange={handleFormChange} onSubmit={handleSubmit}>
+        <Form onSubmit={handleSubmit}>
           <Container>
             <Row>
               <Col sm>
@@ -80,6 +83,7 @@ export default function CreateRole({ fecthAndSetListRoles }) {
                     type="text"
                     placeholder="Nom du role"
                     name="role_name"
+                    onChange={handleFormChange}
                     required
                   />
                 </Form.Group>
@@ -91,8 +95,10 @@ export default function CreateRole({ fecthAndSetListRoles }) {
                     <Form.Check
                       type="checkbox"
                       id={activity._id}
+                      key={activity._id}
                       value={activity._id}
                       name={`activity${activity._id}`}
+                      onChange={handleFormChange}
                       label={activity.activity_name}
                     />
                   ))}

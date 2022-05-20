@@ -6,6 +6,8 @@ import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 import "./EditRole.css";
 import { useEvent } from "../../EventInUse";
+import { FormControlLabel } from "@mui/material";
+
 export default function EditRole() {
   const { eventSelect } = useEvent();
   const [body, setBody] = useState({
@@ -106,7 +108,7 @@ export default function EditRole() {
               Modifier le rôle
             </Card.Header>
             <Card.Body>
-              <Form onChange={handleFormChange} onSubmit={handleSubmit}>
+              <FormControlLabel onSubmit={handleSubmit}>
                 <Container>
                   <Row>
                     <Col sm>
@@ -117,6 +119,7 @@ export default function EditRole() {
                           placeholder="Nom du role"
                           name="role_name"
                           value={body.role_name}
+                          onChange={handleFormChange}
                           required
                         />
                       </Form.Group>
@@ -132,6 +135,7 @@ export default function EditRole() {
                             checked={activity.checked}
                             name={`activity${activity._id}`}
                             label={activity.activity_name}
+                            onChange={handleFormChange}
                           />
                         ))}
                       </Form.Group>
@@ -149,7 +153,6 @@ export default function EditRole() {
                     <Col className="text-center">
                       <Button
                         variant="dark"
-                        type="submit"
                         className="mt-3"
                         onClick={() => navigate("/roles")}
                       >
@@ -158,7 +161,7 @@ export default function EditRole() {
                     </Col>
                   </Row>
                 </Container>
-              </Form>
+              </FormControlLabel>
             </Card.Body>
           </Card>
         </Col>
