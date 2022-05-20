@@ -83,6 +83,7 @@ export default function CreateRole({ fecthAndSetListRoles }) {
                     type="text"
                     placeholder="Nom du role"
                     name="role_name"
+                    value={body.role_name}
                     onChange={handleFormChange}
                     required
                   />
@@ -91,9 +92,8 @@ export default function CreateRole({ fecthAndSetListRoles }) {
               <Col>
                 <Form.Group className="mb-3" controlId="activities">
                   <Form.Label>Activités utilisées</Form.Label>
-                  {checkActivities.map((activity, index) => (
+                  {checkActivities.map((activity) => (
                     <Form.Check
-                      key={index}
                       type="checkbox"
                       id={activity._id}
                       key={activity._id}

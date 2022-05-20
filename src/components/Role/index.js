@@ -1,11 +1,11 @@
 import React from "react";
 import { useState } from "react";
-import { Button, Card, Badge } from "react-bootstrap";
+import { Button, Card, Badge, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 
 import services from "../../services";
 import("./Role.css");
@@ -48,55 +48,57 @@ export default function Role({
         {role.role_name}
       </Card.Header>
       <Card.Body className="text-center">
-        <ul class="list-group">
-          {role.activities.map((activity) => (
-            <li key={activity._id} class="list-group-item">
-              {!isFromParticipant && (
-                <Button
-                  className="btn btn-secondary btn-xs btn-block"
-                  onClick={() => navigate(`/activities/${activity._id}`)}
-                >
-                  {activity.activity_name}
-                </Button>
-              )}
-              {isFromParticipant && (
-                <Badge bg="secondary">{activity.activity_name}</Badge>
-              )}
-            </li>
-          ))}
-        </ul>
-        {!isFromParticipant && role.link && (
-          <div className="m-2">
-            <Card.Link href={role.link} target="_blank">
-              lien d'inscription
-            </Card.Link>
-            <CopyToClipboard text={role.link}>
-              <ContentCopyIcon color="success"/>
-            </CopyToClipboard>
-          </div>
-        )}
-        {!isFromParticipant && (
-          <div>
-            <Button
-              variant="outline-warning"
-              onClick={() => navigate(`/roles/${role._id}`)}
-            >
-              Modifier
-            </Button>
-            <Button
-              variant="outline-success"
-              onClick={() => generateInscriptionLink(role._id)}
-            >
-              Générer le lien
-            </Button>
-            <Button
-              variant="outline-danger"
-              onClick={() => deleteRole(role._id)}
-            >
-              Supprimer
-            </Button>
-          </div>
-        )}
+        <Form>
+          <ul class="list-group">
+            {role.activities.map((activity) => (
+              <li key={activity._id} class="list-group-item">
+                {!isFromParticipant && (
+                  <Button
+                    className="btn btn-secondary btn-xs btn-block"
+                    onClick={() => navigate(`/activities/${activity._id}`)}
+                  >
+                    {activity.activity_name}
+                  </Button>
+                )}
+                {isFromParticipant && (
+                  <Badge bg="secondary">{activity.activity_name}</Badge>
+                )}
+              </li>
+            ))}
+          </ul>
+          {!isFromParticipant && role.link && (
+            <div className="m-2">
+              <Card.Link href={role.link} target="_blank">
+                lien d'inscription
+              </Card.Link>
+              <CopyToClipboard text={role.link}>
+                <ContentCopyIcon color="success" />
+              </CopyToClipboard>
+            </div>
+          )}
+          {!isFromParticipant && (
+            <div>
+              <Button
+                variant="outline-warning"
+                onClick={() => navigate(`/roles/${role._id}`)}
+              >
+                Modifier
+              </Button>
+              <Button
+                variant="outline-success"
+                onClick={() => generateInscriptionLink(role._id)}
+              >
+                Générer le lien
+              </Button>
+              <Button
+                variant="outline-danger"
+                onClick={() => deleteRole(role._id)}
+              >
+                Supprimer
+              </Button>
+            </div>
+          )}
+        </Form>
       </Card.Body>
       <Snackbar
         open={open}
