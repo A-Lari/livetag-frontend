@@ -81,7 +81,6 @@ function EventEdit({
       </Card.Header>
       <Card.Body>
         <Form
-          onChange={handleFormChange}
           onSubmit={isCreate ? handleSubmitAddEvent : handleSubmitUpdateEvent}
         >
           <Container>
@@ -94,6 +93,7 @@ function EventEdit({
                     placeholder="Nom de l'évènnement"
                     name="event_name"
                     value={body.event_name}
+                    onChange={handleFormChange}
                     required
                   />
                 </Form.Group>
@@ -106,6 +106,7 @@ function EventEdit({
                     placeholder="Lieu de l'évènnement"
                     name="place"
                     value={body.place}
+                    onChange={handleFormChange}
                     required
                   />
                 </Form.Group>
@@ -119,6 +120,7 @@ function EventEdit({
                     type="date"
                     name="start_date"
                     value={dayjs(body.start_date).format("YYYY-MM-DD")}
+                    onChange={handleFormChange}
                     required
                   />
                 </Form.Group>
@@ -130,6 +132,7 @@ function EventEdit({
                     type="date"
                     name="end_date"
                     value={dayjs(body.end_date).format("YYYY-MM-DD")}
+                    onChange={handleFormChange}
                     required
                   />
                 </Form.Group>
@@ -144,6 +147,7 @@ function EventEdit({
                     placeholder="Description"
                     name="description"
                     value={body.description}
+                    onChange={handleFormChange}
                     required
                   />
                 </Form.Group>
