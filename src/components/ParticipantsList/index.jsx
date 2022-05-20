@@ -71,7 +71,7 @@ function ParticipantsList({ listParticipants, fecthAndSetListParticipant }) {
       formatter: (cellContent, row) => {
         return (
           <Button
-            className="btn btn-secondary"
+            className="btn btn-secondary" size="sm"
             onClick={() => navigate(`/roles/${row.role._id}`)}
           >
             {row.role.role_name}

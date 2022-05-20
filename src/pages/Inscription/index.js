@@ -178,8 +178,9 @@ function Inscription() {
               <Col sm>
                 <Form.Group className="mb-3" controlId="activities">
                   <Form.Label>Activités accessibles hors-rôle</Form.Label>
-                  {body.optional_activities.map((activity) => (
+                  {body.optional_activities.map((activity, index) => (
                     <Form.Check
+                      key={index}
                       type="checkbox"
                       id={activity._id}
                       value={activity._id}

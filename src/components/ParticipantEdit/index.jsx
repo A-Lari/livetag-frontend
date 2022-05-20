@@ -46,13 +46,36 @@ function ParticipantEdit({
         .getParticipantById(idParticipant)
         .then((reponse) => {
           setOneParticipant(reponse);
-          setBody({
-            ...reponse,
-            event: reponse.event._id,
-            role: reponse.role._id,
-            optional_activities: reponse.optional_activities,
-          });
 
+          // On recupère les id des activités en option du participant pour faire le check
+          const tabActivitiesForCheck = reponse.optional_activities.map(
+            (activity) => activity._id
+          );
+
+          //On recherche les activités en option pour le role du participant et on check avec ceux du participant
+          services.getOptionalActivities(reponse.role._id)
+          .then((activities) => {
+            const newActivities = activities.map((activity) => {
+              const foundIndex = tabActivitiesForCheck.indexOf(activity._id);
+              if (foundIndex !== -1) {
+                activity.checked = true;
+              } else {
+                activity.checked = false;
+              }
+              return activity;
+            });
+
+            //On met à jour le body avec tous les éléments concernés
+            setBody({
+              ...reponse,
+              event: reponse.event._id,
+              role: reponse.role._id,
+              optional_activities: newActivities,
+            });
+          })
+          .catch(console.log);
+
+          //On positionne le role du participant
           services
             .getRole(reponse.role._id)
             .then((result) => {
@@ -85,6 +108,26 @@ function ParticipantEdit({
           .getRole(value)
           .then((result) => {
             setRole(result);
+
+            //On recherche les activités en options pour le role sélectionné
+            services.getOptionalActivities(result._id)
+            .then((activities) => {
+              console.log(activities);
+    
+              const newActivities = activities.map((activity) => {
+                activity.checked = false;
+                return activity;
+              });
+
+              //On positionne le role et les activités en option
+              setBody({
+                ...body,
+                role: value,
+                optional_activities: newActivities,
+              });
+            })
+            .catch(console.log);
+
           })
           .catch((err) => {
             console.log(err);
@@ -92,28 +135,67 @@ function ParticipantEdit({
       } else {
         setRole({ activities: [] });
       }
+    } else if (!name.startsWith("activity")) {
+      // Cas autre que role et case à cocher pour les activités en option
+      updateBody(name, value);
+    } else {
+      // Cas des cases à cocher
+      const newActivities = body.optional_activities.map((activity) => {
+        if (activity._id === value) {
+          activity.checked = !activity.checked;
+        }
+        return activity;
+      });
+      setBody({ ...body, optional_activities: newActivities });
     }
-
-    updateBody(name, value);
   }
 
-  function handleCreate(event) {
-    event.preventDefault();
-    setBody({
-      firstname: "",
-      lastname: "",
-      email: "",
-      telephone: "",
-      event: eventSelect._id,
-      role: null,
-      optional_activities: [],
+
+  function genereBodyToPost(curentBody) {
+    const {firstname, lastname, email, telephone, event, role, optional_activities} = curentBody;
+
+    const updatedOptionalActivities = optional_activities
+      .filter((activity) => activity.checked)
+      .map((activity) => activity._id);
+
+    const bodyToPost = {
+      firstname,
+      lastname,
+      email,
+      telephone,
+      optional_activities: updatedOptionalActivities,
+      event,
+      role,
+    };
+
+    return bodyToPost;
+  }
+
+  function handleCreate(evt) {
+    evt.preventDefault(); 
+    const bodyTocreate = genereBodyToPost(body);
+
+    services.createParticipant(bodyTocreate).then(() => {
+      setBody({
+        firstname: "",
+        lastname: "",
+        email: "",
+        telephone: "",
+        event: eventSelect._id,
+        role: null,
+        optional_activities: [],
+      });
+      setRole({ activities: [] });
+
+      fecthAndSetListParticipant();
     });
-    services.createParticipant(body).then(() => fecthAndSetListParticipant());
   }
 
-  function handleUpdate(event) {
-    event.preventDefault();
-    services.updateParticipant(idParticipant, body).then(() => {
+  function handleUpdate(evt) {
+    evt.preventDefault();
+    const bodyToUpdate = genereBodyToPost(body);
+
+    services.updateParticipant(idParticipant, bodyToUpdate).then(() => {
       setOpen(true);
     });
   }
@@ -181,6 +263,26 @@ function ParticipantEdit({
                 </Form.Group>
               </Col>
             </Row>
+
+            { (body.optional_activities.length > 0) && <Row>
+              <Col sm>
+                <Form.Group className="mb-3" controlId="activities">
+                  <Form.Label>Activités accessibles hors-rôle</Form.Label>
+                  {body.optional_activities.map((activity, index) => (
+                    <Form.Check
+                      key={index}
+                      type="checkbox"
+                      id={activity._id}
+                      value={activity._id}
+                      checked={activity.checked}
+                      name={`activity${activity._id}`}
+                      label={`${activity.activity_name}`}
+                    />
+                  ))}
+                </Form.Group>
+              </Col>
+            </Row>}            
+
             <Row>
               <Col xs={7}>
                 <Form.Group className="mb-3" controlId="formEvenemt">

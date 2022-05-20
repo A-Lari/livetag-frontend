@@ -127,8 +127,9 @@ export default function EditRole() {
                     <Col>
                       <Form.Group className="mb-3" controlId="activities">
                         <Form.Label>Activités utilisées</Form.Label>
-                        {body.activities.map((activity) => (
+                        {body.activities.map((activity, index) => (
                           <Form.Check
+                            key={index}
                             type="checkbox"
                             id={activity._id}
                             value={activity._id}
