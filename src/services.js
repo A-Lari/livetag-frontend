@@ -249,7 +249,13 @@ const services = {
       .post(`/roles/${idRole}/link`, body, {
         headers: { Authorization: `Bearer ${token}` },
       })
-      .then((res) => res.data);
+      .then((res) => res.data)
+      .catch((err) => {
+        console.log("erreur generateInscriptionLink", err);
+        const { data, status } = err.response;
+        const response = { data, status };
+        return response;
+      });   
   },
 
   searchRoleByLink(id) {

@@ -24,6 +24,7 @@ export default function Role({
       .deleteRole(idRole)
       .then((response) => {
         if (response.status === 401) {
+          response.severity = "warning";
           setResponse(response);
           setOpen(true);
         }
@@ -36,7 +37,17 @@ export default function Role({
     services
       .generateInscriptionLink(idRole)
       .then((response) => {
-        alert("lien généré");
+        if (response.status === 401) {
+          response.severity = "warning";
+          setResponse(response);
+          setOpen(true);
+        } else {
+          setResponse({
+            severity: "success",
+            data: "Le lien d'inscription pour le role a été généré"
+          });
+          setOpen(true);
+        }
         fecthAndSetListRoles();
       })
       .catch(console.log);
@@ -105,7 +116,7 @@ export default function Role({
         autoHideDuration={3000}
         onClose={() => setOpen(false)}
       >
-        <Alert variant="filled" severity="warning">
+        <Alert variant="filled" severity={response.severity}>
           {response.data}
         </Alert>
       </Snackbar>
