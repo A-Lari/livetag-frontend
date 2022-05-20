@@ -32,31 +32,31 @@ function App() {
           <Route path="/" element={<Home />} />
 
           {connected && (
-            <Route path="/participants" element={<Participants />} />
+            <Route path="participants" element={<Participants />} />
           )}
           {connected && (
             <Route
-              path="/participants/:idParticipant"
+              path="participants/:idParticipant"
               element={<Participant />}
             />
           )}
 
-          {connected && <Route path="/events" element={<Events />} />}
-          {connected && <Route path="/events/:idEvent" element={<Event />} />}
+          {connected && <Route path="events" element={<Events />} />}
+          {connected && <Route path="events/:idEvent" element={<Event />} />}
 
-          {connected && <Route path="/roles" element={<Roles />} />}
-          {connected && <Route path="/roles/:idRole" element={<EditRole />} />}
-          {connected && <Route path="/roles/create" element={<CreateRole />} />}
+          {connected && <Route path="roles" element={<Roles />} />}
+          {connected && <Route path="roles/:idRole" element={<EditRole />} />}
+          {connected && <Route path="roles/create" element={<CreateRole />} />}
 
-          {connected && <Route path="/activities" element={<Activities />} />}
+          {connected && <Route path="activities" element={<Activities />} />}
           {connected && (
-            <Route path="/activities/:idActivity" element={<ActivityEdit />} />
+            <Route path="activities/:idActivity" element={<ActivityEdit />} />
           )}
-          {connected && <Route path="/qrcode/:idQrcode" element={<QrCode />} />}
-          <Route path="/login" element={<LoginPage />} />
+          {connected && <Route path="qrcode/:idQrcode" element={<QrCode />} />}
+          <Route path="login" element={<LoginPage />} />
           {connected && <Route path="/profil" element={<Profil />} />}
-          <Route path="/signup" element={<SignupPage />} />
-          <Route path="/inscriptions/:idLink" element={<Inscription />} />
+          <Route path="signup" element={<SignupPage />} />
+          <Route path="inscriptions/:idLink" element={<Inscription />} />
         </Routes>
       </main>
       <footer className="site-footer">
