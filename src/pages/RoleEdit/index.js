@@ -6,8 +6,6 @@ import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 import "./EditRole.css";
 import { useEvent } from "../../EventInUse";
-import { FormControlLabel } from "@mui/material";
-
 export default function EditRole() {
   const { eventSelect } = useEvent();
   const [body, setBody] = useState({
@@ -108,7 +106,7 @@ export default function EditRole() {
               Modifier le rôle
             </Card.Header>
             <Card.Body>
-              <FormControlLabel onSubmit={handleSubmit}>
+              <Form onSubmit={handleSubmit}>
                 <Container>
                   <Row>
                     <Col sm>
@@ -162,7 +160,7 @@ export default function EditRole() {
                     </Col>
                   </Row>
                 </Container>
-              </FormControlLabel>
+              </Form>
             </Card.Body>
           </Card>
         </Col>
