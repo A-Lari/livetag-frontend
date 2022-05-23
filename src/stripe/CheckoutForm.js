@@ -17,7 +17,7 @@ export const CheckoutForm = () => {
       try {
         const { id } = paymentMethod;
         const response = await axios.post(
-          "http://localhost:3001/stripe/charge",
+          "https://livetag-backend.osc-fr1.scalingo.io/stripe/charge",
           {
             amount: 1000,
             id: id,
